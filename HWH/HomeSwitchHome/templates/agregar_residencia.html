@@ -1,5 +1,16 @@
-<form action="/your-name/" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit">
-</form>
+<body class="agregar_residencia">
+    <header class="headerResidencia">
+        <h2>
+            Ingresa datos de la residencia.
+        </h2>
+    </header>
+    <hr>
+        <label for="email"><b>Nombre</b></label>
+        <input type="text" placeholder="nombre de la residencia" name="nombre" required>
+        <label for="email"><b>Capacidad</b></label>
+        <input type="text" placeholder="capacidad de la residencia" name="capacidad" required>
+        <label for="email"><b>Direccion</b></label>
+        <input type="text" placeholder="direccion de la residencia" name="direccion" required>
+    </hr>
+    <a href="" class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Reservar</a>
+</body>
