@@ -32,6 +32,9 @@
 	<link rel="stylesheet" type="text/css" href="{% static '/css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
 <!--===============================================================================================-->
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/noui/nouislider.min.css' %}">
+<!--===============================================================================================-->
 </head>
 
 {% endblock%}
@@ -83,6 +86,10 @@
 						<img src="{% static 'images/icon-header-01.png' %}" class="header-icon1" alt="ICON">
 					</a>
 					<a href="{% url 'agregar' %}">+Agregar Residencia</a>
+							</div>
+					</div>
+			</div>
+		</div>
 {% endblock%}
 {% block body%}
 {% endblock %}
