@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from .models import Residencia
 # Create your views here.
 
-def index(request):
+def product_detail(request):
     residencia=Residencia.objects.get(auto_id=1)
     context={'nombre': residencia.nombre
             , 'capacidad': residencia.capacidad}
