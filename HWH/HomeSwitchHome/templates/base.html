@@ -1,0 +1,177 @@
+{% load staticfiles%}
+{% block headerCSS%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Product Detail</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static '/css/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static '/css/themify/themify-icons.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static '/css/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static '/css/elegant-font/html-css/style.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static '/css/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static '/css/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static '/css/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static '/css/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static '/css/slick/slick.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static '/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+<!--===============================================================================================-->
+</head>
+
+{% endblock%}
+{% block navbar%}
+<body class="animsition">
+
+	<!-- Header -->
+	<header class="header1">
+			<div class="wrap_header">
+				<!-- Logo -->
+				<a href="index.html" class="logo">
+					<img src="{% static 'images/HSH-Logo.svg'%}" alt="IMG-LOGO">
+				</a>
+
+				<!-- Menu -->
+				<div class="wrap_menu">
+					<nav class="menu">
+						<ul class="main_menu">
+							<li>
+								<a href="index.html">Residencias</a>
+								<ul class="sub_menu">
+									<li><a href="index.html">Residencias disponibles</a></li>
+									<li><a href="home-02.html">Hot-Sale</a></li>
+									<li><a href="home-03.html">Subastas</a></li>
+								</ul>
+							</li>
+
+							<li>
+								<a href="product.html">Mis Reservas</a>
+							</li>
+
+							<li class="sale-noti">
+								<a href="product.html">Sobre Nosotros</a>
+							</li>
+
+							<li>
+								<a href="cart.html">Blog</a>
+							</li>
+
+							<li>
+								<a href="contact.html">Contáctanos</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+								<!-- Header Icon -->
+				<div class="header-icons">
+					<a href="#" class="header-wrapicon1 dis-block">
+						<img src="{% static 'images/icon-header-01.png' %}" class="header-icon1" alt="ICON">
+					</a>
+{% endblock%}
+{% block body%}
+{% endblock %}
+
+
+{% block footer %}
+	<!-- Footer -->
+	<footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45">
+		<div class="flex-w p-b-90">
+			<div class="w-size6 p-t-30 p-l-15 p-r-15 respon3">
+				<h4 class="s-text12 p-b-30">
+					HOMESWITCHHOME
+				</h4>
+
+				<div>
+					<p class="s-text7 w-size27">
+						Si querés contactarnos por telefono, llamanos al (+54) 221-455-0303
+					</p>
+
+					<div class="flex-m p-t-30">
+						<a href="#" class="fs-18 color1 p-r-20 fa fa-facebook"></a>
+						<a href="#" class="fs-18 color1 p-r-20 fa fa-instagram"></a>
+						<a href="#" class="fs-18 color1 p-r-20 fa fa-pinterest-p"></a>
+						<a href="#" class="fs-18 color1 p-r-20 fa fa-snapchat-ghost"></a>
+						<a href="#" class="fs-18 color1 p-r-20 fa fa-youtube-play"></a>
+					</div>
+				</div>
+			</div>
+			<div class="w-size12 p-t-30 p-l-15 p-r-15 respon4">
+				<h4 class="s-text12 p-b-30">
+					Links
+				</h4>
+
+				<ul>
+					<li class="p-b-9">
+						<a href="#" class="s-text7">
+							Sobre Nosotros
+						</a>
+					</li>
+
+					<li class="p-b-9">
+						<a href="#" class="s-text7">
+							Contactanos
+						</a>
+					</li>
+
+					<li class="p-b-9">
+						<a href="#" class="s-text7">
+							FAQ'S
+						</a>
+					</li>
+
+					<li class="p-b-9">
+						<a href="#" class="s-text7">
+							Ayuda
+						</a>
+					</li>
+				</ul>
+			</div>
+		<div class="w-size8 p-t-30 p-l-15 p-r-15 respon3">
+
+			<div class="w-size4 p-t-20">
+						<!-- Button -->
+						<button class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4" onclick="cargar()">
+							Quiero ser premium
+						</button>
+				</div>
+			</div>
+		</div>
+
+			<div class="t-center s-text8 p-t-20">
+				HOMESWITCHHOME
+			</div>
+			<div class="t-center s-text8 p-t-20">
+				Copyright © 2019 Todos los derechos reservados.
+			</div>
+		</div>
+	</footer>
+
+
+
+	<!-- Back to top -->
+	<div class="btn-back-to-top bg0-hov" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<i class="fa fa-angle-double-up" aria-hidden="true"></i>
+		</span>
+	</div>
+
+
+ {% endblock %}
+
+ {% block jsmas %}
+ {% endblock %}
