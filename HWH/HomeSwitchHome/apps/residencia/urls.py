@@ -4,4 +4,4 @@ from apps.residencia import views
 urlpatterns = [
     path('residencia/', views.product_detail),
     path('residencia/<id>', views.prueba, name='prue'),
-    path('agregar_residencia/', views.agregar_residencia, name='agregar'),
+    path('agregar_residencia/', views.agregar_residencia, name='agregar')]
