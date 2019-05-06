@@ -1,7 +1,8 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Residencia
 from .forms import ResidenciaForm
+from django.views.generic import TemplateView
 # Create your views here.
 
 def product_detail(request,id):
@@ -12,12 +13,26 @@ def product_detail(request,id):
 
 def prueba(request, id):
     return HttpResponse(id)
+class Agregar_residencia(TemplateView):
+   template_name = 'agregar_residencia.html'
+   def get(self, request):
+      form = ResidenciaForm()
+      return render(request, self.template_name, {'form': form})
 
-def agregar_residencia(request):
-   form = ResidenciaForm()
-   return render(request, 'agregar_residencia.html', {'form': form})
+   def post(self,request):
+      form = ResidenciaForm(request.POST)
+      if form.is_valid():
+         form.save()
+         nombre = form.cleaned_data['nombre']
+         capacidad = form.cleaned_data['capacidad']
+         r = Residencia()
+         r.nombre = nombre
+         r.capacidad = capacidad
+         r.save()
+         form = ResidenciaForm()
+         return HttpResponseRedirect('/listado_residencias')
 
 def listado_residencias(request):
-    residencia=Residencia.objects.get(auto_id=1)
+    residencia=Residencia.objects.get(auto_id=10)
     context={'id': residencia.auto_id}
     return render(request,'product.html',context)
