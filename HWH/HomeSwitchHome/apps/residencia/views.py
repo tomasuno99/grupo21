@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Residencia
 from .forms import ResidenciaForm
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
+from django.template import RequestContext, loader
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
 def product_detail(request,id):
@@ -33,6 +35,7 @@ class Agregar_residencia(TemplateView):
          return HttpResponseRedirect('/listado_residencias')
 
 def listado_residencias(request):
-    residencia=Residencia.objects.get(auto_id=10)
-    context={'id': residencia.auto_id}
+    residencias=Residencia.objects.all()
+    print(residencias)
+    context={'residencias': residencias}
     return render(request,'product.html',context)
