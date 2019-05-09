@@ -1,23 +1,22 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% block body%}
 
+{% block body%}
 <body class="agregar_residencia">
-    <header class="headerResidencia">
+	<center>
+	<header class="headerResidencia">
         <h2>
             Ingresa datos de la residencia.
         </h2>
     </header>
-    <form method="post">
+    <form method="post" class='formDatos'>
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Agregar</button>
-    </form>
+        <button type="submit" class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4" style="width:25%">Agregar</button>
+	</form>
+	</center>
 </body>
-
-
 {% endblock %}
-
 {% block jsmas %}
 <!--===============================================================================================-->
 	<script type="text/javascript" src="{% static 'css/vendor/jquery/jquery-3.2.1.min.js' %}"></script>

@@ -24,7 +24,7 @@ class Agregar_residencia(TemplateView):
    def post(self,request):
       form = ResidenciaForm(request.POST)
       if form.is_valid():
-         form.save()
+         #form.save()
          nombre = form.cleaned_data['nombre']
          capacidad = form.cleaned_data['capacidad']
          r = Residencia()
