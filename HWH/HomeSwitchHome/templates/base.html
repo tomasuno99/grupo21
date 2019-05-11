@@ -1,5 +1,5 @@
-{% load staticfiles%}
-{% block headerCSS%}
+{% load staticfiles %}
+{% block headerCSS %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,6 +38,7 @@
 </head>
 
 {% endblock%}
+{% block content %}
 {% block navbar%}
 <body class="animsition">
 
@@ -91,8 +92,10 @@
 			</div>
 		</div>
 {% endblock%}
+{% endblock%}
 {% block body%}
 {% endblock %}
+
 
 
 {% block footer %}

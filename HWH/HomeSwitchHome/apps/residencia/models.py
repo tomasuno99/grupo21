@@ -14,3 +14,7 @@ class Residencia(models.Model):
     class Meta:
         verbose_name = "Residencia"
         verbose_name_plural = "Residencias"
+
+
+    def getAuto_id(self):
+        return self.auto_id
