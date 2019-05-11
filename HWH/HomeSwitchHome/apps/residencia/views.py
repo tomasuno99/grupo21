@@ -65,3 +65,12 @@ def eliminar_residencia(request, id):
         "instance": instance
     }
     return render(request, "product_delete.html", context)
+
+
+def mostrar_index(request):
+   residencias=Residencia.objects.all()
+   context = {
+      'residencias': residencias
+   }
+   return render(request, "index.html", context)
+      

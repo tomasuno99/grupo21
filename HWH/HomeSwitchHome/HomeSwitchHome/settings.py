@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.reserva',
     'apps.residencia',
+    'apps.usuarios',
 ]
 
 MIDDLEWARE = [
@@ -122,3 +123,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
+
+AUTH_USER_MODEL = 'usuarios.CustomUser'
