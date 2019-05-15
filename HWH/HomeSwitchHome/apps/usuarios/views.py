@@ -54,3 +54,7 @@ def user_login(request):
 
     return render(request, 'login.html', context)
 
+def logout(request):
+    __logout(request)
+    print('logout')
+    return redirect('index')

@@ -88,14 +88,17 @@
 				<div class="header-icons">
 					{% if not user.is_authenticated %}
 						<a href="{% url 'login' %}">Loguearme</a>
-					{%endif%}
-					{%if user.is_staff%}
+						<a href="{% url 'registrar'%}">Registrarse</a>
+					{% else %}
+						<a href="{% url 'logout' %}">Cerrar Sesion</a>
+					{% endif %}
+					{% if user.is_staff %}
 						<a href="{% url 'agregar' %}">+Agregar Residencia</a>
 						<a href="{% url 'cambiaraNormal'%}">Cambiar a user normal</a>
 					{% else %}
 						<a href="{% url 'cambiaraStaff' %}">Cambiar a user staff</a>
-					{%endif%}
-					<a href="{% url 'registrar'%}">Registrarse</a>
+					{% endif %}
+					
 				</div>
 			</div>
 		</div>
