@@ -5,12 +5,37 @@ from .models import CustomUser
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.utils import timezone
+from django.contrib.auth.forms import UserCreationForm
 
 
 def baseContext():
     return {
         'footer': {}
     }
+
+def cambiaraNormal(request):
+    user = request.user
+    user.is_staff = False
+    print('hola')
+    return redirect('/listado_residencias')
+
+def cambiaraStaff(request):
+    user = request.user
+    user.is_staff = True
+    return redirect('/listado_residencias')
+
+def user_register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/listado_residencias')
+    else:
+        form = UserCreationForm()
+        context = {
+            'form': form
+        }
+        return render(request,'registrar.html',context)
 
 def user_login(request):
     context = baseContext()
@@ -22,7 +47,7 @@ def user_login(request):
             ## se autentico bien
             __login(request, user)
 
-            return HttpResponseRedirect('/index')
+            return HttpResponseRedirect('/listado_residencias')
         else:
             ## algun dato esta mal
             context['error'] = {'message': 'E-mail inexistente, o contraseña invalida'}
