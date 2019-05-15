@@ -8,8 +8,13 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
 def product_detail(request,id):
-    residencia=Residencia.objects.get(auto_id=id)
-    return render(request,'product-detail.html',{'residencia': residencia})
+   residencia=Residencia.objects.get(auto_id=id)
+   related_products= Residencia.objects.filter(capacidad=residencia.capacidad).exclude(auto_id=id)
+   context= {
+      "residencia": residencia,
+      "related_products": related_products
+   }
+   return render(request,'product-detail.html', context)
 
 def prueba(request, id):
     return HttpResponse(id)
