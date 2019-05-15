@@ -9,12 +9,11 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def product_detail(request,id):
     residencia=Residencia.objects.get(auto_id=id)
-    context={'nombre': residencia.nombre
-    , 'capacidad': residencia.capacidad}
-    return render(request,'product-detail.html',context)
+    return render(request,'product-detail.html',{'residencia': residencia})
 
 def prueba(request, id):
     return HttpResponse(id)
+
 class Agregar_residencia(TemplateView):
    template_name = 'agregar_residencia.html'
    def get(self, request):
@@ -41,20 +40,20 @@ def listado_residencias(request):
     return render(request,'product.html',context)
 
 def modificar_residencia(request, id):
-   #instance = Residencia.objects.get(auto_id=id)
-   instance = get_object_or_404(Residencia, auto_id=id)
-   form = ModResidenciaForm(request.POST or None, instance=instance)
-   context={
-      'form': form,
-      'instance': instance
-   }
-   
-   if form.is_valid():
-       form.save()
-       return redirect('/listado_residencias')
-   return render(request, 'modificar_residencia.html', context) 
-
-
+   if request.method == "POST":
+      form = ModResidenciaForm(request.POST)
+      if form.is_valid():
+         nombre = form.cleaned_data['nombre']
+         capacidad = form.cleaned_data['capacidad']
+         residencia = Residencia.objects.get(auto_id=id)
+         residencia.nombre = nombre
+         residencia.capacidad = capacidad
+         residencia.save()
+         form = ModResidenciaForm()
+         return redirect('/listado_residencias')
+   else:
+      form = ModResidenciaForm()
+      return render(request,'modificar_residencia.html', {'id': id, 'form': form})
 
 def eliminar_residencia(request, id):
     instance = get_object_or_404(Residencia, auto_id=id)
