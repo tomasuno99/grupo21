@@ -16,12 +16,15 @@ def baseContext():
 def cambiaraNormal(request):
     user = request.user
     user.is_staff = False
-    print('hola')
+    user.save()
+    print('cambiado a normal')
     return redirect('/listado_residencias')
 
 def cambiaraStaff(request):
     user = request.user
     user.is_staff = True
+    user.save()
+    print('cambiado a staff')
     return redirect('/listado_residencias')
 
 def user_register(request):
