@@ -61,15 +61,10 @@ def modificar_residencia(request, id):
       return render(request,'modificar_residencia.html', {'id': id, 'form': form})
 
 def eliminar_residencia(request, id):
-    instance = get_object_or_404(Residencia, auto_id=id)
-    if request.method == "POST":
-        instance.delete()
-        return redirect('/listado_residencias')
-    context = {
-        "instance": instance
-    }
-    return render(request, "product_delete.html", context)
-
+   if request.method == "GET":
+      residencia = Residencia.objects.get (auto_id=id)
+      residencia.delete()
+      return redirect('/listado_residencias')
 
 def mostrar_index(request):
    residencias=Residencia.objects.all()
