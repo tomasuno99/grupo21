@@ -50,13 +50,15 @@ def modificar_residencia(request, id):
    if request.method == "POST":
       form = ModResidenciaForm(request.POST)
       if form.is_valid():
-         nombre = form.cleaned_data['nombre']
+         nom = form.cleaned_data['nombre']
          capacidad = form.cleaned_data['capacidad']
-         residencia = Residencia.objects.get(auto_id=id)
-         residencia.nombre = nombre
-         residencia.capacidad = capacidad
-         residencia.save()
-         form = ModResidenciaForm()
+         r = Residencia.objects.filter(nombre=nom).exists()
+         if not r:
+            residencia = Residencia.objects.get(auto_id=id)
+            residencia.nombre = nom
+            residencia.capacidad = capacidad
+            residencia.save()
+            form = ModResidenciaForm()
          return redirect('/listado_residencias')
    else:
       form = ModResidenciaForm()
