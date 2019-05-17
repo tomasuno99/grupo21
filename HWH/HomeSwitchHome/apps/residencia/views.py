@@ -29,13 +29,15 @@ class Agregar_residencia(TemplateView):
       form = ResidenciaForm(request.POST)
       if form.is_valid():
          #form.save()
-         nombre = form.cleaned_data['nombre']
+         nom = form.cleaned_data['nombre']
          capacidad = form.cleaned_data['capacidad']
-         r = Residencia()
-         r.nombre = nombre
-         r.capacidad = capacidad
-         r.save()
-         form = ResidenciaForm()
+         r = Residencia.objects.filter(nombre=nom).exists()
+         if not r:
+            r = Residencia()
+            r.nombre = nom
+            r.capacidad = capacidad
+            r.save()
+            form = ResidenciaForm()
          return HttpResponseRedirect('/listado_residencias')
 
 def listado_residencias(request):
