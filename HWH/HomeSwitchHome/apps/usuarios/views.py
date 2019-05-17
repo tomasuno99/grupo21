@@ -13,18 +13,14 @@ def baseContext():
         'footer': {}
     }
 
-def cambiaraNormal(request):
+def switchStaff(request):
     user = request.user
-    user.is_staff = False
+    if user.is_staff == False:
+        user.is_staff = True
+    else:
+        user.is_staff = False
     user.save()
-    print('cambiado a normal')
-    return redirect('/listado_residencias')
-
-def cambiaraStaff(request):
-    user = request.user
-    user.is_staff = True
-    user.save()
-    print('cambiado a staff')
+    print('cambiado')
     return redirect('/listado_residencias')
 
 def user_register(request):

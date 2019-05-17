@@ -94,9 +94,9 @@
 					{% endif %}
 					{% if user.is_staff %}
 						<a href="{% url 'agregar' %}">+Agregar Residencia</a>
-						<a href="{% url 'cambiaraNormal'%}">Cambiar a user normal</a>
+						<a href="{% url 'switchStaff'%}">Cambiar a user normal</a>
 					{% else %}
-						<a href="{% url 'cambiaraStaff' %}">Cambiar a user staff</a>
+						<a href="{% url 'switchStaff' %}">Cambiar a user staff</a>
 					{% endif %}
 					
 				</div>
