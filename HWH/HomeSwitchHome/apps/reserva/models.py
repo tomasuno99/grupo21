@@ -1,6 +1,7 @@
 from django.db import models
 from apps.residencia.models import Residencia
 from apps.usuarios.models import CustomUser
+from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 
 
@@ -8,15 +9,15 @@ from apps.usuarios.models import CustomUser
 
 class Reserva(models.Model):
     auto_id= models.AutoField(primary_key=True)
-    residencia= models.ForeignKey(Residencia, null=True,blank=True,on_delete=models.CASCADE)
-    reservas= models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, related_name='historial_reservas') # historial de reservas
-    user= models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)  # reserva actual
+    semana_del_año= models.IntegerField(null=True,validators=[MinValueValidator(26), MaxValueValidator(54)] )
+    reservas= models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, related_name='historial_reservas', blank=True) # historial de reservas
+    user= models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True, blank=True)  # reserva actual
     residenciaQuePertence= models.OneToOneField(Residencia, on_delete=models.CASCADE, null=True, related_name='residencia_actual')
 
 
 
 class Subasta(Reserva):
-    pass
+    finalizacion= models.DateField(null=True)
 
 
 class Puja(models.Model):
