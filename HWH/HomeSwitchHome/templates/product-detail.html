@@ -139,8 +139,10 @@
         <tr>
             <td>Semana de {{ fecha }}</td>
             <td>
-			{% if request.user.is_staff %}
-				<a href="www.google.com" class="flex-c-m bg1 bo-rad-23 hov1 s-text1 trans-0-4">Subastar esta semana</a>
+			{% if request.user.is_staff %}			
+				<a href=""
+						onclick="return confirm('Seguro que queres subastar la semana del {{ fecha }}?');"
+							class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Subastar esta semana</a>			
 							{% endif %}</td>
         </tr>
 	{% endfor %}
