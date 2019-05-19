@@ -126,7 +126,7 @@
 
 </div >
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css"/>
- 
+ <div class= "container bgwhite p-t-35 p-b-80">
 <table id="tableid" class="display">
     <thead>
         <tr>
@@ -135,13 +135,16 @@
         </tr>
     </thead>
     <tbody>
+	{% for fecha in fechas %}
         <tr>
-            <td>20-01-2019</td>
-            <td><a href="www.google.com" class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Reservar</a>
+            <td>Semana de {{ fecha }}</td>
+            <td><a href="www.google.com" class="flex-c-m bg1 bo-rad-23 hov1 s-text1 trans-0-4">Reservar</a>
 							</td>
         </tr>
+	{% endfor %}
     </tbody>
 </table>
+</div>
 
 	<!-- Relate Product -->
 	<section class="relateproduct bgwhite p-t-45 p-b-138">
@@ -209,7 +212,9 @@
 	
  <script>$(document).ready(function () {
     $.noConflict();
-    var table = $('#tableid').DataTable();
+    var table = $('#tableid').DataTable( {
+
+		"ordering": false});
 });</script>
 	<!--===============================================================================================-->
 	<script type="text/javascript" src="{% static 'css/vendor/jquery/jquery-3.2.1.min.js' %}"></script>

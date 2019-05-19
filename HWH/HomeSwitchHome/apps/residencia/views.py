@@ -2,17 +2,23 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Residencia
 from .forms import *
+from apps.reserva.models import *
 from django.views.generic import TemplateView, ListView
 from django.template import RequestContext, loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from datetime import datetime, timedelta
 # Create your views here.
 
 def product_detail(request,id):
    residencia=Residencia.objects.get(auto_id=id)
    related_products= Residencia.objects.filter(capacidad=residencia.capacidad).exclude(auto_id=id)
+   fechas=[]
+   for fecha in Reserva.objects.filter(residenciaQuePertence=residencia).values('semana_del_año'):
+      fechas.append((fecha['semana_del_año']).strftime('%d/%m/%Y'))
    context= {
       "residencia": residencia,
-      "related_products": related_products
+      "related_products": related_products,
+      "fechas": fechas[26:]
    }
    return render(request,'product-detail.html', context)
 
@@ -37,8 +43,20 @@ class Agregar_residencia(TemplateView):
             r.nombre = nom
             r.capacidad = capacidad
             r.save()
+            r= Residencia.objects.get(auto_id=r.auto_id)
+            creacion_aux=lunes(r.creacion)
+            for i in range(1,53):
+               crearReservas(r,creacion_aux)
+               creacion_aux=creacion_aux + timedelta(days=1)
+               creacion_aux=lunes(creacion_aux)
             form = ResidenciaForm()
          return HttpResponseRedirect('/listado_residencias')
+
+def crearReservas(residencia, creacion_r):
+   reserva= Reserva()
+   reserva.semana_del_año=creacion_r
+   reserva.residenciaQuePertence=residencia
+   reserva.save()
 
 def listado_residencias(request):
     residencias=Residencia.objects.all()
@@ -76,4 +94,11 @@ def mostrar_index(request):
       'residencias': residencias
    }
    return render(request, "index.html", context)
+      
+
+def lunes(residencia_fecha):
+   dicdias = {'MONDAY':'Lunes','TUESDAY':'Martes','WEDNESDAY':'Miercoles','THURSDAY':'Jueves', 'FRIDAY':'Viernes','SATURDAY':'Sabado','SUNDAY':'Domingo'}
+   while((dicdias[residencia_fecha.strftime('%A').upper()])!= 'Lunes'):
+      residencia_fecha=residencia_fecha + timedelta(days=1)
+   return residencia_fecha
       
