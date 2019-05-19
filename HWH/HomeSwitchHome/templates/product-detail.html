@@ -138,8 +138,10 @@
 	{% for fecha in fechas %}
         <tr>
             <td>Semana de {{ fecha }}</td>
-            <td><a href="www.google.com" class="flex-c-m bg1 bo-rad-23 hov1 s-text1 trans-0-4">Reservar</a>
-							</td>
+            <td>
+			{% if request.user.is_staff %}
+				<a href="www.google.com" class="flex-c-m bg1 bo-rad-23 hov1 s-text1 trans-0-4">Subastar esta semana</a>
+							{% endif %}</td>
         </tr>
 	{% endfor %}
     </tbody>
