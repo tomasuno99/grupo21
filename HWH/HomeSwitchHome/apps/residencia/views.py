@@ -8,6 +8,7 @@ from django.template import RequestContext, loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime, timedelta
 from django.contrib import messages
+from django.db.models import Q
 # Create your views here.
 
 def product_detail(request,id):
@@ -90,28 +91,29 @@ def listado_residencias(request):
 
 
 def modificar_residencia(request, id):
-   
    context= {
       'residencia': Residencia.objects.get(auto_id=id)
    }
-   if request.method == "POST":
-      nom = request.POST['nombre']
-      capacidad = request.POST['capacidad']
-      direccion = request.POST['direccion']
-      r = Residencia.objects.filter(nombre=nom).exists()
-      if not r: # la residencia no tiene nombre repetido
-         residencia = Residencia.objects.get(auto_id=id)
-         residencia.nombre = nom
-         residencia.capacidad = capacidad
-         residencia.direccion = direccion
-         residencia.save()
+   if Residencia.objects.get(auto_id=id).is_deleted==False:
+      if request.method == "POST":
+         nom = request.POST['nombre']
+         capacidad = request.POST['capacidad']
+         direccion = request.POST['direccion']
+         r = Residencia.objects.filter(~Q(auto_id=id), nombre=nom).exists()
+         if not r: # la residencia no tiene nombre repetido
+            residencia = Residencia.objects.get(auto_id=id)
+            residencia.nombre = nom
+            residencia.capacidad = capacidad
+            residencia.direccion = direccion
+            residencia.save()
+         else:
+            messages.error(request,'el nombre de la residencia ya existe')
+            return render(request,'modificar_residencia.html', context)
+         return redirect('/listado_residencias')
       else:
-         messages.error(request,'el nombre de la residencia ya existe')
          return render(request,'modificar_residencia.html', context)
-      return redirect('/listado_residencias')
-   else:
-      return render(request,'modificar_residencia.html', context)
-
+   else: 
+      raise Http404  
 
 
 
