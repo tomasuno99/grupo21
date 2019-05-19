@@ -143,7 +143,12 @@
 				<a href=""
 						onclick="return confirm('Seguro que queres subastar la semana del {{ fecha }}?');"
 							class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Subastar esta semana</a>			
-							{% endif %}</td>
+			{% else %}
+				<a href=''
+				onclick="prompt('ingresa monto a pujar para la semana del {{fecha}}')"
+				class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Pujar en esta semana</a>			
+			{% endif %}
+			</td>
         </tr>
 	{% endfor %}
     </tbody>
