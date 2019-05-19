@@ -64,23 +64,53 @@ def listado_residencias(request):
     context={'residencias': residencias}
     return render(request,'product.html',context)
 
+# def modificar_residencia(request, id):
+#    if request.method == "POST":
+#       form = ModResidenciaForm(request.POST)
+#       if form.is_valid():
+#          nom = form.cleaned_data['nombre']
+#          capacidad = form.cleaned_data['capacidad']
+#          r = Residencia.objects.filter(nombre=nom).exists()
+#          if not r:
+#             residencia = Residencia.objects.get(auto_id=id)
+#             residencia.nombre = nom
+#             residencia.capacidad = capacidad
+#             residencia.save()
+#             form = ModResidenciaForm()
+#          return redirect('/listado_residencias')
+#    else:
+#       form = ModResidenciaForm()
+#       return render(request,'modificar_residencia.html', {'id': id, 'form': form})
+
+
 def modificar_residencia(request, id):
+   
+   context= {
+      'residencia': Residencia.objects.get(auto_id=id)
+   }
    if request.method == "POST":
-      form = ModResidenciaForm(request.POST)
-      if form.is_valid():
-         nom = form.cleaned_data['nombre']
-         capacidad = form.cleaned_data['capacidad']
-         r = Residencia.objects.filter(nombre=nom).exists()
-         if not r:
-            residencia = Residencia.objects.get(auto_id=id)
-            residencia.nombre = nom
-            residencia.capacidad = capacidad
-            residencia.save()
-            form = ModResidenciaForm()
-         return redirect('/listado_residencias')
+      nom = request.POST['nombre']
+      capacidad = request.POST['capacidad']
+      r = Residencia.objects.filter(nombre=nom).exists()
+      if not r: # la residencia no tiene nombre repetido
+         residencia = Residencia.objects.get(auto_id=id)
+         residencia.nombre = nom
+         residencia.capacidad = capacidad
+         residencia.save()
+      return redirect('/listado_residencias')
    else:
-      form = ModResidenciaForm()
-      return render(request,'modificar_residencia.html', {'id': id, 'form': form})
+      return render(request,'modificar_residencia.html', context)
+
+
+
+
+
+
+
+
+
+
+
 
 def eliminar_residencia(request, id):
    if request.method == "GET":
