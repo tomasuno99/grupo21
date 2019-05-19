@@ -1,4 +1,4 @@
-from django.shortcuts import render, render_to_response, redirect, get_object_or_404
+from django.shortcuts import render, render_to_response, redirect, get_object_or_404, Http404
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Residencia
 from .forms import *
@@ -12,16 +12,20 @@ from django.contrib import messages
 
 def product_detail(request,id):
    residencia=Residencia.objects.get(auto_id=id)
-   related_products= Residencia.objects.filter(capacidad=residencia.capacidad).exclude(auto_id=id)
-   fechas=[]
-   for fecha in Reserva.objects.filter(residenciaQuePertence=residencia).values('semana_del_año'):
-      fechas.append((fecha['semana_del_año']).strftime('%d/%m/%Y'))
-   context= {
-      "residencia": residencia,
-      "related_products": related_products,
-      "fechas": fechas[26:]
-   }
-   return render(request,'product-detail.html', context)
+   if residencia.is_deleted==False:
+      related_products= Residencia.objects.filter(capacidad=residencia.capacidad).exclude(auto_id=id)
+      fechas=[]
+      for fecha in Reserva.objects.filter(residenciaQuePertence=residencia).values('semana_del_año'):
+         fechas.append((fecha['semana_del_año']).strftime('%d/%m/%Y'))
+      context= {
+         "residencia": residencia,
+         "related_products": related_products,
+         "fechas": fechas[26:]
+      }
+      return render(request,'product-detail.html', context)
+   else:
+      raise Http404
+
 
 def prueba(request, id):
     return HttpResponse(id)
@@ -61,7 +65,7 @@ def crearReservas(residencia, creacion_r):
    reserva.save()
 
 def listado_residencias(request):
-    residencias=Residencia.objects.all()
+    residencias=Residencia.objects.filter(is_deleted=False)
     print(residencias)
     context={'residencias': residencias}
     return render(request,'product.html',context)
@@ -121,8 +125,9 @@ def modificar_residencia(request, id):
 
 def eliminar_residencia(request, id):
    if request.method == "GET":
-      residencia = Residencia.objects.get (auto_id=id)
-      residencia.delete()
+      residencia = Residencia.objects.get(auto_id=id)
+      residencia.is_deleted = True
+      residencia.save()
       return redirect('/listado_residencias')
 
 def mostrar_index(request):

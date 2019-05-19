@@ -13,6 +13,7 @@ class Residencia(models.Model):
     creacion= models.DateTimeField(('Date created'), auto_now_add=True,null=True)
     direccion = models.CharField(max_length=50, default='')
     #user = models.ForeignKey(User, null=True,blank=True, on_delete=models.CASCADE)
+    is_deleted = models.BooleanField(default=False)
     class Meta:
         verbose_name = "Residencia"
         verbose_name_plural = "Residencias"
