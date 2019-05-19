@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Residencia
 from .forms import *
@@ -7,6 +7,7 @@ from django.views.generic import TemplateView, ListView
 from django.template import RequestContext, loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime, timedelta
+from django.contrib import messages
 # Create your views here.
 
 def product_detail(request,id):
@@ -25,32 +26,33 @@ def product_detail(request,id):
 def prueba(request, id):
     return HttpResponse(id)
 
-class Agregar_residencia(TemplateView):
-   template_name = 'agregar_residencia.html'
-   def get(self, request):
-      form = ResidenciaForm()
-      return render(request, self.template_name, {'form': form})
-
-   def post(self,request):
-      form = ResidenciaForm(request.POST)
-      if form.is_valid():
-         #form.save()
-         nom = form.cleaned_data['nombre']
-         capacidad = form.cleaned_data['capacidad']
-         r = Residencia.objects.filter(nombre=nom).exists()
-         if not r:
-            r = Residencia()
-            r.nombre = nom
-            r.capacidad = capacidad
-            r.save()
-            r= Residencia.objects.get(auto_id=r.auto_id)
-            creacion_aux=lunes(r.creacion)
-            for i in range(1,53):
-               crearReservas(r,creacion_aux)
-               creacion_aux=creacion_aux + timedelta(days=1)
-               creacion_aux=lunes(creacion_aux)
-            form = ResidenciaForm()
-         return HttpResponseRedirect('/listado_residencias')
+def Agregar_residencia(request):
+   residencia = Residencia()
+   context= {
+      'residencia': residencia
+   }
+   if request.method == "POST":
+      nom = request.POST['nombre']
+      capacidad = request.POST['capacidad']
+      direccion = request.POST['direccion']
+      r = Residencia.objects.filter(nombre=nom).exists()
+      if not r: # la residencia no tiene nombre repetido
+         residencia.nombre = nom
+         residencia.capacidad = capacidad
+         residencia.direccion = direccion
+         residencia.save()
+         r= Residencia.objects.get(auto_id=residencia.auto_id)
+         creacion_aux=lunes(r.creacion)
+         for i in range(1,53):
+            crearReservas(r,creacion_aux)
+            creacion_aux=creacion_aux + timedelta(days=1)
+            creacion_aux=lunes(creacion_aux)
+      else:
+         messages.error(request,'el nombre de la residencia ya existe')
+         return render(request,'agregar_residencia.html', context)
+      return redirect('/listado_residencias')
+   else:
+      return render(request,'agregar_residencia.html', context)
 
 def crearReservas(residencia, creacion_r):
    reserva= Reserva()
@@ -91,12 +93,17 @@ def modificar_residencia(request, id):
    if request.method == "POST":
       nom = request.POST['nombre']
       capacidad = request.POST['capacidad']
+      direccion = request.POST['direccion']
       r = Residencia.objects.filter(nombre=nom).exists()
       if not r: # la residencia no tiene nombre repetido
          residencia = Residencia.objects.get(auto_id=id)
          residencia.nombre = nom
          residencia.capacidad = capacidad
+         residencia.direccion = direccion
          residencia.save()
+      else:
+         messages.error(request,'el nombre de la residencia ya existe')
+         return render(request,'modificar_residencia.html', context)
       return redirect('/listado_residencias')
    else:
       return render(request,'modificar_residencia.html', context)

@@ -11,6 +11,7 @@ class Residencia(models.Model):
     nombre = models.CharField(max_length=50)
     capacidad = models.IntegerField(null=True, blank=True)
     creacion= models.DateTimeField(('Date created'), auto_now_add=True,null=True)
+    direccion = models.CharField(max_length=50, default='')
     #user = models.ForeignKey(User, null=True,blank=True, on_delete=models.CASCADE)
     class Meta:
         verbose_name = "Residencia"

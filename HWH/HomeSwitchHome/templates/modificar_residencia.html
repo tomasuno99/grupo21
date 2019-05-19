@@ -21,6 +21,19 @@
   				Solo se admiten valores numericos.
 			</small>
 		</div>
+		<div class="form-group">
+			<label for="formGroupExampleInput">Direccion: </label>
+			<input class="col-md-4" type="text" class="form-control" name="direccion" placeholder={{ residencia.direccion }}>
+		</div>
+		{% for message in messages %}
+
+                    <div class="alert alert-success">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
+
+                        {{ message }}
+
+                    </div>
+        {% endfor %}
 		<button type="submit" class="btn btn-primary">Modificar</button>
 	</form>
 	</center>

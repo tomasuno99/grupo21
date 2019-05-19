@@ -14,10 +14,16 @@ class ModResidenciaForm(forms.ModelForm):
             'placeholder': 'ingresa capacidad de personas de la residencia'
         }
     ))
+    direccion = forms.CharField(max_length=50, widget=forms.TextInput(
+        attrs={
+            'style': 'box-shadow: inset 0 2px 2px rgba(0,0,0,.075); border: 1px solid red',
+            'placeholder': 'ingresa direccion de la residencia'
+        }
+    ))
 
     class Meta:
         model = Residencia
-        fields = ('nombre','capacidad',)
+        fields = ('nombre','capacidad','direccion',)
         # widgets = {
         #     'nombre': forms.TextInput(attrs={}),
         #     'capacidad': forms.TextInput(attrs={'style': 'border-color:darkgoldenrod; border-radius: 10px;'})
@@ -36,10 +42,16 @@ class ResidenciaForm(forms.ModelForm):
             'placeholder': 'ingresa capacidad de personas de la residencia'
         }
     ))
+    direccion = forms.CharField(max_length=50, widget=forms.TextInput(
+        attrs={
+            'style': 'box-shadow: inset 0 2px 2px rgba(0,0,0,.075); border: 1px solid red',
+            'placeholder': 'ingresa direccion de la residencia'
+        }
+    ))
 
     class Meta:
         model = Residencia
-        fields = ('nombre','capacidad',)
+        fields = ('nombre','capacidad','direccion',)
         # widgets = {
         #     'nombre': forms.TextInput(attrs={}),
         #     'capacidad': forms.TextInput(attrs={'style': 'border-color:darkgoldenrod; border-radius: 10px;'})

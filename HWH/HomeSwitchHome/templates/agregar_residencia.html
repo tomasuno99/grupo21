@@ -4,17 +4,39 @@
 {% block body%}
 <body class="agregar_residencia">
 	<center>
-	<header class="headerResidencia">
-        <h2>
-            Ingresa datos de la residencia.
-        </h2>
-    </header>
-    <form method="post" class='formDatos'>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4" style="width:25%">Agregar</button>
-	</form>
-	</center>
+		<header class="headerResidencia">
+			<h2>
+				Ingresa datos de la residencia.
+			</h2>
+		</header>
+		<form method="POST">{% csrf_token %}
+			<div class="form-group">
+				<label for="formGroupExampleInput">Nombre: </label>
+				<input class="col-md-4" type="text" class="form-control" name="nombre" placeholder='ingresa nombre'>
+			</div>
+			<div class="form-group">
+				<label for="formGroupExampleInput2">Capacidad: </label>
+				<input class="col-md-4" type="number" min="0" class="form-control" name="capacidad" placeholder='ingresa capacidad'>
+				<small id="passwordHelpBlock" class="form-text text-muted">
+					  Solo se admiten valores numericos.
+				</small>
+			</div>
+			<div class="form-group">
+				<label for="formGroupExampleInput">Direccion: </label>
+				<input class="col-md-4" type="text" class="form-control" name="direccion" placeholder='ingresa direccion'>
+			</div>
+			{% for message in messages %}
+	
+						<div class="alert alert-success">
+							<a class="close" href="#" data-dismiss="alert">×</a>
+	
+							{{ message }}
+	
+						</div>
+			{% endfor %}
+			<button type="submit" class="btn btn-primary">Modificar</button>
+		</form>
+		</center>
 </body>
 {% endblock %}
 {% block jsmas %}
