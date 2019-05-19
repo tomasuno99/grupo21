@@ -278,10 +278,12 @@
 		<div class="w-size8 p-t-30 p-l-15 p-r-15 respon3">
 
 			<div class="w-size4 p-t-20">
+					{% if request.user.is_premium %}
 						<!-- Button -->
 						<button class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4" onclick="cargar()">
 							Quiero ser premium
 						</button>
+					{% endif %}
 				</div>
 			</div>
 		</div>

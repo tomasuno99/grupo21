@@ -52,7 +52,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    is_premium = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
+    semanas_disponibles = models.PositiveSmallIntegerField(default=2, blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
