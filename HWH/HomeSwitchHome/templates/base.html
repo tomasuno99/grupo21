@@ -3,39 +3,40 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<title>Product Detail</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->
-	<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.png" />
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap/css/bootstrap.min.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static '/css/font-awesome-4.7.0/css/font-awesome.min.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static '/css/themify/themify-icons.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static '/css/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static '/css/elegant-font/html-css/style.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static '/css/animate/animate.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static '/css/css-hamburgers/hamburgers.min.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static '/css/animsition/css/animsition.min.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static '/css/select2/select2.min.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static '/css/slick/slick.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static '/css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
-<!--===============================================================================================-->
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'css/vendor/noui/nouislider.min.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 </head>
 {% endblock%}
 
@@ -48,245 +49,244 @@
 
 	<!-- Header -->
 	<header class="header1">
-			<div class="wrap_header">
-				<!-- Logo -->
-				<a href="/listado_residencias" class="logo">
-					<img src="{% static 'images/HSH-Logo.svg'%}" alt="IMG-LOGO">
-				</a>
+		<div class="wrap_header">
+			<!-- Logo -->
+			<a href="/listado_residencias" class="logo">
+				<img src="{% static 'images/HSH-Logo.svg'%}" alt="IMG-LOGO">
+			</a>
 
-				<!-- Menu -->
-				<div class="wrap_menu">
-					<nav class="menu">
-						<ul class="main_menu">
-							<li>
-								<a  data-toggle="modal" data-target="#exampleModal" href="product.html"> Residencias</a>
-								<!-- Modal -->
-								<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<!-- Menu -->
+			<div class="wrap_menu">
+				<nav class="menu">
+					<ul class="main_menu">
+						<li>
+							<a href="index.html"> Residencias</a>
+							<ul class="sub_menu">
+								<li><a href="{% url 'listado_residencias' %}">Residencias disponibles</a></li>
+								<li><a href="{% url 'listado_subastas' %}">Subastas</a></li>
+							</ul>
+						</li>
+						{% if not user.is_staff %}
+						<li>
+							<a data-toggle="modal" data-target="#exampleModal" href="product.html"> Mis Reservas</a>
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+								aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog" role="document">
 									<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										Esta funcion esta en etapa de desarrollo...
-									</div>
-									<div class="modal-footer">
-										{% comment %} <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> {% endcomment %}
-										<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-									</div>
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											Esta funcion esta en etapa de desarrollo...
+										</div>
+										<div class="modal-footer">
+											{% comment %} <button type="button" class="btn btn-secondary"
+												data-dismiss="modal">Close</button> {% endcomment %}
+											<button type="button" class="btn btn-primary"
+												data-dismiss="modal">Cerrar</button>
+										</div>
 									</div>
 								</div>
-								</div>
-							
-							</li>
-								{% comment %} <ul class="sub_menu">
-									<li><a href="{% url 'listado_residencias' %}">Residencias disponibles</a></li>
-									<li><a href="home-02.html">Hot-Sale</a></li>
-									<li><a href="home-03.html">Subastas</a></li>
-								</ul> {% endcomment %}
-							</li>
+							</div>
 
-							<li>
-								<a  data-toggle="modal" data-target="#exampleModal" href="product.html"> Mis Reservas</a>
-								<!-- Modal -->
-								<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						</li>
+
+						<li class="sale-noti">
+							<a data-toggle="modal" data-target="#exampleModal" href="product.html"> Sobre Nosostros</a>
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+								aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog" role="document">
 									<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										Esta funcion esta en etapa de desarrollo...
-									</div>
-									<div class="modal-footer">
-										{% comment %} <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> {% endcomment %}
-										<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-									</div>
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											Esta funcion esta en etapa de desarrollo...
+										</div>
+										<div class="modal-footer">
+											{% comment %} <button type="button" class="btn btn-secondary"
+												data-dismiss="modal">Close</button> {% endcomment %}
+											<button type="button" class="btn btn-primary"
+												data-dismiss="modal">Cerrar</button>
+										</div>
 									</div>
 								</div>
-								</div>
-							
-							</li>
+							</div>
 
-							<li class="sale-noti">
-								<a  data-toggle="modal" data-target="#exampleModal" href="product.html"> Sobre Nosostros</a>
-								<!-- Modal -->
-								<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						</li>
+						</li>
+
+						<li>
+							<a data-toggle="modal" data-target="#exampleModal" href="product.html"> Blog</a>
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+								aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog" role="document">
 									<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										Esta funcion esta en etapa de desarrollo...
-									</div>
-									<div class="modal-footer">
-										{% comment %} <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> {% endcomment %}
-										<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-									</div>
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											Esta funcion esta en etapa de desarrollo...
+										</div>
+										<div class="modal-footer">
+											{% comment %} <button type="button" class="btn btn-secondary"
+												data-dismiss="modal">Close</button> {% endcomment %}
+											<button type="button" class="btn btn-primary"
+												data-dismiss="modal">Cerrar</button>
+										</div>
 									</div>
 								</div>
-								</div>
-							
-							</li>
-							</li>
+							</div>
 
-							<li>
-								<a  data-toggle="modal" data-target="#exampleModal" href="product.html"> Blog</a>
-								<!-- Modal -->
-								<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						</li>
+						</li>
+
+						<li>
+							<a data-toggle="modal" data-target="#exampleModal" href="product.html"> Contáctanos</a>
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+								aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog" role="document">
 									<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										Esta funcion esta en etapa de desarrollo...
-									</div>
-									<div class="modal-footer">
-										{% comment %} <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> {% endcomment %}
-										<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-									</div>
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											Esta funcion esta en etapa de desarrollo...
+										</div>
+										<div class="modal-footer">
+											{% comment %} <button type="button" class="btn btn-secondary"
+												data-dismiss="modal">Close</button> {% endcomment %}
+											<button type="button" class="btn btn-primary"
+												data-dismiss="modal">Cerrar</button>
+										</div>
 									</div>
 								</div>
-								</div>
-							
-							</li>
-							</li>
+							</div>
 
-							<li>
-								<a  data-toggle="modal" data-target="#exampleModal" href="product.html"> Contáctanos</a>
-								<!-- Modal -->
-								<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										Esta funcion esta en etapa de desarrollo...
-									</div>
-									<div class="modal-footer">
-										{% comment %} <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> {% endcomment %}
-										<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-									</div>
-									</div>
-								</div>
-								</div>
-							
-							</li>
-							</li>
-						</ul>
-					</nav>
-				</div>
-								<!-- Header Icon -->
-				<div class="header-icons">
-					{% if not user.is_authenticated %}
-						<a href="{% url 'login' %}">Loguearme</a>
-						<a href="{% url 'registrar'%}">Registrarse</a>
-					{% else %}
-						<a href="{% url 'logout' %}">Cerrar Sesion</a>
-					{% endif %}
-					{% if user.is_staff %}
+						</li>
+						</li>
+						{% endif %}
+					</ul>
+				</nav>
+			</div>
+			<!-- Header Icon -->
+			<div class="header-icons">
+				{% if user.is_authenticated %}
+					{% if user.is_staff  %}
+					<div>
 						<a href="{% url 'agregar' %}">+Agregar Residencia</a>
+
 						<a href="{% url 'switchStaff'%}">Cambiar a user normal</a>
+					</div>
 					{% else %}
 						<a href="{% url 'switchStaff' %}">Cambiar a user staff</a>
-					{% endif %}
-					
-				</div>
+				{% endif %}
+				{% else %}
+				<div>
+					<a href="{% url 'login' %}">Loguearme</a>
+				</div> 
+				<div><a href="{% url 'registrar'%}" style="margin: 10px">Registrarse</a>
+</div>				{% endif %}
+			</div>
+			<div>
+				{% if not user.is_authenticated %}
+				{% else %}
+				<a href="{% url 'logout' %}">Cerrar Sesion</a>
+				{% endif %}
 			</div>
 		</div>
-{% endblock%}
+		</div>
+		{% endblock%}
 
-{% endblock%}
+		{% endblock%}
 
-{% block body%}
-{% endblock %}
+		{% block body%}
+		{% endblock %}
 
 
 
-{% block footer %}
-	<!-- Footer -->
-	<footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45">
-		<div class="flex-w p-b-90">
-			<div class="w-size6 p-t-30 p-l-15 p-r-15 respon3">
-				<h4 class="s-text12 p-b-30">
-					HOMESWITCHHOME
-				</h4>
+		{% block footer %}
+		<!-- Footer -->
+		<footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45">
+			<div class="flex-w p-b-90">
+				<div class="w-size6 p-t-30 p-l-15 p-r-15 respon3">
+					<h4 class="s-text12 p-b-30">
+						HOMESWITCHHOME
+					</h4>
 
-				<div>
-					<p class="s-text7 w-size27">
-						Si querés contactarnos por telefono, llamanos al (+54) 221-455-0303
-					</p>
+					<div>
+						<p class="s-text7 w-size27">
+							Si querés contactarnos por telefono, llamanos al (+54) 221-455-0303
+						</p>
 
-					<div class="flex-m p-t-30">
-						<a href="#" class="fs-18 color1 p-r-20 fa fa-facebook"> </a>
-						<a href="#" class="fs-18 color1 p-r-20 fa fa-instagram"></a>
-						<a href="#" class="fs-18 color1 p-r-20 fa fa-pinterest-p"></a>
-						<a href="#" class="fs-18 color1 p-r-20 fa fa-snapchat-ghost"></a>
-						<a href="#" class="fs-18 color1 p-r-20 fa fa-youtube-play"></a>
+						<div class="flex-m p-t-30">
+							<a href="#" class="fs-18 color1 p-r-20 fa fa-facebook"> </a>
+							<a href="#" class="fs-18 color1 p-r-20 fa fa-instagram"></a>
+							<a href="#" class="fs-18 color1 p-r-20 fa fa-pinterest-p"></a>
+							<a href="#" class="fs-18 color1 p-r-20 fa fa-snapchat-ghost"></a>
+							<a href="#" class="fs-18 color1 p-r-20 fa fa-youtube-play"></a>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="w-size12 p-t-30 p-l-15 p-r-15 respon4">
-				<h4 class="s-text12 p-b-30">
-					Links
-				</h4>
+				<div class="w-size12 p-t-30 p-l-15 p-r-15 respon4">
+					<h4 class="s-text12 p-b-30">
+						Links
+					</h4>
 
-				<ul>
-					<li class="p-b-9">
-						<a href="#" class="s-text7">
-							Sobre Nosotros
-						</a>
-					</li>
+					<ul>
+						<li class="p-b-9">
+							<a href="#" class="s-text7">
+								Sobre Nosotros
+							</a>
+						</li>
 
-					<li class="p-b-9">
-						<a href="#" class="s-text7">
-							Contactanos
-						</a>
-					</li>
+						<li class="p-b-9">
+							<a href="#" class="s-text7">
+								Contactanos
+							</a>
+						</li>
 
-					<li class="p-b-9">
-						<a href="#" class="s-text7">
-							FAQ'S
-						</a>
-					</li>
+						<li class="p-b-9">
+							<a href="#" class="s-text7">
+								FAQ'S
+							</a>
+						</li>
 
-					<li class="p-b-9">
-						<a href="#" class="s-text7">
-							Ayuda
-						</a>
-					</li>
-				</ul>
-			</div>
-		<div class="w-size8 p-t-30 p-l-15 p-r-15 respon3">
+						<li class="p-b-9">
+							<a href="#" class="s-text7">
+								Ayuda
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="w-size8 p-t-30 p-l-15 p-r-15 respon3">
 
-			<div class="w-size4 p-t-20">
-					{% if request.user.is_premium %}
+					<div class="w-size4 p-t-20">
+						{% if request.user.is_premium %}
 						<!-- Button -->
 						<button class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4" onclick="cargar()">
 							Quiero ser premium
 						</button>
-					{% endif %}
+						{% endif %}
+					</div>
 				</div>
 			</div>
-		</div>
 
 			<div class="t-center s-text8 p-t-20">
 				HOMESWITCHHOME
@@ -294,20 +294,20 @@
 			<div class="t-center s-text8 p-t-20">
 				Copyright © 2019 Todos los derechos reservados.
 			</div>
+			</div>
+		</footer>
+
+
+
+		<!-- Back to top -->
+		<div class="btn-back-to-top bg0-hov" id="myBtn">
+			<span class="symbol-btn-back-to-top">
+				<i class="fa fa-angle-double-up" aria-hidden="true"></i>
+			</span>
 		</div>
-	</footer>
 
 
+		{% endblock %}
 
-	<!-- Back to top -->
-	<div class="btn-back-to-top bg0-hov" id="myBtn">
-		<span class="symbol-btn-back-to-top">
-			<i class="fa fa-angle-double-up" aria-hidden="true"></i>
-		</span>
-	</div>
-
-
- {% endblock %}
-
- {% block jsmas %}
- {% endblock %}
+		{% block jsmas %}
+		{% endblock %}

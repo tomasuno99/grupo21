@@ -2,7 +2,7 @@ from django.shortcuts import render, render_to_response, redirect, get_object_or
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Residencia
 from .forms import *
-from apps.reserva.models import *
+from apps.reserva.models import Subasta, Reserva
 from django.views.generic import TemplateView, ListView
 from django.template import RequestContext, loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -16,8 +16,8 @@ def product_detail(request,id):
    if residencia.is_deleted==False:
       related_products= Residencia.objects.filter(capacidad=residencia.capacidad).exclude(auto_id=id)
       fechas=[]
-      for fecha in Reserva.objects.filter(residenciaQuePertence=residencia).values('semana_del_año'):
-         fechas.append((fecha['semana_del_año']).strftime('%d/%m/%Y'))
+      for fecha in Reserva.objects.filter(residenciaQuePertence=residencia).values('semana_del_año','auto_id'):
+         fechas.append([fecha['auto_id'],((fecha['semana_del_año']).strftime('%d/%m/%Y'))])
       context= {
          "residencia": residencia,
          "related_products": related_products,
@@ -26,7 +26,6 @@ def product_detail(request,id):
       return render(request,'product-detail.html', context)
    else:
       raise Http404
-
 
 def prueba(request, id):
     return HttpResponse(id)
@@ -40,11 +39,13 @@ def Agregar_residencia(request):
       nom = request.POST['nombre']
       capacidad = request.POST['capacidad']
       direccion = request.POST['direccion']
+      imagen = request.POST['imagen']
       r = Residencia.objects.filter(nombre=nom).exists()
       if not r: # la residencia no tiene nombre repetido
          residencia.nombre = nom
          residencia.capacidad = capacidad
          residencia.direccion = direccion
+         residencia.imagen = imagen
          residencia.save()
          r= Residencia.objects.get(auto_id=residencia.auto_id)
          creacion_aux=lunes(r.creacion)
@@ -99,12 +100,14 @@ def modificar_residencia(request, id):
          nom = request.POST['nombre']
          capacidad = request.POST['capacidad']
          direccion = request.POST['direccion']
+         imagen = request.POST['imagen']
          r = Residencia.objects.filter(~Q(auto_id=id), nombre=nom).exists()
          if not r: # la residencia no tiene nombre repetido
             residencia = Residencia.objects.get(auto_id=id)
             residencia.nombre = nom
             residencia.capacidad = capacidad
             residencia.direccion = direccion
+            residencia.imagen= imagen
             residencia.save()
          else:
             messages.error(request,'el nombre de la residencia ya existe')
@@ -129,6 +132,10 @@ def eliminar_residencia(request, id):
    if request.method == "GET":
       residencia = Residencia.objects.get(auto_id=id)
       residencia.is_deleted = True
+      subastas= Subasta.objects.filter(residencia=residencia)
+      for subasta in subastas:
+         subasta.is_deleted= True
+         subasta.save()
       residencia.save()
       return redirect('/listado_residencias')
 

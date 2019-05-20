@@ -20,10 +20,17 @@ class ModResidenciaForm(forms.ModelForm):
             'placeholder': 'ingresa direccion de la residencia'
         }
     ))
+    imagen = forms.CharField(max_length=200, widget=forms.TextInput(
+        attrs={
+            'style': 'box-shadow: inset 0 2px 2px rgba(0,0,0,.075); border: 1px solid red',
+            'placeholder': 'ingresa link de la imagen'
+        }
+    ))
+
 
     class Meta:
         model = Residencia
-        fields = ('nombre','capacidad','direccion',)
+        fields = ('nombre','capacidad','direccion','imagen')
         # widgets = {
         #     'nombre': forms.TextInput(attrs={}),
         #     'capacidad': forms.TextInput(attrs={'style': 'border-color:darkgoldenrod; border-radius: 10px;'})
@@ -48,10 +55,15 @@ class ResidenciaForm(forms.ModelForm):
             'placeholder': 'ingresa direccion de la residencia'
         }
     ))
-
+    imagen = forms.CharField(max_length=200, widget=forms.TextInput(
+        attrs={
+            'style': 'box-shadow: inset 0 2px 2px rgba(0,0,0,.075); border: 1px solid red',
+            'placeholder': 'ingresa link de la imagen'
+        }
+    ))
     class Meta:
         model = Residencia
-        fields = ('nombre','capacidad','direccion',)
+        fields = ('nombre','capacidad','direccion','imagen')
         # widgets = {
         #     'nombre': forms.TextInput(attrs={}),
         #     'capacidad': forms.TextInput(attrs={'style': 'border-color:darkgoldenrod; border-radius: 10px;'})

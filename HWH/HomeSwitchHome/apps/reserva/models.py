@@ -13,11 +13,15 @@ class Reserva(models.Model):
     reservas= models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, related_name='historial_reservas', blank=True) # historial de reservas
     user= models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True, blank=True)  # reserva actual
     residenciaQuePertence= models.ForeignKey(Residencia, on_delete=models.CASCADE, null=True, related_name='residencia_actual')
+    is_active= models.BooleanField(default=True)
+    is_deleted= models.BooleanField(default=False)
 
 
-
-class Subasta(Reserva):
+class Subasta(models.Model):
     finalizacion= models.DateField(null=True)
+    reserva= models.ForeignKey(Reserva, on_delete=models.CASCADE, null=True)
+    residencia= models.ForeignKey(Residencia, on_delete=models.CASCADE, null=True)
+    is_deleted= models.BooleanField(default=False)
 
 
 class Puja(models.Model):
