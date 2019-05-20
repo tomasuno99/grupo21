@@ -37,3 +37,9 @@ def subasta_detail(request,id):
    else:
       raise Http404
 
+def pujar(request):
+   montoAux= request.GET['monto']
+   print (montoAux)
+   p = Puja()
+   p.monto = montoAux
+   p.save()
