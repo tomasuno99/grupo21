@@ -148,7 +148,7 @@
 	</script>
 	{% for fecha in fechas %}
         <tr>
-            <td>Semana de {{ fecha.1 }}</td>
+            <td>Semana de {{ fecha.1 }} {% if not fecha.2%} - En Subasta {% endif %}</td>
 			{% if request.user.is_authenticated %}
 			<td>
 				{% if request.user.is_staff %}			
@@ -156,9 +156,11 @@
 							onclick="return confirm('Seguro que queres subastar la semana del {{ fecha.1 }}?');"
 								class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Subastar esta semana</a>			
 				{% else %}
-					<a href=""
-					onclick="document.getElementById('answer').value=monto();"
-					class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Pujar en esta semana</a>			
+					{% if not fecha.2%}
+					<a href="{% url 'subasta' fecha.3.id %}"
+			{% comment %}		onclick="document.getElementById('answer').value=monto();" {% endcomment %}
+					class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Pujar en esta semana</a>
+					{% endif %}			
 				{% endif %}
 			</td>
 			{%endif%}

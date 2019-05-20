@@ -51,10 +51,24 @@
 							class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Finalizar</a>
 					</div>
                     {% else %}
+							<script>
+		var montoVar=0;
+		function monto(){
+			montoVar = prompt('ingresa monto a pujar para la semana del {{fecha.1 }}');
+			document.getElementById('monto').innerHTML = montoVar;
+			localStorage.setItem("monto", montoVar);
+			console.log(montoVar)
+		}
+	</script>
                     <div class="size9 trans-0-4 m-t-10 m-b-10">
 						<!-- Button -->
-						<a href=""
-							class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Pujar</a>
+							<form method='POST' action="{% url 'subasta_puja' subasta.id %}">
+							{% csrf_token %}
+ 						 Ingresar Monto: 
+  					<input type="number" name="monto" value="0">
+ 						<br>
+ 					  <input type="submit" value="Submit">
+</form> 
 					</div>
 					{% endif %}
 				</div>

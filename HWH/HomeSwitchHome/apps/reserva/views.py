@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from apps.reserva.models import *
 from datetime import datetime, timedelta
 from django.contrib import messages
+
 # Create your views here.
 
 
@@ -36,7 +37,24 @@ def subasta_detail(request,id):
       return render(request,'subasta_detail.html', context)
    else:
       raise Http404
+def subasta_detail_puja(request,id):
+   subasta= Subasta.objects.get(id=id)
 
+   monto= request.POST['monto']
+   user = request.user
+
+   puja= Puja()
+   puja.subasta= subasta
+   puja.user=user
+   puja.monto=monto
+
+   puja.save()
+   related_products= Subasta.objects.filter(is_deleted=False).exclude(id=id)
+   context= {
+      "subasta": subasta,
+      "relate_products": related_products,
+   }
+   return render(request,'subasta_detail.html', context)
 def pujar(request):
    montoAux= request.GET['monto']
    print (montoAux)
