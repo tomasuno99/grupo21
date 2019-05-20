@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from apps.reserva.models import *
 from datetime import datetime, timedelta
 from django.contrib import messages
+from django.db.models import Max
 
 # Create your views here.
 
@@ -30,9 +31,11 @@ def subasta_detail(request,id):
    subasta=Subasta.objects.get(id=id)
    if subasta.is_deleted==False:
       related_products= Subasta.objects.filter(is_deleted=False).exclude(id=id)
+      puja = Puja.objects.filter(subasta=subasta).last()
       context= {
          "subasta": subasta,
          "related_products": related_products,
+         "puja": puja
       }
       return render(request,'subasta_detail.html', context)
    else:
@@ -42,18 +45,28 @@ def subasta_detail_puja(request,id):
 
    monto= request.POST['monto']
    user = request.user
+   puja = Puja.objects.filter(subasta=subasta).last()
+   if puja == None:
+      puja=Puja()
+      puja.monto=0
+   print(puja.monto)
 
-   puja= Puja()
-   puja.subasta= subasta
-   puja.user=user
-   puja.monto=monto
-
-   puja.save()
    related_products= Subasta.objects.filter(is_deleted=False).exclude(id=id)
    context= {
       "subasta": subasta,
       "relate_products": related_products,
    }
+
+   if int(monto) > int(puja.monto):
+      puja= Puja()
+      puja.subasta= subasta
+      puja.user=user
+      puja.monto=monto
+
+      puja.save()
+   else:
+      messages.error(request,'El monto ingresado no supera el maximo')
+      return render(request,'subasta_detail.html',context)
    return render(request,'subasta_detail.html', context)
 def pujar(request):
    montoAux= request.GET['monto']

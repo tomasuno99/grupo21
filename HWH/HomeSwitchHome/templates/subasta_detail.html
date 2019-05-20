@@ -31,6 +31,11 @@
 			<span class="m-text10">
 				Capacidad: {{subasta.residencia.capacidad}} Personas
 			</span>
+			<br>
+			<span class="m-text10">
+				Monto actual: {{puja.monto}}
+			</span>
+
 
 			<p class="s-text8 p-t-10">
 				Esta subasta finaliza el {{subasta.finalizacion}}
@@ -51,15 +56,6 @@
 							class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Finalizar</a>
 					</div>
                     {% else %}
-							<script>
-		var montoVar=0;
-		function monto(){
-			montoVar = prompt('ingresa monto a pujar para la semana del {{fecha.1 }}');
-			document.getElementById('monto').innerHTML = montoVar;
-			localStorage.setItem("monto", montoVar);
-			console.log(montoVar)
-		}
-	</script>
                     <div class="size9 trans-0-4 m-t-10 m-b-10">
 						<!-- Button -->
 							<form method='POST' action="{% url 'subasta_puja' subasta.id %}">
@@ -69,12 +65,21 @@
  						<br>
  					  <input type="submit" value="Submit">
 </form> 
+		{% for message in messages %}
+
+                    <div class="alert alert-success">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
+
+                        {{ message }}
+
+                    </div>
+        {% endfor %}
 					</div>
 					{% endif %}
 				</div>
 			</div>
 
-
+{% comment %} 
 			<!--  -->
 			<div class="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content">
 				<h5 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
@@ -121,7 +126,8 @@
 				</div>
 			</div>
 		</div>
-	</div>
+		{% endcomment %}
+	</div> 
 
 </div >
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css"/>
@@ -133,7 +139,7 @@
 		<div class="container">
 			<div class="sec-title p-b-60">
 				<h3 class="m-text5 t-center">
-					Related Products
+					Otras Subastas
 				</h3>
 			</div>
 
