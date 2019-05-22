@@ -32,6 +32,9 @@ def subasta_detail(request,id):
    if subasta.is_deleted==False:
       related_products= Subasta.objects.filter(is_deleted=False).exclude(id=id)
       puja = Puja.objects.filter(subasta=subasta).last()
+      if puja == None:
+         puja=Puja()
+         puja.monto=0
       context= {
          "subasta": subasta,
          "related_products": related_products,
@@ -55,6 +58,7 @@ def subasta_detail_puja(request,id):
    context= {
       "subasta": subasta,
       "relate_products": related_products,
+      "puja": puja
    }
 
    if int(monto) > int(puja.monto):
@@ -62,12 +66,13 @@ def subasta_detail_puja(request,id):
       puja.subasta= subasta
       puja.user=user
       puja.monto=monto
-
+      context['puja']=puja
       puja.save()
    else:
       messages.error(request,'El monto ingresado no supera el maximo')
       return render(request,'subasta_detail.html',context)
    return render(request,'subasta_detail.html', context)
+
 def pujar(request):
    montoAux= request.GET['monto']
    print (montoAux)
