@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from apps.residencia import views
+from . import views
 from apps.reserva.views import publicarSubasta, listado_subastas, subasta_detail, subasta_detail_puja
 urlpatterns = [
     path('listado_residencias/residencia/<int:id>/', views.product_detail, name='product'),

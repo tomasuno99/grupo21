@@ -8,10 +8,12 @@ class Residencia(models.Model):
     
     
     auto_id=models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=50, default='')
     capacidad = models.IntegerField(null=True, blank=True)
     creacion= models.DateTimeField(('Date created'), auto_now_add=True,null=True)
     direccion = models.CharField(max_length=50, default='')
+    localidad= models.CharField(max_length=50, default='')
+    descripcion = models.CharField(max_length=50, default='')
     imagen = models.CharField(max_length=200,default='')
  #   user = models.ForeignKey(User, null=True,blank=True, on_delete=models.CASCADE)
     is_deleted = models.BooleanField(default=False)

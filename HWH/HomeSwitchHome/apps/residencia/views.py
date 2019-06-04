@@ -42,15 +42,14 @@ def Agregar_residencia(request):
    }
    if request.method == "POST":
       nom = request.POST['nombre']
-      capacidad = request.POST['capacidad']
-      direccion = request.POST['direccion']
-      imagen = request.POST['imagen']
+      residencia.nombre = nom
+      residencia.capacidad = request.POST['capacidad']
+      residencia.direccion = request.POST['direccion']
+      residencia.imagen = request.POST['imagen']
+      residencia.localidad = request.POST['localidad']
+      residencia.descripcion = request.POST['descripcion']
       r = Residencia.objects.filter(nombre=nom).exists()
       if not r: # la residencia no tiene nombre repetido
-         residencia.nombre = nom
-         residencia.capacidad = capacidad
-         residencia.direccion = direccion
-         residencia.imagen = imagen
          residencia.save()
          r= Residencia.objects.get(auto_id=residencia.auto_id)
          creacion_aux=lunes(r.creacion)
@@ -97,22 +96,21 @@ def listado_residencias(request):
 
 
 def modificar_residencia(request, id):
+   residencia = Residencia.objects.get(auto_id=id)
    context= {
-      'residencia': Residencia.objects.get(auto_id=id)
+      'residencia': residencia
    }
    if Residencia.objects.get(auto_id=id).is_deleted==False:
       if request.method == "POST":
          nom = request.POST['nombre']
-         capacidad = request.POST['capacidad']
-         direccion = request.POST['direccion']
-         imagen = request.POST['imagen']
+         residencia.nombre = nom
+         residencia.capacidad = request.POST['capacidad']
+         residencia.direccion = request.POST['direccion']
+         residencia.imagen = request.POST['imagen']
+         residencia.localidad = request.POST['localidad']
+         residencia.descripcion = request.POST['descripcion']
          r = Residencia.objects.filter(~Q(auto_id=id), nombre=nom).exists()
          if not r: # la residencia no tiene nombre repetido
-            residencia = Residencia.objects.get(auto_id=id)
-            residencia.nombre = nom
-            residencia.capacidad = capacidad
-            residencia.direccion = direccion
-            residencia.imagen= imagen
             residencia.save()
          else:
             messages.error(request,'el nombre de la residencia ya existe')

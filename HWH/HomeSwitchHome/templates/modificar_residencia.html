@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block body%}
-<body class="agregar_residencia">
+<body class="agregar_residencia" style="background-color:powderblue;">
 	<center>
 	<header class="headerResidencia">
         <h2>
@@ -11,23 +11,31 @@
     </header>
     <form method="POST">{% csrf_token %}
 		<div class="form-group">
-			<label style="background-color: rgb(232, 240, 254)" for="formGroupExampleInput">Nombre: </label>
-			<input style="background-color: rgb(232, 240, 254)" class="col-md-4" type="text" class="form-control" name="nombre" value={{ residencia.nombre }}>
+			<label for="formGroupExampleInput">Nombre: </label>
+			<input class="col-md-4" type="text" class="form-control" name="nombre" value={{residencia.nombre}}>
 		</div>
 		<div class="form-group">
-			<label style="background-color: rgb(232, 240, 254)" for="formGroupExampleInput2">Capacidad: </label>
-			<input style="background-color: rgb(232, 240, 254)" class="col-md-4" type="number" min="0" class="form-control" name="capacidad" value={{ residencia.capacidad }}>
+			<label for="formGroupExampleInput2">Capacidad: </label>
+			<input class="col-md-4" type="number" min="0" class="form-control" name="capacidad" value={{residencia.capacidad}}>
 			<small id="passwordHelpBlock" class="form-text text-muted">
-  				Solo se admiten valores numericos.
+					Solo se admiten valores numericos.
 			</small>
 		</div>
 		<div class="form-group">
-				<label for="formGroupExampleInput" style="background-color: rgb(232, 240, 254)">Link de imagen: </label>
-				<input style="background-color: rgb(232, 240, 254)" class="col-md-4" type="text" class="form-control" name="imagen" value={{ residencia.imagen }}>
-			</div>
+			<label for="formGroupExampleInput">Link: </label>
+			<input class="col-md-4" type="text" class="form-control" name="imagen" value={{residencia.imagen}}>
+		</div>
 		<div class="form-group">
-			<label for="formGroupExampleInput" style="background-color: rgb(232, 240, 254)">Direccion: </label>
-			<input style="background-color: rgb(232, 240, 254)" class="col-md-4" type="text" class="form-control" name="direccion" value={{ residencia.direccion }}>
+			<label for="formGroupExampleInput">Direccion: </label>
+			<input class="col-md-4" type="text" class="form-control" name="direccion" value={{residencia.direccion}}>
+		</div>
+		<div class="form-group">
+			<label for="formGroupExampleInput">Localidad: </label>
+			<input class="col-md-4" type="text" class="form-control" name="localidad" value={{residencia.localidad}}>
+		</div>
+		<div class="form-group">
+			<label for="formGroupExampleInput">Descripcion: </label>
+			<input class="col-md-4" type="text" class="form-control" name="descripcion" value={{residencia.descripcion}}>
 		</div>
 		{% for message in messages %}
 
