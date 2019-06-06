@@ -23,18 +23,6 @@ def switchStaff(request):
     print('cambiado')
     return redirect('/listado_residencias')
 
-def user_register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/listado_residencias')
-    else:
-        form = UserCreationForm()
-        context = {
-            'form': form
-        }
-        return render(request,'registrar.html',context)
 
 def user_login(request):
     context = baseContext()
@@ -57,3 +45,17 @@ def logout(request):
     __logout(request)
     print('logout')
     return redirect('index')
+
+def user_register(request):
+    if request.method == 'POST':
+        try:
+            r = request.POST
+            usuario = CustomUser.objects.create(user=user, nombre=r['firstName'], apellido=r['lastName'], dni=r['dni'],
+                                             fechaDeNacimiento=r['birthDay'])
+
+            return render(request, 'listado_residencias.html')
+        except IntegrityError:
+            context = {'error': 'Ese usuario ya esta registrado'}
+            return render(request, 'registrar.html', context)
+    
+    return HttpResponseRedirect('signin')

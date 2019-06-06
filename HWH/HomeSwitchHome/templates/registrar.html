@@ -1,96 +1,76 @@
-{% extends 'base.html' %}
-{% load staticfiles %}
 
-{% block body%}
-<body class="agregar_residencia">
-	<center>
-	<header class="headerResidencia">
-        <h2>
-            Ingresa datos de nuevo usuario.
-        </h2>
-    </header>
-    <form method="post" class='regUser'>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4" style="width:25%">Registrarse</button>
-	</form>
-	</center>
-</body>
-{% endblock %}
-{% block jsmas %}
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/animsition/js/animsition.min.js' %}"></script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/bootstrap/js/popper.js' %}"></script>
-	<script type="text/javascript" src="{% static 'css/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/select2/select2.min.js' %}"></script>
-	<script type="text/javascript">
-		$(".selection-1").select2({
-			minimumResultsForSearch: 20,
-			dropdownParent: $('#dropDownSelect1')
-		});
+{% extends "base.html" %}
+{% block title %}SignIn{% endblock %}
 
-		$(".selection-2").select2({
-			minimumResultsForSearch: 20,
-			dropdownParent: $('#dropDownSelect2')
-		});
-	</script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/daterangepicker/moment.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'css/vendor/daterangepicker/daterangepicker.js' %}"></script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/slick/slick.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/slick-custom.js' %}"></script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/sweetalert/sweetalert.min.js' %}"></script>
-	<script type="text/javascript">
-		$('.block2-btn-addcart').each(function(){
-			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to cart !", "success");
-			});
-		});
+{% block content %}
 
-		$('.block2-btn-addwishlist').each(function(){
-			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to wishlist !", "success");
-			});
-		});
-	</script>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-sm-12 col-lg-5">
+        <div class="login-panel panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Ingrese sus datos</h3>
+          </div>
+          <div class="panel-body">
+            <form method="POST" action="{% url 'registrar' %}" onsubmit="return validate_passwords_match()">{% csrf_token %}
+              <fieldset>
 
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/noui/nouislider.min.js' %}"></script>
-	<script type="text/javascript">
-		/*[ No ui ]
-	    ===========================================================*/
-	    var filterBar = document.getElementById('filter-bar');
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <input class="form-control" placeholder="Nombre" type="text" name="firstName"
+                           required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <input class="form-control" placeholder="Apellido" type="text" name="lastName"
+                           required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus
+                         required>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <input class="form-control" placeholder="DNI" name="dni" type="text" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                  <input class="form-control" placeholder="Fecha de nacimiento" type="date"
+                         name="birthDay" required>
+                  </div>
+                </div>
 
-	    noUiSlider.create(filterBar, {
-	        start: [ 50, 200 ],
-	        connect: true,
-	        range: {
-	            'min': 50,
-	            'max': 200
-	        }
-	    });
+                <div class="form-group">
+                  <input id="id_password" class="form-control" placeholder="Contrase&ntilde;a" name="password"
+                         type="password" pattern=".{8,}" required title="Minimo 8 caracteres">
+                </div>
+                <div class="form-group">
+                  <input id="id_confirmPassword" class="form-control" placeholder="Confirmar contrase&ntilde;a"
+                         name="confirmPassword" type="password" required>
+                </div>
 
-	    var skipValues = [
-	    document.getElementById('value-lower'),
-	    document.getElementById('value-upper')
-	    ];
+                <button type="submit" class="btn btn-lg btn-warning btn-block">Registrarse</button>
+              </fieldset>
+            </form>
+            {% if error %}
+              <p style="color:red"> {{ error }}</p>
+            {% endif %}
+            <p style="color:red" id="pwdAlert"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-	    filterBar.noUiSlider.on('update', function( values, handle ) {
-	        skipValues[handle].innerHTML = Math.round(values[handle]) ;
-	    });
-	</script>
-<!--===============================================================================================-->
-	<script src="{% static 'js/main.js' %}"></script>
 
-</body>
-</html>
+
+    <script>
+    $('#id_confirmPassword').on('keyup', function(){
+        if($('#id_confirmPassword').val() === $('#id_password').val())
+            $('#pwdAlert').hide();
+        else
+            $('#pwdAlert').show().html('Las contraseñas no coinciden');
+    });
+    </script>
 
 {% endblock %}
