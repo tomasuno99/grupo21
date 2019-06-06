@@ -156,9 +156,11 @@
 				{% if request.user.is_authenticated %}
 				<td>
 					{% if request.user.is_staff %}
+						{% if fecha.2 %}
 					<a href="{% url 'publicarSubasta' fecha.0 %}"
 						onclick="return confirm('Seguro que queres subastar la semana del {{ fecha.1 }}?');"
 						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Subastar esta semana</a>
+					{% endif %}
 					{% else %}
 					{% if not fecha.2%}
 					<a href="{% url 'subasta' fecha.3.id %}" {% comment %}

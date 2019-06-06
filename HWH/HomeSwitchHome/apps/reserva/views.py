@@ -1,6 +1,6 @@
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404, Http404
 from django.http import HttpResponse, HttpResponseRedirect
-from apps.reserva.models import *
+from apps.reserva.models import Reserva,Subasta,Puja
 from datetime import datetime, timedelta
 from django.contrib import messages
 from django.db.models import Max
@@ -44,6 +44,7 @@ def subasta_detail(request,id):
    else:
       raise Http404
 def subasta_detail_puja(request,id):
+   print("hola")
    subasta= Subasta.objects.get(id=id)
 
    monto= request.POST['monto']
@@ -68,8 +69,9 @@ def subasta_detail_puja(request,id):
       puja.monto=monto
       context['puja']=puja
       puja.save()
+
    else:
-      messages.error(request,'El monto ingresado no supera el maximo')
+      messages.error(request,'El monto ingresado no supera el actual')
       return render(request,'subasta_detail.html',context)
    return render(request,'subasta_detail.html', context)
 
