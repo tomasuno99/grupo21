@@ -59,7 +59,7 @@ def Agregar_residencia(request):
             creacion_aux=lunes(creacion_aux)
       else:
          messages.error(request,'el nombre de la residencia ya existe')
-         return render(request,'agregar_residencia.html', context)
+         return render--(request,'agregar_residencia.html', context)
       return redirect('/listado_residencias')
    else:
       return render(request,'agregar_residencia.html', context)
