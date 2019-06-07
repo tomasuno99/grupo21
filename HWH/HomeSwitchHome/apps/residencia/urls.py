@@ -10,7 +10,7 @@ urlpatterns = [
     path('agregar_residencia/', views.Agregar_residencia, name='agregar'),
     path('modificar/<int:id>/', views.modificar_residencia, name='modificarResidencia'),
     path('eliminar/<int:id>/', views.eliminar_residencia, name='eliminarResidencia'),
-    path('publicar_subasta/<int:id>/', publicarSubasta, name='publicarSubasta' ),
+    path('publicar_subasta/', publicarSubasta, name='publicarSubasta' ),
     path('listado_subastas/', listado_subastas, name='listado_subastas'),
     path('index/', views.mostrar_index, name='index')
 ]

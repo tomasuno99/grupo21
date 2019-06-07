@@ -1,5 +1,5 @@
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404, Http404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from apps.reserva.models import Reserva,Subasta,Puja
 from datetime import datetime, timedelta
 from django.contrib import messages
@@ -8,19 +8,25 @@ from django.db.models import Max
 # Create your views here.
 
 
-def publicarSubasta(request, id):
-    reserva= Reserva.objects.get(auto_id=id)
-    reserva.is_active=False
-    subasta=Subasta()
-    subasta.reserva=reserva
-    subasta.residencia= reserva.residenciaQuePertence
-    subasta.finalizacion= datetime.today() + timedelta(days=3)
+def publicarSubasta(request):
+   reserva= Reserva.objects.get(auto_id=request.POST.get('auto_id'))
+   reserva.is_active=False
+   subasta=Subasta()
+   subasta.reserva=reserva
+   subasta.residencia= reserva.residenciaQuePertence
+   subasta.finalizacion= datetime.today() + timedelta(days=3)
+ 
+   
+   subasta.save()
+   
+   reserva.save()
 
-    subasta.save()
-    reserva.save()
-    print(id)
-
-    return redirect('/listado_residencias')
+   puja= Puja()
+   puja.monto=request.POST.get('monto')
+   puja.subasta= subasta
+   puja.save()
+   
+   return JsonResponse({},safe=False)
 
 def listado_subastas(request):
     subastas=Subasta.objects.all()

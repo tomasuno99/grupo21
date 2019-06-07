@@ -150,27 +150,16 @@
 					localStorage.setItem("monto", montoVar);
 				}
 			</script>
-			<script>
-			function myFunction() {
-  	var person = prompt("'Seguro que queres subastar la semana del {{ fecha.1 }}?'                           Ingresa el monto minimo", "0");
-			console.log(person)
-  		if (person == null || person == "") {
-				  $("#subastar_semana").attr("href", "")
-  				} else {
-				$("#subastar_semana").attr("href", $("#subastar_semana").attr("prueba"))
-  				}
-  
-}
-</script>
+		
 			{% for fecha in fechas %}
 			<tr>
-				<td>Semana de {{ fecha.1 }} {% if not fecha.2%} - En Subasta {% endif %}</td>
+				<td id="{{fecha.0 }}" value="{{fecha.1}}">Semana de {{ fecha.1 }} {% if not fecha.2%} - En Subasta {% endif %}</td>
 				{% if request.user.is_authenticated %}
 				<td>
 					{% if request.user.is_staff %}
 						{% if fecha.2 %}
-					<button id="subastar_semana" href="" prueba="{% url 'publicarSubasta' fecha.0 %}"
-						onclick="myFunction()"
+					<button id="subastar_semana{{ fecha.0 }}"
+						onclick="myFunction({{fecha.0}})"
 						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Subastar esta semana</button>
 					{% endif %}
 					{% else %}
@@ -218,7 +207,7 @@
 
 								<div class="block2-btn-addcart w-size1 trans-0-4">
 									<!-- Button -->
-									<button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+									<button id={} class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
 										<a href="{% url 'product' prod.auto_id %}"
 											class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
 											Ver Mas
@@ -262,7 +251,35 @@
 			"ordering": false
 		});
 	});
+
+
+
 </script>
+
+	<script>
+
+  
+			function myFunction(id) {
+  			var monto = prompt("'Seguro que queres subastar la semana del {{ fecha.1 }}?'                           Ingresa el monto minimo", "0");	
+  			if (monto == null || monto == "") {
+				 	alert("Ingrese algun valor para el monto")
+  				} else {
+						  var data={ "monto": monto,"auto_id": id  }
+						$.ajax({
+							type: "POST",
+							headers: {'X-CSRFToken': '{{ csrf_token }}'},
+							url: "{% url 'publicarSubasta' %}",
+							data: data,
+							success: function (response) {
+								
+								$("#"+id).text("Semana del "+ $("#"+id).attr('value') + " - En Subasta");
+								$("#subastar_semana"+id).hide();
+								alert("Subasta publicada con exito!")
+							}
+						});
+  				}
+			}
+			</script>
 <!--===============================================================================================-->
 <script type="text/javascript" src="{% static 'css/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
 <!--===============================================================================================-->
