@@ -150,6 +150,19 @@
 					localStorage.setItem("monto", montoVar);
 				}
 			</script>
+			<script>
+function myFunction() {
+  var txt;
+  var person = prompt("'Seguro que queres subastar la semana del {{ fecha.1 }}?'                           Ingresa el monto minimo", "0");
+	console.log(person)
+  if (person == null || person == "") {
+	  $("#subastar_semana").attr("href", "")
+  } else {
+	$("#subastar_semana").attr("href", $("#subastar_semana").attr("prueba"))
+  }
+  
+}
+</script>
 			{% for fecha in fechas %}
 			<tr>
 				<td>Semana de {{ fecha.1 }} {% if not fecha.2%} - En Subasta {% endif %}</td>
@@ -157,8 +170,8 @@
 				<td>
 					{% if request.user.is_staff %}
 						{% if fecha.2 %}
-					<a href="{% url 'publicarSubasta' fecha.0 %}"
-						onclick="return confirm('Seguro que queres subastar la semana del {{ fecha.1 }}?');"
+					<a id="subastar_semana" href="" prueba="{% url 'publicarSubasta' fecha.0 %}"
+						onclick="myFunction()"
 						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Subastar esta semana</a>
 					{% endif %}
 					{% else %}
@@ -239,6 +252,7 @@
 <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
 
 <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+
 
 
 <script>
