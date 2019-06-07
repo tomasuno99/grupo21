@@ -151,15 +151,14 @@
 				}
 			</script>
 			<script>
-function myFunction() {
-  var txt;
-  var person = prompt("'Seguro que queres subastar la semana del {{ fecha.1 }}?'                           Ingresa el monto minimo", "0");
-	console.log(person)
-  if (person == null || person == "") {
-	  $("#subastar_semana").attr("href", "")
-  } else {
-	$("#subastar_semana").attr("href", $("#subastar_semana").attr("prueba"))
-  }
+			function myFunction() {
+  	var person = prompt("'Seguro que queres subastar la semana del {{ fecha.1 }}?'                           Ingresa el monto minimo", "0");
+			console.log(person)
+  		if (person == null || person == "") {
+				  $("#subastar_semana").attr("href", "")
+  				} else {
+				$("#subastar_semana").attr("href", $("#subastar_semana").attr("prueba"))
+  				}
   
 }
 </script>
@@ -170,9 +169,9 @@ function myFunction() {
 				<td>
 					{% if request.user.is_staff %}
 						{% if fecha.2 %}
-					<a id="subastar_semana" href="" prueba="{% url 'publicarSubasta' fecha.0 %}"
+					<button id="subastar_semana" href="" prueba="{% url 'publicarSubasta' fecha.0 %}"
 						onclick="myFunction()"
-						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Subastar esta semana</a>
+						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Subastar esta semana</button>
 					{% endif %}
 					{% else %}
 					{% if not fecha.2%}
