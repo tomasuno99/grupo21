@@ -4,13 +4,17 @@
 
 
 {% block content %}
+
+  <body class="agregar_residencia" style="background-color:LightGrey;">
   <div class="container">
-    <div class="row" style="margin-top: 10%">
+    <div class="row">
       <div class="col-md-4"></div>
-      <div class="col-sm-12 col-lg-4">
+      <div class="col-sm-12 col-lg-5">
         <div class="login-panel panel panel-default">
           <div class="panel-heading">
+            <br>
             <h3 class="panel-title">Ingrese sus datos</h3>
+            <br>
           </div>
           <div class="panel-body">
             <form method="POST">{% csrf_token %}
@@ -24,7 +28,7 @@
                          value="">
                 </div>
 
-                <button type="submit" class="btn btn-lg btn-warning btn-block">Login</button>
+                <button type="submit" class="btn btn-lg btn-dark btn-block">Login</button>
               </fieldset>
             </form>
             {% if error %}
@@ -35,4 +39,7 @@
       </div>
     </div>
   </div>
+  <br>
+  </body>
+
 {% endblock %}

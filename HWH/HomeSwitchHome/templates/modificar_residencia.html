@@ -3,39 +3,43 @@
 
 {% block body%}
 <body class="agregar_residencia" style="background-color:LightGrey;">
-	<center>
-	<header class="headerResidencia">
-        <h2>
-            Ingresa datos de la residencia.
-        </h2>
-    </header>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-sm-12 col-lg-5">
+        <div class="login-panel panel panel-default">
+          <div class="panel-heading">
+            <br>
+            <h3 class="panel-title" align="center">Ingrese los datos de la Residencia</h3>
+            <br>
+          </div>
     <form method="POST">{% csrf_token %}
 		<div class="form-group">
 			<label for="formGroupExampleInput">Nombre: </label>
-			<input class="col-md-4" type="text" class="form-control" name="nombre" value={{residencia.nombre}}>
+			<input class="form-control" type="text" class="form-control" name="nombre" value={{residencia.nombre}}>
 		</div>
 		<div class="form-group">
 			<label for="formGroupExampleInput2">Capacidad: </label>
-			<input class="col-md-4" type="number" min="0" class="form-control" name="capacidad" value={{residencia.capacidad}}>
+			<input class="form-control" type="number" min="0" class="form-control" name="capacidad" value={{residencia.capacidad}}>
 			<small id="passwordHelpBlock" class="form-text text-muted">
 					Solo se admiten valores numericos.
 			</small>
 		</div>
 		<div class="form-group">
 			<label for="formGroupExampleInput">Link: </label>
-			<input class="col-md-4" type="text" class="form-control" name="imagen" value={{residencia.imagen}}>
+			<input class="form-control" type="text" class="form-control" name="imagen" value={{residencia.imagen}}>
 		</div>
 		<div class="form-group">
 			<label for="formGroupExampleInput">Direccion: </label>
-			<input class="col-md-4" type="text" class="form-control" name="direccion" value={{residencia.direccion}}>
+			<input class="form-control" type="text" class="form-control" name="direccion" value={{residencia.direccion}}>
 		</div>
 		<div class="form-group">
 			<label for="formGroupExampleInput">Localidad: </label>
-			<input class="col-md-4" type="text" class="form-control" name="localidad" value={{residencia.localidad}}>
+			<input class="form-control" type="text" class="form-control" name="localidad" value={{residencia.localidad}}>
 		</div>
 		<div class="form-group">
 			<label for="formGroupExampleInput">Descripcion: </label>
-			<input class="col-md-4" type="text" class="form-control" name="descripcion" value={{residencia.descripcion}}>
+			<input class="form-control" type="text" class="form-control" name="descripcion" value={{residencia.descripcion}}>
 		</div>
 		{% for message in messages %}
 
@@ -46,10 +50,15 @@
 
                     </div>
         {% endfor %}
-		<button type="submit" class="btn btn-primary">Modificar</button>
+		<button type="submit" class="btn btn-lg btn-dark btn-block">Modificar</button>
 	</form>
-	</center>
-</body>
+	 </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  </body>
 {% endblock %}
 {% block jsmas %}
 <!--===============================================================================================-->
