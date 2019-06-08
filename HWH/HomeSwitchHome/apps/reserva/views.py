@@ -104,22 +104,35 @@ def chequear_disponibilidad_semana(user,semana):
          return False
    return True
 
+def actualizar_reserva(id_reserva,user):
+   reserva= Reserva.objects.get(auto_id=id_reserva)
+   user= CustomUser.objects.get(id=user)
+
+   reserva.user= user
+   reserva.save()
+   user.save()
+   
+   
+
 def finalizar_subasta(request):
    subasta= Subasta.objects.get(id=request.POST.get('subasta_id'))
-   pujas= Puja.objects.filter(subasta=subasta)
+   pujas= list(Puja.objects.filter(subasta=subasta))
    boolean=True
+   print("hola")
    while boolean:
       pujamax=devolver_puja_maxima(pujas)
       user= CustomUser.objects.get(id=pujamax.user.id)
       if user.semanas_disponibles > 0:
          if chequear_disponibilidad_semana(user,subasta.reserva.semana_del_año):
             user.semanas_disponibles=user.semanas_disponibles - 1
-            subasta.reserva.user= user
             subasta.is_deleted=True
+            actualizar_reserva(subasta.reserva.auto_id,user.id)
             subasta.save()
+            email= user.email
             user.save()
-            print("hola entre jejejeje")
-            return JsonResponse({"usuario": subasta.reserva.user.email}, safe=False)
+            return JsonResponse({"usuario": email}, safe=False)
+         else:
+            pujas.remove(pujamax)
       else:
          pujas.remove(pujamax)
    return JsonResponse({},safe=False)
