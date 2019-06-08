@@ -7,6 +7,7 @@ from django.db import IntegrityError
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
+import time
 
 
 def baseContext():
@@ -60,17 +61,26 @@ def user_register(request):
         user.dni = r['dni']
         # esto lo habia puesto para no perder los datos ante un error, pero no funciona
         try:
-            
             if int(r['birthDay'][-4:]) <= 2001:
                 if r['password'] == r['confirmPassword']:
-                    usuario = CustomUser.objects.create_user(email=r['email'], nombre=r['firstName'], apellido=r['lastName'], dni=r['dni'], fecha_nacimiento=r['birthDay'], password=r['password'])
-                    return HttpResponseRedirect('/listado_residencias')
+                    pass
                 else:
                     messages.error(request,'Las contraseñas ingresadas no coinciden')
                     return render(request,'registrar.html', context)    
             else:
                 messages.error(request,'Debes ser mayor de edad para registrarte')
                 return render(request,'registrar.html', context)
+            if (len(r['numero_tarjeta']) == 16):
+                if r['fecha_vencimiento'][-2] > time.strftime("%d/%m/%y")[-2]:
+                    usuario = CustomUser.objects.create_user(email=r['email'], nombre=r['firstName'], apellido=r['lastName'], dni=r['dni'], fecha_nacimiento=r['birthDay'], password=r['password'], num_tarjeta_credito=r['numero_tarjeta'], nombre_titular_tarjeta=r['nombre_tarjeta'], fecha_vencimiento_tarjeta=r['fecha_vencimiento'], codigo_seguridad_tarjeta=r['securityCode'], marca_tajeta=r['cardBrand'])
+                    return HttpResponseRedirect('/listado_residencias')    
+                else:    
+                    messages.error(request,'La tarjeta ingresada se encuentra Vencida')
+                    return render(request,'registrar.html', context)        
+            else:    
+                messages.error(request,'El numero de tarjeta debe tener 16 digitos')
+                return render(request,'registrar.html', context)
+            
         except IntegrityError:
             messages.error(request, 'Ese Email ya esta registrado')
             # context['error'] = {'mensaje': 'Ese usuario ya esta registrado'}
@@ -78,3 +88,4 @@ def user_register(request):
     else:
         return render(request,'registrar.html', context)
     # return render(request, 'registrar.html')
+

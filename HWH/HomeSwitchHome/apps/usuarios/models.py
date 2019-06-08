@@ -56,11 +56,17 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)
     semanas_disponibles = models.PositiveSmallIntegerField(default=2, blank=True, null=True)
     fecha_nacimiento = models.CharField(max_length=15, default='')
-    tarjeta_credito = models.IntegerField(null=True)
     dni = models.CharField(max_length=8, default=None, null=True)
     nombre = models.CharField(max_length=30, default='')
     apellido = models.CharField(max_length=60, default='')
-
+    
+    # Datos Tarjeta de Credito
+    num_tarjeta_credito = models.IntegerField(null=True)
+    nombre_titular_tarjeta = models.CharField(max_length=50, default='')
+    fecha_vencimiento_tarjeta = models.CharField(max_length=10, default='')
+    codigo_seguridad_tarjeta = models.IntegerField(null=True)
+    marca_tajeta = models.CharField(max_length=15, default='')
+    
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
