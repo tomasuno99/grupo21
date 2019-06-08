@@ -16,13 +16,13 @@ def product_detail(request,id):
    if residencia.is_deleted==False:
       related_products= Residencia.objects.filter(capacidad=residencia.capacidad).exclude(auto_id=id)
       fechas=[]
-      for fecha in Reserva.objects.filter(residenciaQuePertence=residencia).values('semana_del_año','auto_id', 'is_active'):
+      for fecha in Reserva.objects.filter(residenciaQuePertence=residencia).values('semana_del_año','auto_id', 'is_active','user'):
          try:
             subasta= Subasta.objects.get(reserva=fecha['auto_id'])
          except:
             subasta= None
          print(subasta)
-         fechas.append([fecha['auto_id'],((fecha['semana_del_año']).strftime('%d/%m/%Y')), fecha['is_active'],subasta])
+         fechas.append([fecha['auto_id'],((fecha['semana_del_año']).strftime('%d/%m/%Y')), fecha['is_active'],subasta,fecha['user']])
       context= {
          "residencia": residencia,
          "related_products": related_products,

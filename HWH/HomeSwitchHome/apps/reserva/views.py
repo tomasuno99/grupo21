@@ -4,7 +4,7 @@ from apps.reserva.models import Reserva,Subasta,Puja
 from datetime import datetime, timedelta
 from django.contrib import messages
 from django.db.models import Max
-
+from apps.usuarios.models import CustomUser
 # Create your views here.
 
 
@@ -87,3 +87,39 @@ def pujar(request):
    p = Puja()
    p.monto = montoAux
    p.save()
+
+
+def devolver_puja_maxima(pujas):
+   max=0
+   for puja in pujas:
+      if puja.monto > max:
+         max=puja.monto
+         pujamax=puja
+   return pujamax
+
+def chequear_disponibilidad_semana(user,semana):
+   reservas= Reserva.objects.filter(user=user)
+   for reserva in reservas:
+      if (reserva.semana_del_año == semana):
+         return False
+   return True
+
+def finalizar_subasta(request):
+   subasta= Subasta.objects.get(id=request.POST.get('subasta_id'))
+   pujas= Puja.objects.filter(subasta=subasta)
+   boolean=True
+   while boolean:
+      pujamax=devolver_puja_maxima(pujas)
+      user= CustomUser.objects.get(id=pujamax.user.id)
+      if user.semanas_disponibles > 0:
+         if chequear_disponibilidad_semana(user,subasta.reserva.semana_del_año):
+            user.semanas_disponibles=user.semanas_disponibles - 1
+            subasta.reserva.user= user
+            subasta.is_deleted=True
+            subasta.save()
+            user.save()
+            print("hola entre jejejeje")
+            return JsonResponse({"usuario": subasta.reserva.user.email}, safe=False)
+      else:
+         pujas.remove(pujamax)
+   return JsonResponse({},safe=False)

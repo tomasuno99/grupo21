@@ -12,11 +12,9 @@
 				<div class="wrap-slick3-dots"></div>
 
 				<div class="slick3">
-					<div class="item-slick3"
-						data-thumb="{{subasta.residencia.imagen}}">
+					<div class="item-slick3" data-thumb="{{subasta.residencia.imagen}}">
 						<div class="wrap-pic-w">
-							<img src="{{subasta.residencia.imagen}}"
-								alt="IMG-PRODUCT">
+							<img src="{{subasta.residencia.imagen}}" alt="IMG-PRODUCT">
 						</div>
 					</div>
 				</div>
@@ -32,12 +30,12 @@
 				Capacidad: {{subasta.residencia.capacidad}} Personas
 			</span>
 			<br>
-			<span class="m-text10">
+			<span id="monto_actual" class="m-text10">
 				Monto actual: {{puja.monto}}
 			</span>
 
 
-			<p class="s-text8 p-t-10">
+			<p id="texto_finaliza"class="s-text8 p-t-10">
 				Esta subasta finaliza el {{subasta.finalizacion}}
 			</p>
 
@@ -52,35 +50,36 @@
 					{% if request.user.is_staff %}
 					<div class="size9 trans-0-4 m-t-10 m-b-10">
 						<!-- Button -->
-						<a href=""
-							class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Finalizar</a>
+						<button id="finalizar" onclick="myFunction({{subasta.id}})"
+							class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Finalizar</button>
 					</div>
-                    {% else %}
-                    <div class="size9 trans-0-4 m-t-10 m-b-10">
+					{% else %}
+					<div class="size9 trans-0-4 m-t-10 m-b-10">
 						<!-- Button -->{% if request.user.is_authenticated %}
-							<form method='POST' action="{% url 'subasta_puja' subasta.id %}">
+						<form method='POST' action="{% url 'subasta_puja' subasta.id %}">
 							{% csrf_token %}
- 						 Ingresar Monto: 
-  					<input type="number" name="monto" value="0">
- 						<br>
- 					  <input type="submit" value="Submit">
-</form> 
-		{% for message in messages %}
+							Ingresar Monto:
+							<input type="number" name="monto" value="0">
+							<br>
+							<input type="submit" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4"
+								value="Submit">
+						</form>
+						{% for message in messages %}
 
-                    <div class="alert alert-danger">
-                        <a class="close" href="#" data-dismiss="alert">×</a>
+						<div class="alert alert-danger">
+							<a class="close" href="#" data-dismiss="alert">×</a>
 
-                        {{ message }}
+							{{ message }}
 
-                    </div>
-        {% endfor %}
+						</div>
+						{% endfor %}
 					</div>
 					{% endif%}
 					{% endif %}
 				</div>
 			</div>
 
-{% comment %} 
+			{% comment %}
 			<!--  -->
 			<div class="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content">
 				<h5 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
@@ -128,133 +127,163 @@
 			</div>
 		</div>
 		{% endcomment %}
-	</div> 
+	</div>
 
-</div >
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css"/>
- <div class= "container bgwhite p-t-35 p-b-80">
+</div>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css" />
+<div class="container bgwhite p-t-35 p-b-80">
 </div>
 
-	<!-- Relate Product -->
-	<section class="relateproduct bgwhite p-t-45 p-b-138">
-		<div class="container">
-			<div class="sec-title p-b-60">
-				<h3 class="m-text5 t-center">
-					Otras Subastas
-				</h3>
-			</div>
+<!-- Relate Product -->
+<section class="relateproduct bgwhite p-t-45 p-b-138">
+	<div class="container">
+		<div class="sec-title p-b-60">
+			<h3 class="m-text5 t-center">
+				Otras Subastas
+			</h3>
+		</div>
 
-			<!-- Slide2 -->
-			<div class="wrap-slick2">
-				<div class="slick2">
+		<!-- Slide2 -->
+		<div class="wrap-slick2">
+			<div class="slick2">
 
-					{% for prod in related_products %}
-					<div class="item-slick2 p-l-15 p-r-15">
-						<!-- Block2 -->
-						<div class="block2">
-							<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-								<img src="https://images.adsttc.com/media/images/5733/92ba/e58e/cee8/0800/004f/slideshow/02.jpg?1462997678"
-									alt="IMG-PRODUCT">
+				{% for prod in related_products %}
+				<div class="item-slick2 p-l-15 p-r-15">
+					<!-- Block2 -->
+					<div class="block2">
+						<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
+							<img src="https://images.adsttc.com/media/images/5733/92ba/e58e/cee8/0800/004f/slideshow/02.jpg?1462997678"
+								alt="IMG-PRODUCT">
 
-								<div class="block2-overlay trans-0-4">
-									<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
-										<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
-										<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
-									</a>
-
-									<div class="block2-btn-addcart w-size1 trans-0-4">
-										<!-- Button -->
-											<a href="{% url 'subasta' prod.id %}"
-												class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
-												Ver Mas
-											</a>
-
-									</div>
-								</div>
-							</div>
-
-							<div class="block2-txt p-t-20">
-								<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-									{{ prod.nombre }}
+							<div class="block2-overlay trans-0-4">
+								<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+									<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+									<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
 								</a>
 
+								<div class="block2-btn-addcart w-size1 trans-0-4">
+									<!-- Button -->
+									<a href="{% url 'subasta' prod.id %}"
+										class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+										Ver Mas
+									</a>
+
+								</div>
 							</div>
 						</div>
+
+						<div class="block2-txt p-t-20">
+							<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
+								{{ prod.nombre }}
+							</a>
+
+						</div>
 					</div>
-					{% endfor %}
 				</div>
+				{% endfor %}
 			</div>
-	</section>
-	</div>
-	{% endblock %}
-	{% block jsmas %}
-	<!-- Container Selection -->
-	<div id="dropDownSelect1"></div>
-	<div id="dropDownSelect2"></div>
-	<script src="{% static 'js/jquery-3.4.1.js' %}"></script>
-	
-	<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
-	
-	
- <script>$(document).ready(function () {
-    $.noConflict();
-    var table = $('#tableid').DataTable( {
+		</div>
+</section>
+</div>
+{% endblock %}
+{% block jsmas %}
+<!-- Container Selection -->
+<div id="dropDownSelect1"></div>
+<div id="dropDownSelect2"></div>
+<script src="{% static 'js/jquery-3.4.1.js' %}"></script>
 
-		"ordering": false});
-});</script>
-	<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
-	<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/animsition/js/animsition.min.js' %}"></script>
-	<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/bootstrap/js/popper.js' %}"></script>
-	<script type="text/javascript" src="{% static 'css/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
-	<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/select2/select2.min.js' %}"></script>
-	<script type="text/javascript">
-		$(".selection-1").select2({
-			minimumResultsForSearch: 20,
-			dropdownParent: $('#dropDownSelect1')
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+
+
+<script>
+	$(document).ready(function () {
+		$.noConflict();
+		var table = $('#tableid').DataTable({
+
+			"ordering": false
 		});
 
-		$(".selection-2").select2({
-			minimumResultsForSearch: 20,
-			dropdownParent: $('#dropDownSelect2')
-		});
-	</script>
-	<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/slick/slick.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/slick-custom.js' %}"></script>
-	<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/sweetalert/sweetalert.min.js' %}"></script>
 
-	{% comment %} <script type="text/javascript">
 
-		$('.block2-btn-addcart').each(function () {
-			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
-			$(this).on('click', function () {
-				swal(nameProduct, "is added to cart !", "success");
+
+
+	});
+</script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'css/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'css/vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'css/vendor/bootstrap/js/popper.js' %}"></script>
+<script type="text/javascript" src="{% static 'css/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'css/vendor/select2/select2.min.js' %}"></script>
+<script type="text/javascript">
+	$(".selection-1").select2({
+		minimumResultsForSearch: 20,
+		dropdownParent: $('#dropDownSelect1')
+	});
+
+	$(".selection-2").select2({
+		minimumResultsForSearch: 20,
+		dropdownParent: $('#dropDownSelect2')
+	});
+
+	function myFunction(id) {
+		var monto = confirm("Seguro que querés finalizar esta subasta?")
+		if (monto != null) {
+			var data = {
+				"subasta_id": id
+			}
+			$.ajax({
+				type: "POST",
+				headers: {
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				url: "{% url 'finalizar_subasta' %}",
+				data: data,
+				success: function (response) {
+					$("#monto_actual").text("Esta subasta la gano: "+response['usuario']);
+					$("#finalizar").hide();
+					$("#texto_finaliza").text("Subasta finalizada");
+				}
 			});
+		}
+	}
+</script>
+
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'css/vendor/slick/slick.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/slick-custom.js' %}"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'css/vendor/sweetalert/sweetalert.min.js' %}"></script>
+
+{% comment %} <script type="text/javascript">
+	$('.block2-btn-addcart').each(function () {
+		var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+		$(this).on('click', function () {
+			swal(nameProduct, "is added to cart !", "success");
 		});
+	});
 
-		$('.block2-btn-addwishlist').each(function () {
-			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
-			$(this).on('click', function () {
-				swal(nameProduct, "is added to wishlist !", "success");
-			});
+	$('.block2-btn-addwishlist').each(function () {
+		var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+		$(this).on('click', function () {
+			swal(nameProduct, "is added to wishlist !", "success");
 		});
+	});
 
-		$('.btn-addcart-product-detail').each(function () {
-			var nameProduct = $('.product-detail-name').html();
-			$(this).on('click', function () {
-				swal(nameProduct, "is added to wishlist !", "success");
-			});
+	$('.btn-addcart-product-detail').each(function () {
+		var nameProduct = $('.product-detail-name').html();
+		$(this).on('click', function () {
+			swal(nameProduct, "is added to wishlist !", "success");
 		});
-	</script> {% endcomment %}
+	});
+</script> {% endcomment %}
 
-	<!--===============================================================================================-->
-	<script src="{% static 'js/main.js' %}"></script>
-	</body>
+<!--===============================================================================================-->
+<script src="{% static 'js/main.js' %}"></script>
+</body>
 
-	</html>
-	{% endblock %}
+</html>
+{% endblock %}
