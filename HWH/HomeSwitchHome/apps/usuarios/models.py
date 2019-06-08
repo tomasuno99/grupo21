@@ -55,6 +55,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_premium = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
     semanas_disponibles = models.PositiveSmallIntegerField(default=2, blank=True, null=True)
+    fecha_nacimiento = models.CharField(max_length=15, default='')
+    tarjeta_credito = models.IntegerField(null=True)
+    dni = models.CharField(max_length=8, default=None, null=True)
+    nombre = models.CharField(max_length=30, default='')
+    apellido = models.CharField(max_length=60, default='')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

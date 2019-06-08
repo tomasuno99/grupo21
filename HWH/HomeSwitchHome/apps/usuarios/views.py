@@ -5,6 +5,7 @@ from .models import CustomUser
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.utils import timezone
+from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -47,15 +48,33 @@ def logout(request):
     return redirect('index')
 
 def user_register(request):
+    user = CustomUser()
+    context = baseContext()
+    context['user']: { 'usuario': user }
     if request.method == 'POST':
+        r = request.POST
+        user.nombre = r['firstName'] 
+        user.apellido = r['lastName']
+        user.fecha_nacimiento = r['birthDay']
+        user.email = r['email']
+        user.dni = r['dni']
+        # esto lo habia puesto para no perder los datos ante un error, pero no funciona
         try:
-            r = request.POST
-            usuario = CustomUser.objects.create(user=user, nombre=r['firstName'], apellido=r['lastName'], dni=r['dni'],
-                                             fechaDeNacimiento=r['birthDay'])
-
-            return render(request, 'listado_residencias.html')
+            
+            if int(r['birthDay'][-4:]) <= 2001:
+                if r['password'] == r['confirmPassword']:
+                    usuario = CustomUser.objects.create_user(email=r['email'], nombre=r['firstName'], apellido=r['lastName'], dni=r['dni'], fecha_nacimiento=r['birthDay'], password=r['password'])
+                    return HttpResponseRedirect('/listado_residencias')
+                else:
+                    messages.error(request,'Las contraseñas ingresadas no coinciden')
+                    return render(request,'registrar.html', context)    
+            else:
+                messages.error(request,'Debes ser mayor de edad para registrarte')
+                return render(request,'registrar.html', context)
         except IntegrityError:
-            context = {'error': 'Ese usuario ya esta registrado'}
+            messages.error(request, 'Ese Email ya esta registrado')
+            # context['error'] = {'mensaje': 'Ese usuario ya esta registrado'}
             return render(request, 'registrar.html', context)
-    
-    return HttpResponseRedirect('signin')
+    else:
+        return render(request,'registrar.html', context)
+    # return render(request, 'registrar.html')
