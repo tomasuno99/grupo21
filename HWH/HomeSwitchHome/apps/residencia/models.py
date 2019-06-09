@@ -25,6 +25,8 @@ class Residencia(models.Model):
     def getAuto_id(self):
         return self.auto_id
 
+    def __str__(self):
+        return self.nombre
 
 class Precio(models.Model):
     nombre=models.CharField(max_length=50, default='')

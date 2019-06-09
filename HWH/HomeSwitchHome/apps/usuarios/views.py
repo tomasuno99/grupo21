@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 import time
 from apps.residencia.models import Precio
+from apps.reserva.models import Reserva
 from django.http import JsonResponse
 def baseContext():
     return {
@@ -91,7 +92,8 @@ def user_register(request):
 
 def mostrar_perfil(request):
     clientes= CustomUser.objects.exclude(is_staff=True)
-    context= {'user': request.user, 'premium': Precio.objects.get(nombre="premium"), 'basico': Precio.objects.get(nombre="basico"), 'clientes': clientes}
+    context= {'user': request.user, 'premium': Precio.objects.get(nombre="premium"), 'basico': Precio.objects.get(nombre="basico"), 'clientes': clientes
+    , 'reservas': Reserva.objects.filter(user=request.user)}
     return render(request,'perfil.html', context)
 
 def modificar_precio_premium(request):
