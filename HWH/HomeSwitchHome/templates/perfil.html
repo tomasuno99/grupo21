@@ -65,8 +65,28 @@
 								class="btn btn-lg btn-dark btn-block">Modificar Datos de la Tarjeta</button>
 						<button id="cancelar_tarjeta" style="display: none; margin-top: 5px;" onclick="cancelar_editar_tarjeta()"
 							class="btn btn-lg btn-warning btn-block"> Cancelar</button>
-                </div>
+
+				<br></br>
+
+            	<div  class="form-row">
+				<div class="form-group col-md-6">
+                    <input id="contraseña" class="form-control readonly-contraseña" placeholder="Contraseña" type="password" name="fecha_vencimiento"
+                         value="111111111111"  readonly>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <input id="confirmarContraseña" class="form-control readonly-contraseña" placeholder="Contraseña" type="password" name="securityCode" 
+                        value="111111111111"   readonly>
+                  </div> 
+				</div>
+				<button id="confirmar_contraseña" style="" type="" onclick="admitir_editar_contraseña()"
+								class="btn btn-lg btn-dark btn-block">Modificar Contraseña</button>
+						<button id="cancelar_contraseña" style="display: none; margin-top: 5px;" onclick="cancelar_editar_contraseña()"
+							class="btn btn-lg btn-warning btn-block"> Cancelar</button>
+				
+				</div>
 				{% endif %}
+
+
 				<div class="col-sm-6 col-lg-6">
 					<div class="login-panel panel panel-default">
 						<div class="panel-heading">
@@ -104,8 +124,27 @@
 							</div>
 						<button id="confirmar" style="" type="" onclick="admitir_editar()"
 								class="btn btn-lg btn-dark btn-block">Modificar Perfil</button>
-						<button id="cancelar" style="display: none; margin: 2px;" onclick="cancelar_editar()"
+						<button id="cancelar" style="display: none; margin-top: 5px;" onclick="cancelar_editar()"
 							class="btn btn-lg btn-warning btn-block"> Cancelar</button>
+							            	<div  class="form-row">
+				<br></br>
+				{% if request.user.is_staff %}
+				<div style="margin-top: 50px " class="form-group col-md-6">
+                    <input id="contraseña" class="form-control readonly-contraseña" placeholder="Contraseña" type="password" name="fecha_vencimiento"
+                         value="111111111111"  readonly>
+                  </div>
+                  <div style="margin-top: 50px " class="form-group col-md-6">
+                    <input id="confirmarContraseña" class="form-control readonly-contraseña" placeholder="Contraseña" type="password" name="securityCode" 
+                        value="111111111111"   readonly>
+                  </div> 
+				</div>
+				<button id="confirmar_contraseña" style="" type="" onclick="admitir_editar_contraseña()"
+								class="btn btn-lg btn-dark btn-block">Modificar Contraseña</button>
+						<button id="cancelar_contraseña" style="display: none; margin-top: 5px;" onclick="cancelar_editar_contraseña()"
+							class="btn btn-lg btn-warning btn-block"> Cancelar</button>
+				
+				</div>
+				{% endif %}
 					</div>
 				</div>
 			</div>
@@ -189,6 +228,43 @@
 
 
 <script>
+
+function admitir_editar_contraseña() {
+		if ($(".readonly-contraseña").attr("readonly") === "readonly") {
+			$(".readonly-contraseña").attr("readonly", false)
+			$("#confirmar_contraseña").text("Confirmar")
+			$("#cancelar_contraseña").show();
+		} else {
+			console.log($("#dni").val());
+			$.ajax({
+				type: "POST",
+				headers: {
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				url: "{% url 'modificar_contraseña' %}",
+				data:  {
+					'contraseña': $("#contraseña").val(), 
+					'confirmar': $("#confirmarContraseña").val(), 
+					},
+				success: function (response) {
+					if (response['ok']=='ok'){
+						alert("La contraseña se actualizo correctamente")
+						$(location).attr('href',"{% url 'login' %}")
+					}
+
+					else{
+						alert("Error: "+ response['ok'])
+					}
+				}
+			});
+			$(".readonly-contraseña").attr("readonly", true)
+			$("#confirmar_contraseña").text("Modificar Contraseña");
+			$("#cancelar_contraseña").hide()
+
+		}
+	}
+
+
 function admitir_editar_tarjeta() {
 		if ($(".readonly-tarjeta").attr("readonly") === "readonly") {
 			$(".readonly-tarjeta").attr("readonly", false)
@@ -324,6 +400,12 @@ function cancelar_editar_tarjeta(){
 			$(".readonly-tarjeta").attr("readonly", true)
 			$("#confirmar_tarjeta").text("Modificar Datos de la Tarjeta");
 			$("#cancelar_tarjeta").hide()
+}
+
+function cancelar_editar_contraseña(){
+			$(".readonly-contraseña").attr("readonly", true)
+			$("#confirmar_contraseña").text("Modificar Contraseña");
+			$("#cancelar_contraseña").hide()
 }
 
 

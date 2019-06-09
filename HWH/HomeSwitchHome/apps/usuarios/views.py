@@ -180,3 +180,12 @@ def modificar_tarjeta(request):
 
 
     return JsonResponse({'ok':'ok'},safe=False)
+
+def modificar_contraseña(request):
+    if request.POST.get('contraseña')!= request.POST.get('confirmar'):
+        return JsonResponse({'ok':'Las contraseñas no coinciden'},safe=False)
+    usuario= CustomUser.objects.get(id=request.user.id)
+    usuario.set_password(request.POST.get('contraseña'))
+    usuario.save()
+
+    return JsonResponse({'ok':'ok'},safe=False)
