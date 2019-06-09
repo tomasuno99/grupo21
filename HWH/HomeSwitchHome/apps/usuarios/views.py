@@ -161,3 +161,22 @@ def modificar_perfil(request):
 
     usuario.save()
     return JsonResponse({'ok':'ok'},safe=False)
+
+def modificar_tarjeta(request):
+    if len(request.POST.get('tarjeta'))!= 16:
+        return JsonResponse({'ok': 'El numero de la tarjeta debe ser de 16 digitos'},safe=False)
+    if request.POST.get('vencimiento')[-2] < time.strftime("%d/%m/%y")[-2]:
+        return JsonResponse({'ok': 'La Tarjeta esta vencida'})
+    
+    usuario= CustomUser.objects.get(id=request.user.id)
+
+    usuario.num_tarjeta_credito=request.POST.get('tarjeta')
+    usuario.nombre_titular_tarjeta= request.POST.get('titular')
+    usuario.fecha_vencimiento_tarjeta= request.POST.get('vencimiento')
+    usuario.codigo_seguridad_tarjeta= request.POST.get('codigo-seguridad')
+    usuario.marca_tajeta= request.POST.get('marca')
+
+    usuario.save()
+
+
+    return JsonResponse({'ok':'ok'},safe=False)

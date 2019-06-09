@@ -12,4 +12,5 @@ urlpatterns = [
     path('cambiar_a_basico', views.cambiar_a_basico, name='cambiar_a_basico'),
     path('cambiar_a_premium', views.cambiar_a_premium, name='cambiar_a_premium'),
     path('modificar_perfil', views.modificar_perfil, name='modificar_perfil'),
+    path('modificar_tarjeta', views.modificar_tarjeta, name='modificar_tarjeta'),
 ]
