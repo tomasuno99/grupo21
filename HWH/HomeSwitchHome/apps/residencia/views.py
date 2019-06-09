@@ -1,6 +1,6 @@
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404, Http404
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Residencia
+from .models import Residencia, Precio
 from .forms import *
 from apps.reserva.models import Subasta, Reserva
 from django.views.generic import TemplateView, ListView
@@ -73,7 +73,7 @@ def crearReservas(residencia, creacion_r):
 def listado_residencias(request):
     residencias=Residencia.objects.filter(is_deleted=False)
     print(residencias)
-    context={'residencias': residencias}
+    context={'residencias': residencias, 'premium': Precio.objects.get(nombre="premium")}
     return render(request,'product.html',context)
 
 # def modificar_residencia(request, id):
