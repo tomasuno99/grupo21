@@ -153,7 +153,7 @@
 		
 			{% for fecha in fechas %}
 			<tr>
-				<td id="{{fecha.0 }}" value="{{fecha.1}}">Semana de {{ fecha.1 }} {% if not fecha.2%} {% if fecha.3%} - Reservada {% else %} - En Subasta {% endif %} {% endif %}</td>
+				<td id="{{fecha.0 }}" value="{{fecha.1}}">Semana de {{ fecha.1 }} {% if not fecha.2%} {% if fecha.4%} - Reservada {% else %} - En Subasta {% endif %} {% endif %}</td>
 				{% if request.user.is_authenticated %}
 				<td>
 					{% if request.user.is_staff %}
@@ -163,10 +163,17 @@
 						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Subastar esta semana</button>
 					{% endif %}
 					{% else %}
-					{% if not fecha.2%}
+					{% if not fecha.2 and not fecha.4%}
 					<a href="{% url 'subasta' fecha.3.id %}" {% comment %}
 						onclick="document.getElementById('answer').value=monto();" {% endcomment %}
-						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Pujar en esta semana</a>
+						class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4">Pujar en esta semana</a>
+					{% else %}
+					{% if fecha.2 and request.user.is_premium %}
+					<button id="boton_reserva{{fecha.0}}"
+						onclick="reservar_semana({{fecha.0}})"
+						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Reservar esta semana</button>
+
+					{% endif %}
 					{% endif %}
 					{% endif %}
 				</td>
@@ -257,7 +264,35 @@
 </script>
 
 	<script>
+			function reservar_semana(id){
+					var vf = confirm("Seguro que quiere reservar esta semana?")
+					if (vf){
+					$.ajax({
+						type: "POST",
+						headers: {'X-CSRFToken': '{{ csrf_token }}'},
+						url: "{% url 'reservar_residencia' %}",
+						data: {'id_reserva': id},
+						success: function (response) {
+							console.log("hola")
+							if(response['ok'] =='ok'){
+								alert("La Semana fue reservada correctamente!")
+								$("#boton_reserva"+id).hide();
+								$("#"+id).text("Semana de "+ $("#"+id).attr('value') +" - Reservada")
+							}
+							else{
+								if(response['ok']=='semanas'){
+									alert("No tenés mas semanas disponibles!")
+								}
+								else{
+									alert("Tenes la semana seleccionada ocupada con otra reserva!")
+								}
+							}
+						}
+					});
 
+				}
+
+			}
   
 			function myFunction(id) {
   			var monto = prompt("'Seguro que queres subastar la semana del {{ fecha.1 }}?'                           Ingresa el monto minimo", "0");	

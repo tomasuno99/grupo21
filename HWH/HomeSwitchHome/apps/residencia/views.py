@@ -1,14 +1,16 @@
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404, Http404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from .models import Residencia, Precio
 from .forms import *
 from apps.reserva.models import Subasta, Reserva
+from apps.reserva.views import chequear_disponibilidad_semana
 from django.views.generic import TemplateView, ListView
 from django.template import RequestContext, loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime, timedelta
 from django.contrib import messages
 from django.db.models import Q
+from apps.usuarios.models import CustomUser
 # Create your views here.
 
 def product_detail(request,id):
@@ -155,4 +157,23 @@ def lunes(residencia_fecha):
    while((dicdias[residencia_fecha.strftime('%A').upper()])!= 'Lunes'):
       residencia_fecha=residencia_fecha + timedelta(days=1)
    return residencia_fecha
+
+def reservar_residencia(request):
+   reserva=Reserva.objects.get(auto_id=request.POST.get('id_reserva'))
+   if request.user.semanas_disponibles > 0:
+      if chequear_disponibilidad_semana(request.user,reserva.semana_del_año):
+         print("hola")
+         reserva.user= request.user
+         reserva.is_active=False
+         reserva.save()
+
+         user= CustomUser.objects.get(id=request.user.id)
+         user.semanas_disponibles= user.semanas_disponibles - 1
+         user.save()
+         return JsonResponse({'ok':'ok'},safe=False)
+      else:
+         return JsonResponse({'ok':'semanaocupada'})
+   else:
+      return JsonResponse({'ok':'semanas'})
+   return JsonResponse({'ok':'notok'},safe=False)
       

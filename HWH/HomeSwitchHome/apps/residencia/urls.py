@@ -14,4 +14,5 @@ urlpatterns = [
     path('listado_subastas/', listado_subastas, name='listado_subastas'),
     path('index/', views.mostrar_index, name='index'),
     path('finalizar_subasta/', finalizar_subasta, name='finalizar_subasta' ),
+    path('reservar_residencia/', views.reservar_residencia, name='reservar_residencia' ),
 ]
