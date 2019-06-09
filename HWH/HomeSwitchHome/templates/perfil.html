@@ -40,50 +40,38 @@
 							<h3 class="panel-title" align="center">Mi Perfil</h3>
 							<br>
 						</div>
-						<form method="POST">{% csrf_token %}
 							<div class="form-group">
 								<label for="formGroupExampleInput">Nombre: </label>
-								<input readonly class="form-control readonly" type="text" class="form-control"
+								<input id="nombre" readonly class="form-control readonly" type="text" class="form-control"
 									name="nombre" value={{user.nombre}}>
 							</div>
 							<div class="form-group">
 								<label for="formGroupExampleInput2">Apellido: </label>
-								<input readonly class="form-control readonly" type="number" min="0" class="form-control"
+								<input id="apellido" readonly class="form-control readonly" type="text" min="0" class="form-control"
 									name="apellido" value={{user.apellido}}>
-								<small id="passwordHelpBlock" class="form-text text-muted">
+							</div>
+							<div class="form-group">
+								<label for="formGroupExampleInput">DNI: </label>
+								<input id="dni" readonly class="form-control readonly" type="number" class="form-control"
+									name="dni" value={{user.dni}}>
+										<small id="passwordHelpBlock" class="form-text text-muted">
 									Solo se admiten valores numericos.
 								</small>
 							</div>
 							<div class="form-group">
-								<label for="formGroupExampleInput">DNI: </label>
-								<input readonly class="form-control readonly" type="text" class="form-control"
-									name="dni" value={{user.dni}}>
-							</div>
-							<div class="form-group">
 								<label for="formGroupExampleInput">Fecha de nacimiento: </label>
-								<input readonly class="form-control readonly" type="text" class="form-control" name="fn"
-									value="{{user.fecha_nacimiento}}">
+								<input id="fn" readonly class="form-control readonly" type="date" class="form-control" name="fn"
+									value="{{año}}-{{mes}}-{{dia}}">
 							</div>
 							<div class="form-group">
 								<label for="formGroupExampleInput">E-Mail: </label>
-								<input readonly class="form-control readonly" type="text" class="form-control"
+								<input id="email" readonly class="form-control readonly" type="email" class="form-control"
 									name="email" value="{{ user.email}}">
 							</div>
-							{% for message in messages %}
-
-							<div class="alert alert-danger">
-								<a class="close" href="#" data-dismiss="alert">×</a>
-
-								{{ message }}
-
-							</div>
-							{% endfor %}
-							<button id="confirmar" style="display: none;" type=""
-								class="btn btn-lg btn-warning btn-block">Confirmar</button>
-
-						</form>
-						<button id="boton" style="margin: 1px;" onclick="admitir_editar()"
-							class="btn btn-lg btn-dark btn-block"> Modificar Perfil</button>
+						<button id="confirmar" style="" type="" onclick="admitir_editar()"
+								class="btn btn-lg btn-dark btn-block">Modificar Perfil</button>
+						<button id="cancelar" style="display: none; margin: 2px;" onclick="cancelar_editar()"
+							class="btn btn-lg btn-warning btn-block"> Cancelar</button>
 					</div>
 				</div>
 			</div>
@@ -167,7 +155,41 @@
 
 
 <script>
+function admitir_editar() {
+		if ($(".readonly").attr("readonly") === "readonly") {
+			$(".readonly").attr("readonly", false)
+			$("#confirmar").text("Confirmar")
+			$("#cancelar").show();
+		} else {
+			console.log($("#dni").val());
+			$.ajax({
+				type: "POST",
+				headers: {
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				url: "{% url 'modificar_perfil' %}",
+				data:  {
+					'nombre': $("#nombre").val(), 
+					'apellido': $("#apellido").val(), 
+					'dni': $("#dni").val(), 
+					'fechanacimiento': $("#fn").val(), 
+					'email': $("#email").val() 
+					},
+				success: function (response) {
+					if (response['ok']=='ok'){
+						alert("Los datos se actualizaron correctamente")
+					}
+					else{
+						alert("Error: "+ response['ok'])
+					}
+				}
+			});
+			$(".readonly").attr("readonly", true)
+			$("#confirmar").text("Modificar Perfil");
+			$("#cancelar").hide()
 
+		}
+	}
 	function cambiar_a_basico(id,email) {
 		var vf= confirm("Seguro que queres pasar a Plan Basico a "+ email+ " ?");
 		if (vf){
@@ -219,20 +241,16 @@
 
 			"ordering": false
 		});
+		
 	});
 
-function admitir_editar() {
-		if ($(".readonly").attr("readonly") === "readonly") {
-			$(".readonly").attr("readonly", false)
-			$("#confirmar").show()
-			$("#boton").text("Cancelar");
-		} else {
-			$(".readonly").attr("readonly", true)
-			$("#boton").text("Modificar Perfil");
-			$("#confirmar").hide()
+function cancelar_editar(){
+				$(".readonly").attr("readonly", true)
+			$("#confirmar").text("Modificar Perfil");
+			$("#cancelar").hide()
+}
 
-		}
-	}
+
 
 function modificar_basico() {
 		if ($(".readonly-basico").attr("readonly") === "readonly") {

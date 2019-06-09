@@ -58,6 +58,7 @@ def user_register(request):
         user.nombre = r['firstName'] 
         user.apellido = r['lastName']
         user.fecha_nacimiento = r['birthDay']
+        print(r['birthDay'])
         user.email = r['email']
         user.dni = r['dni']
         # esto lo habia puesto para no perder los datos ante un error, pero no funciona
@@ -93,7 +94,10 @@ def user_register(request):
 def mostrar_perfil(request):
     clientes= CustomUser.objects.exclude(is_staff=True)
     context= {'user': request.user, 'premium': Precio.objects.get(nombre="premium"), 'basico': Precio.objects.get(nombre="basico"), 'clientes': clientes
-    , 'reservas': Reserva.objects.filter(user=request.user)}
+    , 'reservas': Reserva.objects.filter(user=request.user),
+    'dia': request.user.fecha_nacimiento[:2],
+    'mes': request.user.fecha_nacimiento[3:5],
+    'año': request.user.fecha_nacimiento[6:]}
     return render(request,'perfil.html', context)
 
 def modificar_precio_premium(request):
@@ -132,3 +136,28 @@ def cambiar_a_premium(request):
     cliente.save()
 
     return JsonResponse({},safe=False)
+
+def modificar_perfil(request):
+    dia=(request.POST.get('fechanacimiento')[8:]+ '/')
+    mes=(request.POST.get('fechanacimiento')[5:7] + '/')
+    año=(request.POST.get('fechanacimiento')[:4])
+    fecha= dia+mes+año
+
+    usuarios= CustomUser.objects.exclude(id=request.user.id)
+    
+    for usuario in usuarios:
+        if request.POST.get('email') == usuario.email:
+            return JsonResponse({'ok':'Ya existe una cuenta con ese Mail'}, safe=False)
+    if int(año) >= 2001:
+        return JsonResponse({'ok': 'Tiene que ser mayor de 18 años'})
+    
+    usuario= CustomUser.objects.get(id=request.user.id)
+
+    usuario.nombre= request.POST.get('nombre')
+    usuario.apellido= request.POST.get('apellido')
+    usuario.dni= request.POST.get('dni')
+    usuario.email= request.POST.get('email')
+    usuario.fecha_nacimiento= fecha
+
+    usuario.save()
+    return JsonResponse({'ok':'ok'},safe=False)
