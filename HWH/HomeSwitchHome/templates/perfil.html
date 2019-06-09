@@ -93,13 +93,45 @@
 		</div>
 		<br>
 	</section>
+	
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css" />
+	<div class="container bg6  p-t-35 p-b-80">
+	<table id="tableid" class="display">
+		<thead>
+			<tr>
+				<th>Listado de Clientes</th>
+			</tr>
+		</thead>
+		<tbody>		
+			{% for cliente in clientes %}
+			<tr>
+				<td id="" value="">{{cliente.email}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
 </body>
 
 {% endblock %}
 {% block jsmas %}
+<script src="{% static 'js/jquery-3.4.1.js' %}"></script>
+
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+
 
 <script>
+	$(document).ready(function () {
+		$.noConflict();
+		var table = $('#tableid').DataTable({
 
+			"ordering": false
+		});
+	});
+
+
+
+</script>
 
 	function admitir_editar() {
 		if ($(".readonly").attr("readonly") === "readonly") {

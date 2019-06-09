@@ -90,7 +90,8 @@ def user_register(request):
     # return render(request, 'registrar.html')
 
 def mostrar_perfil(request):
-    context= {'user': request.user, 'premium': Precio.objects.get(nombre="premium"), 'basico': Precio.objects.get(nombre="basico")}
+    clientes= CustomUser.objects.exclude(is_staff=True)
+    context= {'user': request.user, 'premium': Precio.objects.get(nombre="premium"), 'basico': Precio.objects.get(nombre="basico"), 'clientes': clientes}
     return render(request,'perfil.html', context)
 
 def modificar_precio_premium(request):
