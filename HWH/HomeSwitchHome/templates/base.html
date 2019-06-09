@@ -260,11 +260,33 @@
 				<div class="w-size8 p-t-30 p-l-15 p-r-15 respon3">
 
 					<div class="w-size4 p-t-20">
-						{% if request.user.is_premium %}
+						{% if not request.user.is_premium %}
 						<!-- Button -->
-						<button class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4" onclick="cargar()">
+						<button class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4" data-toggle="modal" data-target="#modalPremium" href="location.reload();">
 							Quiero ser premium
 						</button>
+						<div class="modal fade" id="modalPremium" tabindex="-1" role="dialog"
+								aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											El precio para volverse premium es de {{premium.precio}} pesos, llamanos al <b>(+54) 221-455-0303</b>, envia una solicitud a <b>premium@homeswitchhome.com</b>, o acercate a una de <b>nuestras oficinas</b> y un encargado te guiara por el proceso. 
+										</div>
+										<div class="modal-footer">
+											{% comment %} <button type="button" class="btn btn-secondary"
+												data-dismiss="modal">Close</button> {% endcomment %}
+											<button type="button" class="btn btn-primary"
+												data-dismiss="modal">Cerrar</button>
+										</div>
+									</div>
+								</div>
+							</div>
 						{% endif %}
 					</div>
 				</div>

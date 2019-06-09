@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from django.contrib import messages
 from django.db.models import Max
 from apps.usuarios.models import CustomUser
+from apps.residencia.models import Precio
 # Create your views here.
 
 
@@ -30,7 +31,7 @@ def publicarSubasta(request):
 
 def listado_subastas(request):
     subastas=Subasta.objects.all()
-    context={'subastas': subastas}
+    context={'subastas': subastas, 'premium':Precio.objects.get(nombre='premium')}
     return render(request,'subastas.html',context)
 
 def subasta_detail(request,id):
