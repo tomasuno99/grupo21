@@ -157,46 +157,46 @@
                       value={{user.usuario.dni}}>
                   </div>
                   <div class="form-group col-md-6">
-                    <input id="dob" class="form-control" placeholder="Fecha de nacimiento" type="text" name="birthDay"
-                      required value={{user.usuario.fecha_nacimiento}}>
+                    <input id="dob" class="form-control" placeholder="Fecha de nacimiento" type="text"
+                         name="birthDay" required value={{user.usuario.fecha_nacimiento}} > 
+                </div>
+                <div class="form-group col-md-6">
+                  <input id="id_password" class="form-control" placeholder="Contrase&ntilde;a" name="password"
+                         type="password" pattern=".{8,}" required title="Minimo 8 caracteres">
+                </div>
+                <div class="form-group col-md-6">
+                  <input id="id_confirmPassword" class="form-control" placeholder="Confirmar contrase&ntilde;a"
+                         name="confirmPassword" type="password" required>
+                </div>
+                <br>
+                <div class="panel-heading">
+                <h4 class="panel-title" align="center"> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  Datos de tarjeta de credito </h4>
+                </div>
+                <br>
+                <br>
+                <div class="form-row">
+                  <div class="form-group col-md-9">
+                    <input id="id_cardNumber" class="form-control" placeholder="Numero de Tarjeta" type="number" name="numero_tarjeta" required value=""
+                           >
+                  </div>
+                  <div class="form-group col-md-3">
+                    <input class="form-control" placeholder="Marca" type="text" name="cardBrand" required value=""
+                           >
+>>>>>>> 851f5f22592d5d8fe05eeb7da2f8e73c3b822315
                   </div>
                   <div class="form-group col-md-6">
-                    <input id="id_password" class="form-control" placeholder="Contrase&ntilde;a" name="password"
-                      type="password" pattern=".{8,}" required title="Minimo 8 caracteres">
+                    <input class="form-control" placeholder="Fecha de vencimiento" type="" name="fecha_vencimiento" required value=""
+                           >
                   </div>
                   <div class="form-group col-md-6">
-                    <input id="id_confirmPassword" class="form-control" placeholder="Confirmar contrase&ntilde;a"
-                      name="confirmPassword" type="password" required>
-                  </div>
-                  <br>
-                  <div class="panel-heading">
-                    <h4 class="panel-title" align="center"> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Datos de tarjeta
-                      de credito </h4>
-                  </div>
-                  <br>
-                  <br>
-                  <div class="form-row">
-                    <div class="form-group col-md-9">
-                      <input class="form-control" placeholder="Numero de Tarjeta" type="number" name="numero_tarjeta"
-                        required value="">
-                    </div>
-                    <div class="form-group col-md-3">
-                      <input class="form-control" placeholder="Marca" type="text" name="" required value="">
-                    </div>
-
-                    <div class="form-group col-md-6">
-                      <input class="form-control" placeholder="Fecha de vencimiento" type="" name="firstName" required
-                        value="">
-                    </div>
-                    <div class="form-group col-md-6">
-                      <input class="form-control" placeholder="Codigo de seguridad" type="" name="lastName" required
-                        value="">
-                    </div>
-                    <div class="form-group col-md-12">
-                      <input class="form-control" placeholder="Nombre del titular" name="" type="email" required
-                        value="">
-                    </div>
-                  </div>
+                    <input class="form-control" placeholder="Codigo de seguridad" type="" name="securityCode" required value=""
+                           >
+                  </div> 
+                  <div class="form-group col-md-12">
+                  <input class="form-control" placeholder="Nombre del titular" name="nombre_tarjeta" type="" required value=""
+                  >
+                </div>
+                </div>
 
                 </div>
 
@@ -240,6 +240,30 @@
   });
 </script>
 
+    <script>
+    $('#id_cardNumber').on('keyup', function(){
+        if($(this).val().length != 16) 
+            $('#pwdAlert').show().html('el numero de tarjeta debe tener 16 digitos');
+        else
+          $('#pwdAlert').hide();
+    });
+    </script>
+
+    
+    <script type="text/javascript">
+           $('#dob').datepicker({
+            onSelect: function(value, ui) {
+                var today = new Date(), 
+                    age = today.getFullYear() - ui.selectedYear;
+                if(age >= 18)
+                    $('#age').text("User is 18 years old");
+                else
+                    $('#age').text("User is 18 not years old");
+            },
+            maxDate: '+0d',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '-110:-0'
 
 <script type="text/javascript">
   $('#dob').datepicker({
@@ -260,4 +284,18 @@
 </script>
 
 
+
+
+       {% comment %} $(document).ready(function() {
+            var age = "";
+            $('#dob').datepicker({
+                onSelect: function(value, ui) {
+                    var today = new Date();
+                    age = today.getFullYear() - ui.selectedYear;
+                    $('#age').val(age);
+                },
+                changeMonth: true,
+                changeYear: true
+            })
+        }) {% endcomment %}
 {% endblock %}
