@@ -122,6 +122,10 @@ def finalizar_subasta(request):
    print("hola")
    while boolean:
       pujamax=devolver_puja_maxima(pujas)
+      if not pujamax.user:
+         subasta.is_deleted=True
+         subasta.save()
+         return JsonResponse({'usuario': 'usuario','msj': 'No pudo asignarse la reserva a ningun Usuario'}, safe=False)
       user= CustomUser.objects.get(id=pujamax.user.id)
       if user.semanas_disponibles > 0:
          if chequear_disponibilidad_semana(user,subasta.reserva.semana_del_año):

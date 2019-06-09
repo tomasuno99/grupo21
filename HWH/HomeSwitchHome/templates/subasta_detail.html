@@ -243,9 +243,18 @@
 				url: "{% url 'finalizar_subasta' %}",
 				data: data,
 				success: function (response) {
+					if(response['usuario'] != 'usuario'){
+
+					
 					$("#monto_actual").text("Esta subasta la gano: "+response['usuario']);
 					$("#finalizar").hide();
 					$("#texto_finaliza").text("Subasta finalizada");
+					}
+					else{
+						$("#monto_actual").text("No hubo ganador. "+ response['msj']);
+						$("#finalizar").hide();
+						$("#texto_finaliza").text("Subasta finalizada");
+					}
 				}
 			});
 		}
