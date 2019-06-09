@@ -93,34 +93,101 @@
 		</div>
 		<br>
 	</section>
-	
+	{% if user.is_staff and not user.is_premium %}
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css" />
 	<div class="container bg6  p-t-35 p-b-80">
 	<table id="tableid" class="display">
 		<thead>
 			<tr>
 				<th>Listado de Clientes</th>
+				<th><th>
 			</tr>
 		</thead>
 		<tbody>		
 			{% for cliente in clientes %}
 			<tr>
-				<td id="" value="">{{cliente.email}}</td>
+				<td id="cliente{{cliente.id}}" value="">{{cliente.email}}  -  {% if not cliente.is_premium %}Plan Basico {% else %} Plan Premium {% endif %}</td>
+				<td>
+								{% if not cliente.is_premium %}
+				<button id="cambiar_premium{{cliente.id}}" onclick="cambiar_a_premium('{{cliente.id}}','{{cliente.email}}')" class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+				Cambiar a Plan Premium</button>
+				<button id="cambiar_basico{{cliente.id}}" style="display: none;" onclick="cambiar_a_basico('{{cliente.id}}','{{cliente.email}}')" class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+				Cambiar a Plan Basico</button>
+				{% else %}
+				<button id="cambiar_premium{{cliente.id}}" style="display: none;" onclick="cambiar_a_premium('{{cliente.id}}','{{cliente.email}}')" class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+				Cambiar a Plan Premium</button>
+				<button id="cambiar_basico{{cliente.id}}" onclick="cambiar_a_basico('{{cliente.id}}','{{cliente.email}}')" class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+				Cambiar a Plan Basico</button>
+				
+
+				{% endif %}
+				<td>
 			</tr>
 			{% endfor %}
 		</tbody>
 	</table>
 </div>
 </body>
-
+{% endif %}
 {% endblock %}
 {% block jsmas %}
+
+
+
 <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
 
 <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
 
 
+
+
 <script>
+
+	function cambiar_a_basico(id,email) {
+		var vf= confirm("Seguro que queres pasar a Plan Basico a "+ email+ " ?");
+		if (vf){
+		$.ajax({
+			type: "POST",
+			url: "{% url 'cambiar_a_basico' %}",
+			headers: {
+				'X-CSRFToken': '{{ csrf_token }}'
+			},
+			data: {'id_cliente' : id},
+			success: function (response) {
+				$("#cliente"+id).text(email + " - Plan Basico");
+				$("#cambiar_basico"+id).hide();
+				$("#cambiar_premium"+id).show();
+				
+				
+			}
+		});
+		}
+
+	}
+
+
+		function cambiar_a_premium(id,email) {
+		var vf= confirm("Seguro que queres pasar a Plan Premium a "+ email+ " ?");
+		if (vf){
+		$.ajax({
+			type: "POST",
+			url: "{% url 'cambiar_a_premium' %}",
+			headers: {
+				'X-CSRFToken': '{{ csrf_token }}'
+			},
+			data: {'id_cliente' : id},
+			success: function (response) {
+				$("#cliente"+id).text(email + " - Plan Premium");
+				$("#cambiar_premium"+id).hide();
+				$("#cambiar_basico"+id).show();
+			}
+		});
+		}
+
+	}
+
+
+
 	$(document).ready(function () {
 		$.noConflict();
 		var table = $('#tableid').DataTable({
@@ -199,6 +266,8 @@ function modificar_premium() {
 	}
 
 
+
+
 </script>
 
 
@@ -261,6 +330,9 @@ $(document).ready(function () {
 			$("#basico").text("Modificar Precio Basico");
 		
 		});
+
+
+
 });
 
 </script>
