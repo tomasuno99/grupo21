@@ -112,3 +112,21 @@ def modificar_precio_basico(request):
     precio.save()
 
     return JsonResponse({},safe=False)
+
+def cambiar_a_basico(request):
+    cliente= CustomUser.objects.get(id= request.POST.get('id_cliente'))
+
+    cliente.is_premium=False
+
+    cliente.save()
+
+    return JsonResponse({},safe=False)
+
+def cambiar_a_premium(request):
+    cliente= CustomUser.objects.get(id= request.POST.get('id_cliente'))
+
+    cliente.is_premium=True
+
+    cliente.save()
+
+    return JsonResponse({},safe=False)
