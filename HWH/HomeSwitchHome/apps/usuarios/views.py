@@ -138,6 +138,8 @@ def cambiar_a_premium(request):
     return JsonResponse({},safe=False)
 
 def modificar_perfil(request):
+    if (request.POST.get('nombre') == "" or request.POST.get('apellido') == "" or request.POST.get('fechanacimiento') == "" or request.POST.get('dni') == "" or request.POST.get('email') == ""):
+        return JsonResponse({'ok': 'Debe rellenar todos los campos'},safe=False)
     dia=(request.POST.get('fechanacimiento')[8:]+ '/')
     mes=(request.POST.get('fechanacimiento')[5:7] + '/')
     año=(request.POST.get('fechanacimiento')[:4])
@@ -163,11 +165,16 @@ def modificar_perfil(request):
     return JsonResponse({'ok':'ok'},safe=False)
 
 def modificar_tarjeta(request):
+    if (request.POST.get('tarjeta') == "" or request.POST.get('titular') == "" or request.POST.get('vencimiento') == "" or request.POST.get('codigo-seguridad') == "" or request.POST.get('marca') == ""):
+        return JsonResponse({'ok': 'Debe rellenar todos los campos'},safe=False)
     if len(request.POST.get('tarjeta'))!= 16:
         return JsonResponse({'ok': 'El numero de la tarjeta debe ser de 16 digitos'},safe=False)
     if request.POST.get('vencimiento')[-2] < time.strftime("%d/%m/%y")[-2]:
         return JsonResponse({'ok': 'La Tarjeta esta vencida'})
     
+    if len(request.POST.get('vencimiento')) != 5:
+        return JsonResponse({'ok':'Ingrese el vencimiento de forma correcta'}, safe=False)
+
     usuario= CustomUser.objects.get(id=request.user.id)
 
     usuario.num_tarjeta_credito=request.POST.get('tarjeta')
@@ -182,6 +189,8 @@ def modificar_tarjeta(request):
     return JsonResponse({'ok':'ok'},safe=False)
 
 def modificar_contraseña(request):
+    if request.POST.get('contraseña') == "" or request.POST.get('confirmar')=="":
+        return JsonResponse({'ok':'Debe completar todos los campos'},safe=False)
     if request.POST.get('contraseña')!= request.POST.get('confirmar'):
         return JsonResponse({'ok':'Las contraseñas no coinciden'},safe=False)
     usuario= CustomUser.objects.get(id=request.user.id)
