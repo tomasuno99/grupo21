@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect, Http404, redirect
+from django.shortcuts import render, HttpResponseRedirect, Http404, redirect, HttpResponse
 from django.contrib.auth import logout as __logout, login as __login, authenticate
 from django.contrib.auth.models import User
 from .models import CustomUser
@@ -78,3 +78,7 @@ def user_register(request):
     else:
         return render(request,'registrar.html', context)
     # return render(request, 'registrar.html')
+
+def mostrar_perfil(request):
+    context= {'user': request.user}
+    return render(request,'perfil.html', context)

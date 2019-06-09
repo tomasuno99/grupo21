@@ -63,13 +63,16 @@
 							<a href="index.html"> Residencias</a>
 							<ul class="sub_menu">
 								<li><a href="{% url 'listado_residencias' %}">Residencias disponibles</a></li>
+								{% if user.is_authenticated %}
 								<li><a href="{% url 'listado_subastas' %}">Subastas</a></li>
+								{% endif %}
 							</ul>
 						</li>
 						{% if user.is_authenticated %}
 						{% if not user.is_staff %}
 						<li>
-							<a data-toggle="modal" data-target="#exampleModal" href="location.reload();"> Mis Reservas</a>
+							<a data-toggle="modal" data-target="#exampleModal" href="location.reload();"> Mis
+								Reservas</a>
 							<!-- Modal -->
 							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
 								aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -96,8 +99,10 @@
 
 						</li>
 						{% endif %} {% endif %}
+						
 						<li class="sale-noti">
-							<a data-toggle="modal" data-target="#exampleModal" href="location.reload();"> Sobre Nosostros</a>
+						{% if user.is_authenticated %}
+							<a href="{% url 'mostrar_perfil' %}"> Mi Perfil</a>
 							<!-- Modal -->
 							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
 								aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -120,15 +125,19 @@
 										</div>
 									</div>
 								</div>
-							</div>
-
+								{% else %}
+									<a data-toggle="modal" data-target="#exampleModal" href="location.reload()"> Sobre Nosotros</a>
+								
+							{% endif %}
+							
 						</li>
 						</li>
 
-					
+
 
 						<li>
-							<a data-toggle="modal" data-target="#exampleModal" href="location.reload();"> Contáctanos</a>
+							<a data-toggle="modal" data-target="#exampleModal" href="location.reload();">
+								Contáctanos</a>
 							<!-- Modal -->
 							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
 								aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -161,21 +170,21 @@
 			<!-- Header Icon -->
 			<div class="header-icons">
 				{% if user.is_authenticated %}
-					{% if user.is_staff  %}
-					<div>
-						<a href="{% url 'agregar' %}">+Agregar Residencia</a>
+				{% if user.is_staff  %}
+				<div>
+					<a href="{% url 'agregar' %}">+Agregar Residencia</a>
 
-						<a href="{% url 'switchStaff'%}">Cambiar a user normal</a>
-					</div>
-					{% else %}
-						<a href="{% url 'switchStaff' %}">Cambiar a user staff</a>
+					<a href="{% url 'switchStaff'%}">Cambiar a user normal</a>
+				</div>
+				{% else %}
+				<a href="{% url 'switchStaff' %}">Cambiar a user staff</a>
 				{% endif %}
 				{% else %}
 				<div>
 					<a href="{% url 'login' %}">Loguearme</a>
-				</div> 
+				</div>
 				<div><a href="{% url 'registrar' %}" style="margin: 10px">Registrarse</a>
-</div>				{% endif %}
+				</div> {% endif %}
 			</div>
 			<div>
 				{% if not user.is_authenticated %}

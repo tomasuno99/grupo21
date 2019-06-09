@@ -3,64 +3,101 @@
 
 {% block body%}
 <body class="agregar_residencia" style="background-color:LightGrey;">
+<section class="bggrey p-t-66 p-b-60">
   <div class="container">
     <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-sm-12 col-lg-5">
+
+    <div class="col-md-6 p-b-30">
+        {% if user.is_staff and not user.is_premium %}
+					<div class="p-r-20 p-r-0-lg">
+						<div class="contact-map size2" >  <button id="boton" style="margin-top: 150px;"onclick= "admitir_editar()" class="btn btn-lg btn-dark btn-block"> Modificar Precio Premium</button></div>
+                        <div class="contact-map size2" >  <button id="boton" style="margin-top: 150px;"onclick= "admitir_editar()" class="btn btn-lg btn-dark btn-block"> Modificar Precio Normal</button></div>
+					</div>
+				</div>
+        {% endif %}
+
+      <div class="col-sm-6 col-lg-6">
         <div class="login-panel panel panel-default">
           <div class="panel-heading">
             <br>
-            <h3 class="panel-title" align="center">Ingrese los datos de la Residencia</h3>
+            <h3 class="panel-title" align="center">Mi Perfil</h3>
             <br>
           </div>
-    <form method="POST">{% csrf_token %}
-		<div class="form-group">
-			<label for="formGroupExampleInput">Nombre: </label>
-			<input class="form-control type="text" class="form-control" name="nombre"  value={{residencia.nombre}}>
-		</div>
-		<div class="form-group">
-			<label for="formGroupExampleInput2">Capacidad: </label>
-			<input class="form-control" type="number" min="0" class="form-control" name="capacidad" value={{residencia.capacidad}}>
-			<small id="passwordHelpBlock" class="form-text text-muted">
-					Solo se admiten valores numericos.
-			</small>
-		</div>
-		<div class="form-group">
-			<label for="formGroupExampleInput">Link: </label>
-			<input class="form-control" type="text" class="form-control" name="imagen" value={{residencia.imagen}}>
-		</div>
-		<div class="form-group">
-			<label for="formGroupExampleInput">Direccion: </label>
-			<input class="form-control" type="text" class="form-control" name="direccion" value={{residencia.direccion}}>
-		</div>
-		<div class="form-group">
-			<label for="formGroupExampleInput">Localidad: </label>
-			<input class="form-control" type="text" class="form-control" name="localidad" value={{residencia.localidad}}>
-		</div>
-		<div class="form-group">
-			<label for="formGroupExampleInput">Descripcion: </label>
-			<input class="form-control" type="text" class="form-control" name="descripcion" value={{residencia.descripcion}}>
-		</div>
-		{% for message in messages %}
-
-                    <div class="alert alert-danger">
-                        <a class="close" href="#" data-dismiss="alert">×</a>
-
-                        {{ message }}
-
-                    </div>
-        {% endfor %}
-		<button type="submit" class="btn btn-lg btn-dark btn-block">Modificar</button>
-	</form>
-	 </div>
+		<form method="POST" >{% csrf_token %}
+			<div class="form-group">
+				<label for="formGroupExampleInput">Nombre: </label>
+				<input readonly class="form-control readonly" type="text" class="form-control" name="nombre" value={{user.nombre}}>
+			</div>
+			<div class="form-group">
+				<label for="formGroupExampleInput2">Apellido: </label>
+				<input readonly class="form-control readonly" type="number" min="0" class="form-control" name="apellido" value={{user.apellido}}>
+				<small id="passwordHelpBlock" class="form-text text-muted">
+					  Solo se admiten valores numericos.
+				</small>
+			</div>
+			<div class="form-group">
+				<label for="formGroupExampleInput">DNI: </label>
+				<input readonly class="form-control readonly" type="text" class="form-control" name="dni" value={{user.dni}}>
+			</div>
+			<div class="form-group">
+				<label for="formGroupExampleInput">Fecha de nacimiento: </label>
+				<input readonly class="form-control readonly" type="text" class="form-control" name="fn" value="{{user.fecha_nacimiento}}">
+			</div>
+			<div class="form-group">
+				<label for="formGroupExampleInput">E-Mail: </label>
+				<input readonly class="form-control readonly" type="text" class="form-control" name="email" value="{{ user.email}}">
+			</div>
+			{% for message in messages %}
+	
+						<div class="alert alert-danger">
+							<a class="close" href="#" data-dismiss="alert">×</a>
+	
+							{{ message }}
+	
+						</div>
+			{% endfor %}
+			<button id="confirmar" style="display: none;" type="" class="btn btn-lg btn-warning btn-block">Confirmar</button>
+            
+		</form>
+        <button id="boton" style="margin: 1px;"onclick= "admitir_editar()" class="btn btn-lg btn-dark btn-block"> Modificar Perfil</button>
+		 </div>
         </div>
       </div>
+
+      
     </div>
   </div>
   <br>
+  </section>
   </body>
+
 {% endblock %}
 {% block jsmas %}
+
+    <script>
+        
+        $("#confirmar").click(function (e) { 
+            e.preventDefault();
+
+            $("#confirmar").attr(type, 'submit');
+            
+        });
+        function admitir_editar() {
+            if ($(".readonly").attr("readonly") === "readonly") {
+                $(".readonly").attr("readonly", false)
+                $("#confirmar").show()
+                $("#boton").text("Cancelar");
+            }
+            else {
+                $(".readonly").attr("readonly", true)
+                $("#boton").text("Modificar Perfil");
+                $("#confirmar").hide()
+
+            }
+        }
+
+    </script>
+
 <!--===============================================================================================-->
 	<script type="text/javascript" src="{% static 'css/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
 <!--===============================================================================================-->

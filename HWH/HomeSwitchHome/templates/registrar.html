@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block title %}SignIn{% endblock %}
@@ -6,114 +5,112 @@
 {% block content %}
 
 <header class="header1">
-		<div class="wrap_header">
-			<!-- Logo -->
-			<a href="/listado_residencias" class="logo">
-				<img src="{% static 'images/HSH-Logo.svg'%}" alt="IMG-LOGO">
-			</a>
+  <div class="wrap_header">
+    <!-- Logo -->
+    <a href="/listado_residencias" class="logo">
+      <img src="{% static 'images/HSH-Logo.svg'%}" alt="IMG-LOGO">
+    </a>
 
-			<!-- Menu -->
-			<div class="wrap_menu">
-				<nav class="menu">
-					<ul class="main_menu">
-						<li>
-							<a href="index.html"> Residencias</a>
-							<ul class="sub_menu">
-								<li><a href="{% url 'listado_residencias' %}">Residencias disponibles</a></li>
-							</ul>
-						</li>
-						{% if not user.is_staff %}
+    <!-- Menu -->
+    <div class="wrap_menu">
+      <nav class="menu">
+        <ul class="main_menu">
+          <li>
+            <a href="index.html"> Residencias</a>
+            <ul class="sub_menu">
+              <li><a href="{% url 'listado_residencias' %}">Residencias disponibles</a></li>
+            </ul>
+          </li>
+          {% if not user.is_staff %}
 
-						<li class="sale-noti">
-							<a data-toggle="modal" data-target="#exampleModal" href="location.reload();"> Sobre Nosostros</a>
-							<!-- Modal -->
-							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-								aria-labelledby="exampleModalLabel" aria-hidden="true">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
-											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
-										</div>
-										<div class="modal-body">
-											Esta funcion esta en etapa de desarrollo...
-										</div>
-										<div class="modal-footer">
-											{% comment %} <button type="button" class="btn btn-secondary"
-												data-dismiss="modal">Close</button> {% endcomment %}
-											<button type="button" class="btn btn-primary"
-												data-dismiss="modal">Cerrar</button>
-										</div>
-									</div>
-								</div>
-							</div>
+          <li class="sale-noti">
+            <a data-toggle="modal" data-target="#exampleModal" href="location.reload();"> Sobre Nosostros</a>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Esta funcion esta en etapa de desarrollo...
+                  </div>
+                  <div class="modal-footer">
+                    {% comment %} <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    {% endcomment %}
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-						</li>
-						</li>
+          </li>
+          </li>
 
-					
-						<li>
-							<a data-toggle="modal" data-target="#exampleModal" href="location.reload();"> Contáctanos</a>
-							<!-- Modal -->
-							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-								aria-labelledby="exampleModalLabel" aria-hidden="true">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
-											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
-										</div>
-										<div class="modal-body">
-											Esta funcion esta en etapa de desarrollo...
-										</div>
-										<div class="modal-footer">
-											{% comment %} <button type="button" class="btn btn-secondary"
-												data-dismiss="modal">Close</button> {% endcomment %}
-											<button type="button" class="btn btn-primary"
-												data-dismiss="modal">Cerrar</button>
-										</div>
-									</div>
-								</div>
-							</div>
 
-						</li>
-						</li>
-						{% endif %}
-					</ul>
-				</nav>
-			</div>
-			<!-- Header Icon -->
-			<div class="header-icons">
-				{% if user.is_authenticated %}
-					{% if user.is_staff  %}
-					<div>
-						<a href="{% url 'agregar' %}">+Agregar Residencia</a>
+          <li>
+            <a data-toggle="modal" data-target="#exampleModal" href="location.reload();"> Contáctanos</a>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Esta funcion esta en etapa de desarrollo...
+                  </div>
+                  <div class="modal-footer">
+                    {% comment %} <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    {% endcomment %}
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-						<a href="{% url 'switchStaff'%}">Cambiar a user normal</a>
-					</div>
-					{% else %}
-						<a href="{% url 'switchStaff' %}">Cambiar a user staff</a>
-				{% endif %}
-				{% else %}
-				<div>
-					<a href="{% url 'login' %}">Loguearme</a>
-				</div> 
-				<div><a href="{% url 'registrar' %}" style="margin: 10px">Registrarse</a>
-</div>				{% endif %}
-			</div>
-			<div>
-				{% if not user.is_authenticated %}
-				{% else %}
-				<a href="{% url 'logout' %}">Cerrar Sesion</a>
-				{% endif %}
-			</div>
-		</div>
-		</div>
-  </header>
+          </li>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+    <!-- Header Icon -->
+    <div class="header-icons">
+      {% if user.is_authenticated %}
+      {% if user.is_staff  %}
+      <div>
+        <a href="{% url 'agregar' %}">+Agregar Residencia</a>
+
+        <a href="{% url 'switchStaff'%}">Cambiar a user normal</a>
+      </div>
+      {% else %}
+      <a href="{% url 'switchStaff' %}">Cambiar a user staff</a>
+      {% endif %}
+      {% else %}
+      <div>
+        <a href="{% url 'login' %}">Loguearme</a>
+      </div>
+      <div><a href="{% url 'registrar' %}" style="margin: 10px">Registrarse</a>
+      </div> {% endif %}
+    </div>
+    <div>
+      {% if not user.is_authenticated %}
+      {% else %}
+      <a href="{% url 'logout' %}">Cerrar Sesion</a>
+      {% endif %}
+    </div>
+  </div>
+  </div>
+</header>
 
 
 
@@ -124,6 +121,7 @@
   <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}">
 
 </head>
+
 <body class="agregar_residencia" style="background-color:LightGrey;">
   <div class="container">
     <div class="row">
@@ -135,68 +133,70 @@
           </div>
           <br></br>
           <div class="panel-body">
-            <form class="leave-comment" method="POST" action="{% url 'registrar' %}" onsubmit="return validate_passwords_match()">{% csrf_token %}
+            <form class="leave-comment" method="POST" action="{% url 'registrar' %}"
+              onsubmit="return validate_passwords_match()">{% csrf_token %}
               <fieldset>
 
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <input class="form-control" placeholder="Nombre" type="text" name="firstName" required value={{user.usuario.nombre}}
-                           >
+                    <input class="form-control" placeholder="Nombre" type="text" name="firstName" required
+                      value={{user.usuario.nombre}}>
                   </div>
                   <div class="form-group col-md-6">
-                    <input class="form-control" placeholder="Apellido" type="text" name="lastName" required value={{user.usuario.apellido}}
-                           >
+                    <input class="form-control" placeholder="Apellido" type="text" name="lastName" required
+                      value={{user.usuario.apellido}}>
                   </div>
                 </div>
                 <div class="form-group">
-                  <input class="form-control" placeholder="E-mail" name="email" type="email" required value={{user.usuario.email}}
-                         >
+                  <input class="form-control" placeholder="E-mail" name="email" type="email" required
+                    value={{user.usuario.email}}>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <input class="form-control" placeholder="DNI" name="dni" type="Number" required value={{user.usuario.dni}} >
+                    <input class="form-control" placeholder="DNI" name="dni" type="Number" required
+                      value={{user.usuario.dni}}>
                   </div>
                   <div class="form-group col-md-6">
-                    <input id="dob" class="form-control" placeholder="Fecha de nacimiento" type="text"
-                         name="birthDay" required value={{user.usuario.fecha_nacimiento}} > 
-                </div>
-                <div class="form-group col-md-6">
-                  <input id="id_password" class="form-control" placeholder="Contrase&ntilde;a" name="password"
-                         type="password" pattern=".{8,}" required title="Minimo 8 caracteres">
-                </div>
-                <div class="form-group col-md-6">
-                  <input id="id_confirmPassword" class="form-control" placeholder="Confirmar contrase&ntilde;a"
-                         name="confirmPassword" type="password" required>
-                </div>
-                <br>
-                <div class="panel-heading">
-                <h4 class="panel-title" align="center"> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  Datos de tarjeta de credito </h4>
-                </div>
-                <br>
-                <br>
-                <div class="form-row">
-                  <div class="form-group col-md-9">
-                    <input class="form-control" placeholder="Numero de Tarjeta" type="number" name="numero_tarjeta" required value=""
-                           >
-                  </div>
-                  <div class="form-group col-md-3">
-                    <input class="form-control" placeholder="Marca" type="text" name="" required value=""
-                           >
-                  </div>
-                
-                  <div class="form-group col-md-6">
-                    <input class="form-control" placeholder="Fecha de vencimiento" type="" name="firstName" required value=""
-                           >
+                    <input id="dob" class="form-control" placeholder="Fecha de nacimiento" type="text" name="birthDay"
+                      required value={{user.usuario.fecha_nacimiento}}>
                   </div>
                   <div class="form-group col-md-6">
-                    <input class="form-control" placeholder="Codigo de seguridad" type="" name="lastName" required value=""
-                           >
-                  </div> 
-                  <div class="form-group col-md-12">
-                  <input class="form-control" placeholder="Nombre del titular" name="" type="email" required value=""
-                  >
-                </div>
-                </div>
+                    <input id="id_password" class="form-control" placeholder="Contrase&ntilde;a" name="password"
+                      type="password" pattern=".{8,}" required title="Minimo 8 caracteres">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <input id="id_confirmPassword" class="form-control" placeholder="Confirmar contrase&ntilde;a"
+                      name="confirmPassword" type="password" required>
+                  </div>
+                  <br>
+                  <div class="panel-heading">
+                    <h4 class="panel-title" align="center"> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Datos de tarjeta
+                      de credito </h4>
+                  </div>
+                  <br>
+                  <br>
+                  <div class="form-row">
+                    <div class="form-group col-md-9">
+                      <input class="form-control" placeholder="Numero de Tarjeta" type="number" name="numero_tarjeta"
+                        required value="">
+                    </div>
+                    <div class="form-group col-md-3">
+                      <input class="form-control" placeholder="Marca" type="text" name="" required value="">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <input class="form-control" placeholder="Fecha de vencimiento" type="" name="firstName" required
+                        value="">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <input class="form-control" placeholder="Codigo de seguridad" type="" name="lastName" required
+                        value="">
+                    </div>
+                    <div class="form-group col-md-12">
+                      <input class="form-control" placeholder="Nombre del titular" name="" type="email" required
+                        value="">
+                    </div>
+                  </div>
 
                 </div>
 
@@ -205,72 +205,59 @@
               </fieldset>
             </form>
             {% if error %}
-              <p style="color:red"> {{ error.mensaje }}</p>
+            <p style="color:red"> {{ error.mensaje }}</p>
             {% endif %}
             <p style="color:red" id="pwdAlert"></p>
           </div>
         </div>
         <br></br>
-		      {% for message in messages %}
+        {% for message in messages %}
 
-            <div id="alerta" class="alert alert-danger">
-              <button id="close_alert" class="close" href="#" data-dismiss="alert">×</button>
-                {{ message }}
+        <div id="alerta" class="alert alert-danger">
+          <button id="close_alert" class="close" href="#" data-dismiss="alert">×</button>
+          {{ message }}
 
-            </div>
-          {% endfor %}
+        </div>
+        {% endfor %}
       </div>
     </div>
   </div>
 </body>
 <script type="text/javascript" src="{% static 'css/vendor/sweetalert/sweetalert.min.js' %}"></script>
-<script> 
-$("#close_alert").click(function (e) { 
-  e.preventDefault();
-  $("#alerta").hide()
-  
-});
+<script>
+  $("#close_alert").click(function (e) {
+    e.preventDefault();
+    $("#alerta").hide()
 
+  });
 </script>
-    <script>
-    $('#id_confirmPassword').on('keyup', function(){
-        if($('#id_confirmPassword').val() === $('#id_password').val())
-            $('#pwdAlert').hide();
-        else
-            $('#pwdAlert').show().html('Las contraseñas no coinciden');
-    });
-    </script>
-
-    
-    <script type="text/javascript">
-           $('#dob').datepicker({
-            onSelect: function(value, ui) {
-                var today = new Date(), 
-                    age = today.getFullYear() - ui.selectedYear;
-                if(age >= 18)
-                    $('#age').text("User is 18 years old");
-                else
-                    $('#age').text("User is 18 not years old");
-            },
-            maxDate: '+0d',
-            changeMonth: true,
-            changeYear: true,
-            yearRange: '-110:-0'
-
-        });   
-    </script>
+<script>
+  $('#id_confirmPassword').on('keyup', function () {
+    if ($('#id_confirmPassword').val() === $('#id_password').val())
+      $('#pwdAlert').hide();
+    else
+      $('#pwdAlert').show().html('Las contraseñas no coinciden');
+  });
+</script>
 
 
-       {% comment %} $(document).ready(function() {
-            var age = "";
-            $('#dob').datepicker({
-                onSelect: function(value, ui) {
-                    var today = new Date();
-                    age = today.getFullYear() - ui.selectedYear;
-                    $('#age').val(age);
-                },
-                changeMonth: true,
-                changeYear: true
-            })
-        }) {% endcomment %}
+<script type="text/javascript">
+  $('#dob').datepicker({
+    onSelect: function (value, ui) {
+      var today = new Date(),
+        age = today.getFullYear() - ui.selectedYear;
+      if (age >= 18)
+        $('#age').text("User is 18 years old");
+      else
+        $('#age').text("User is 18 not years old");
+    },
+    maxDate: '+0d',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: '-110:-0'
+
+  });
+</script>
+
+
 {% endblock %}
