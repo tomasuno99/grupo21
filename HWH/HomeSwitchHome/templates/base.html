@@ -260,7 +260,7 @@
 				<div class="w-size8 p-t-30 p-l-15 p-r-15 respon3">
 
 					<div class="w-size4 p-t-20">
-						{% if not request.user.is_premium %}
+						{% if not request.user.is_premium and not request.user.is_staff%}
 						<!-- Button -->
 						<button class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4" data-toggle="modal" data-target="#modalPremium" href="location.reload();">
 							Quiero ser premium
