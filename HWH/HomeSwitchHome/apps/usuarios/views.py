@@ -8,8 +8,8 @@ from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 import time
-
-
+from apps.residencia.models import Precio
+from django.http import JsonResponse
 def baseContext():
     return {
         'footer': {}
@@ -90,5 +90,24 @@ def user_register(request):
     # return render(request, 'registrar.html')
 
 def mostrar_perfil(request):
-    context= {'user': request.user}
+    context= {'user': request.user, 'premium': Precio.objects.get(nombre="premium"), 'basico': Precio.objects.get(nombre="basico")}
     return render(request,'perfil.html', context)
+
+def modificar_precio_premium(request):
+    precio= Precio.objects.get(nombre="premium")
+    
+    precio.precio= float(request.POST.get('precio'))
+
+    precio.save()
+
+    return JsonResponse({},safe=False)
+
+
+def modificar_precio_basico(request):
+    precio= Precio.objects.get(nombre="basico")
+    
+    precio.precio= float(request.POST.get('precio'))
+
+    precio.save()
+
+    return JsonResponse({},safe=False)

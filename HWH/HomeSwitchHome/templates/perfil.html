@@ -2,175 +2,267 @@
 {% load staticfiles %}
 
 {% block body%}
-<body class="agregar_residencia" style="background-color:LightGrey;">
-<section class="bggrey p-t-66 p-b-60">
-  <div class="container">
-    <div class="row">
 
-    <div class="col-md-6 p-b-30">
-        {% if user.is_staff and not user.is_premium %}
+<body class="agregar_residencia" style="background-color:LightGrey;">
+	<section class="bggrey p-t-66 p-b-60">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-6 p-b-30">
+					{% if user.is_staff and not user.is_premium %}
 					<div class="p-r-20 p-r-0-lg">
-						<div class="contact-map size2" >  <button id="boton" style="margin-top: 150px;"onclick= "admitir_editar()" class="btn btn-lg btn-dark btn-block"> Modificar Precio Premium</button></div>
-                        <div class="contact-map size2" >  <button id="boton" style="margin-top: 150px;"onclick= "admitir_editar()" class="btn btn-lg btn-dark btn-block"> Modificar Precio Normal</button></div>
+						<div class="form-group">
+							<label for="formGroupExampleInput" style="margin-top: 150px;">Precio: </label>
+							<input id="input_premium" readonly class="form-control readonly-premium" type="number" class="form-control" name="nombre"
+								value={{premium.precio}} value_ant={{premium.precio}}>
+						</div>
+						<div class="contact-map size2"> <button id="premium" onclick="modificar_premium()"
+								class="btn btn-lg btn-dark btn-block"> Modificar Precio Premium</button></div>
+						<button id="cancelar_premium" style="display: none; margin-top:3px;" type=""
+								class="btn btn-lg btn-warning btn-block">Cancelar</button>
+						<div class="form-group">
+							<label for="formGroupExampleInput" style="margin-top: 150px;">Precio: </label>
+							<input id="input_basico" readonly class="form-control readonly-basico" type="number" class="form-control" name="nombre"
+								value={{basico.precio}} value_ant={{basico.precio}}></input>
+						</div>
+						<div class="contact-map size2"> <button id="basico"  onclick="modificar_basico()"
+								class="btn btn-lg btn-dark btn-block"> Modificar Precio Basico</button></div>
+						<button id="cancelar_basico" style="display: none; margin-top:3px;" type=""
+								class="btn btn-lg btn-warning btn-block">Cancelar</button>
 					</div>
 				</div>
-        {% endif %}
+				{% endif %}
 
-      <div class="col-sm-6 col-lg-6">
-        <div class="login-panel panel panel-default">
-          <div class="panel-heading">
-            <br>
-            <h3 class="panel-title" align="center">Mi Perfil</h3>
-            <br>
-          </div>
-		<form method="POST" >{% csrf_token %}
-			<div class="form-group">
-				<label for="formGroupExampleInput">Nombre: </label>
-				<input readonly class="form-control readonly" type="text" class="form-control" name="nombre" value={{user.nombre}}>
-			</div>
-			<div class="form-group">
-				<label for="formGroupExampleInput2">Apellido: </label>
-				<input readonly class="form-control readonly" type="number" min="0" class="form-control" name="apellido" value={{user.apellido}}>
-				<small id="passwordHelpBlock" class="form-text text-muted">
-					  Solo se admiten valores numericos.
-				</small>
-			</div>
-			<div class="form-group">
-				<label for="formGroupExampleInput">DNI: </label>
-				<input readonly class="form-control readonly" type="text" class="form-control" name="dni" value={{user.dni}}>
-			</div>
-			<div class="form-group">
-				<label for="formGroupExampleInput">Fecha de nacimiento: </label>
-				<input readonly class="form-control readonly" type="text" class="form-control" name="fn" value="{{user.fecha_nacimiento}}">
-			</div>
-			<div class="form-group">
-				<label for="formGroupExampleInput">E-Mail: </label>
-				<input readonly class="form-control readonly" type="text" class="form-control" name="email" value="{{ user.email}}">
-			</div>
-			{% for message in messages %}
-	
-						<div class="alert alert-danger">
-							<a class="close" href="#" data-dismiss="alert">×</a>
-	
-							{{ message }}
-	
+				<div class="col-sm-6 col-lg-6">
+					<div class="login-panel panel panel-default">
+						<div class="panel-heading">
+							<br>
+							<h3 class="panel-title" align="center">Mi Perfil</h3>
+							<br>
 						</div>
-			{% endfor %}
-			<button id="confirmar" style="display: none;" type="" class="btn btn-lg btn-warning btn-block">Confirmar</button>
-            
-		</form>
-        <button id="boton" style="margin: 1px;"onclick= "admitir_editar()" class="btn btn-lg btn-dark btn-block"> Modificar Perfil</button>
-		 </div>
-        </div>
-      </div>
+						<form method="POST">{% csrf_token %}
+							<div class="form-group">
+								<label for="formGroupExampleInput">Nombre: </label>
+								<input readonly class="form-control readonly" type="text" class="form-control"
+									name="nombre" value={{user.nombre}}>
+							</div>
+							<div class="form-group">
+								<label for="formGroupExampleInput2">Apellido: </label>
+								<input readonly class="form-control readonly" type="number" min="0" class="form-control"
+									name="apellido" value={{user.apellido}}>
+								<small id="passwordHelpBlock" class="form-text text-muted">
+									Solo se admiten valores numericos.
+								</small>
+							</div>
+							<div class="form-group">
+								<label for="formGroupExampleInput">DNI: </label>
+								<input readonly class="form-control readonly" type="text" class="form-control"
+									name="dni" value={{user.dni}}>
+							</div>
+							<div class="form-group">
+								<label for="formGroupExampleInput">Fecha de nacimiento: </label>
+								<input readonly class="form-control readonly" type="text" class="form-control" name="fn"
+									value="{{user.fecha_nacimiento}}">
+							</div>
+							<div class="form-group">
+								<label for="formGroupExampleInput">E-Mail: </label>
+								<input readonly class="form-control readonly" type="text" class="form-control"
+									name="email" value="{{ user.email}}">
+							</div>
+							{% for message in messages %}
 
-      
-    </div>
-  </div>
-  <br>
-  </section>
-  </body>
+							<div class="alert alert-danger">
+								<a class="close" href="#" data-dismiss="alert">×</a>
+
+								{{ message }}
+
+							</div>
+							{% endfor %}
+							<button id="confirmar" style="display: none;" type=""
+								class="btn btn-lg btn-warning btn-block">Confirmar</button>
+
+						</form>
+						<button id="boton" style="margin: 1px;" onclick="admitir_editar()"
+							class="btn btn-lg btn-dark btn-block"> Modificar Perfil</button>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+		</div>
+		<br>
+	</section>
+</body>
 
 {% endblock %}
 {% block jsmas %}
 
-    <script>
-        
-        $("#confirmar").click(function (e) { 
-            e.preventDefault();
+<script>
 
-            $("#confirmar").attr(type, 'submit');
-            
-        });
-        function admitir_editar() {
-            if ($(".readonly").attr("readonly") === "readonly") {
-                $(".readonly").attr("readonly", false)
-                $("#confirmar").show()
-                $("#boton").text("Cancelar");
-            }
-            else {
-                $(".readonly").attr("readonly", true)
-                $("#boton").text("Modificar Perfil");
-                $("#confirmar").hide()
 
-            }
-        }
+	function admitir_editar() {
+		if ($(".readonly").attr("readonly") === "readonly") {
+			$(".readonly").attr("readonly", false)
+			$("#confirmar").show()
+			$("#boton").text("Cancelar");
+		} else {
+			$(".readonly").attr("readonly", true)
+			$("#boton").text("Modificar Perfil");
+			$("#confirmar").hide()
 
-    </script>
+		}
+	}
 
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/animsition/js/animsition.min.js' %}"></script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/bootstrap/js/popper.js' %}"></script>
-	<script type="text/javascript" src="{% static 'css/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/select2/select2.min.js' %}"></script>
-	<script type="text/javascript">
-		$(".selection-1").select2({
-			minimumResultsForSearch: 20,
-			dropdownParent: $('#dropDownSelect1')
-		});
-
-		$(".selection-2").select2({
-			minimumResultsForSearch: 20,
-			dropdownParent: $('#dropDownSelect2')
-		});
-	</script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/daterangepicker/moment.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'css/vendor/daterangepicker/daterangepicker.js' %}"></script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/slick/slick.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/slick-custom.js' %}"></script>
-<!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/sweetalert/sweetalert.min.js' %}"></script>
-	<script type="text/javascript">
-		$('.block2-btn-addcart').each(function(){
-			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to cart !", "success");
+function modificar_basico() {
+		if ($(".readonly-basico").attr("readonly") === "readonly") {
+			$(".readonly-basico").attr("readonly", false)
+			$("#basico").text("Confirmar");
+			$("#cancelar_basico").show()
+		} else {
+			$(".readonly-basico").attr("readonly", true);
+			var data= { 'precio': $("#input_basico").val() };
+			console.log(data)
+			$.ajax({
+				type: "POST",
+				headers: {
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				url: "{% url 'modificar_basico' %}",
+				data: data,
+				success: function (response) {
+				}
 			});
-		});
+			
+			$("#basico").text("Modificar Precio Basico");
+			$("#cancelar_basico").hide();
 
-		$('.block2-btn-addwishlist').each(function(){
-			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to wishlist !", "success");
+		}
+	}
+
+
+function modificar_premium() {
+		if ($(".readonly-premium").attr("readonly") === "readonly") {
+			$(".readonly-premium").attr("readonly", false)
+			$("#premium").text("Confirmar");
+			$("#cancelar_premium").show()
+		} else {
+			$(".readonly-premium").attr("readonly", true);
+			var data= { 'precio': $("#input_premium").val() }
+			$.ajax({
+				type: "POST",
+				headers: {
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				url: "{% url 'modificar_premium' %}",
+				data: data,
+				success: function (response) {
+				}
 			});
-		});
-	</script>
+			
+			$("#premium").text("Modificar Precio Premium");
+			$("#cancelar_premium").hide();
+
+		}
+	}
+
+
+</script>
+
 
 <!--===============================================================================================-->
-	<script type="text/javascript" src="{% static 'css/vendor/noui/nouislider.min.js' %}"></script>
-	<script type="text/javascript">
-		/*[ No ui ]
+<script type="text/javascript" src="{% static 'css/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'css/vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'css/vendor/bootstrap/js/popper.js' %}"></script>
+<script type="text/javascript" src="{% static 'css/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'css/vendor/select2/select2.min.js' %}"></script>
+<script type="text/javascript">
+	$(".selection-1").select2({
+		minimumResultsForSearch: 20,
+		dropdownParent: $('#dropDownSelect1')
+	});
+
+	$(".selection-2").select2({
+		minimumResultsForSearch: 20,
+		dropdownParent: $('#dropDownSelect2')
+	});
+</script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'css/vendor/daterangepicker/moment.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'css/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'css/vendor/slick/slick.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/slick-custom.js' %}"></script>
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'css/vendor/sweetalert/sweetalert.min.js' %}"></script>
+<script type="text/javascript">
+	$('.block2-btn-addcart').each(function () {
+		var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+		$(this).on('click', function () {
+			swal(nameProduct, "is added to cart !", "success");
+		});
+	});
+
+	$('.block2-btn-addwishlist').each(function () {
+		var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+		$(this).on('click', function () {
+			swal(nameProduct, "is added to wishlist !", "success");
+		});
+	});
+
+$(document).ready(function () {
+		$("#cancelar_premium").click(function (e) { 
+			$("#input_premium").val($("#input_premium").attr('value_ant'));
+			$("#cancelar_premium").hide()
+			$(".readonly-premium").attr("readonly", true);
+			$("#premium").text("Modificar Precio Premium");
+		
+		});
+
+		$("#cancelar_basico").click(function (e) { 
+			$("#input_basico").val($("#input_basico").attr('value_ant'));
+			$("#cancelar_basico").hide()
+			$(".readonly-basico").attr("readonly", true);
+			$("#basico").text("Modificar Precio Basico");
+		
+		});
+});
+
+</script>
+
+<!--===============================================================================================-->
+<script type="text/javascript" src="{% static 'css/vendor/noui/nouislider.min.js' %}"></script>
+<script type="text/javascript">
+	/*[ No ui ]
 	    ===========================================================*/
-	    var filterBar = document.getElementById('filter-bar');
+	var filterBar = document.getElementById('filter-bar');
 
-	    noUiSlider.create(filterBar, {
-	        start: [ 50, 200 ],
-	        connect: true,
-	        range: {
-	            'min': 50,
-	            'max': 200
-	        }
-	    });
+	noUiSlider.create(filterBar, {
+		start: [50, 200],
+		connect: true,
+		range: {
+			'min': 50,
+			'max': 200
+		}
+	});
 
-	    var skipValues = [
-	    document.getElementById('value-lower'),
-	    document.getElementById('value-upper')
-	    ];
+	var skipValues = [
+		document.getElementById('value-lower'),
+		document.getElementById('value-upper')
+	];
 
-	    filterBar.noUiSlider.on('update', function( values, handle ) {
-	        skipValues[handle].innerHTML = Math.round(values[handle]) ;
-	    });
-	</script>
+	filterBar.noUiSlider.on('update', function (values, handle) {
+		skipValues[handle].innerHTML = Math.round(values[handle]);
+	});
+</script>
 <!--===============================================================================================-->
-	<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
 
 </body>
+
 </html>
 
 {% endblock %}
