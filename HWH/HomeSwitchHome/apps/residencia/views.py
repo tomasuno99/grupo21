@@ -182,14 +182,10 @@ def listado_residencias_filtros(request):
    fechaInicio = r['daterange'][:10]
    fechaFin = r['daterange'][17:29]
    residencias= Residencia.objects.filter(is_deleted=False)
-   reservas= Reserva.objects.all()
-   # for residencia in residencias:
-   #    if residencia tieneUnaSubastaEntreFechas(fechaInicio, fechaFin):
-   #       residencias_filtradas.append(residencia)
-   #       print ("cumple")
+   subastas= Subasta.objects.all()
    
    residencias_filtradas= []
-   for reserva in reservas:
+   for subasta in subastas:
       if subasta.residencia not in residencias_filtradas:
          if subasta.estaEnElRangoDe(fechaInicio, fechaFin):
             residencias_filtradas.append(subasta.residencia)
