@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+
 {% load staticfiles %}
+
 {% block body%}
 
     <section class="bg-title-page p-t-50 p-b-40 flex-col-c-m" style="background-image: url(https://www.lafincagolfresort.com/site/wp-content/uploads/2016/03/Hotel-La-Finca-2.jpg);">
@@ -8,6 +10,16 @@
 		</h2>
 	</section>
 
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+ 
+	<!-- JS -->
+	<script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+	
+	
 	<!-- Content page -->
 	<section class="bgwhite p-t-55 p-b-65">
 		<div class="container">
@@ -98,26 +110,16 @@
 					<!--  -->
 					<div class="flex-sb-m flex-w p-b-35">
 						<div class="flex-w">
-							<div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
-								<select class="selection-2" name="sorting">
-									<option>Default Sorting</option>
-									<option>Popularity</option>
-									<option>Price: low to high</option>
-									<option>Price: high to low</option>
-								</select>
-							</div>
-
-							<div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
-								<select class="selection-2" name="sorting">
-									<option>Price</option>
-									<option>$0.00 - $50.00</option>
-									<option>$50.00 - $100.00</option>
-									<option>$100.00 - $150.00</option>
-									<option>$150.00 - $200.00</option>
-									<option>$200.00+</option>
-
-								</select>
-							</div>
+							<br></br>
+							
+							<form method='POST' action="{% url 'listado_residencias_filtros' %}">
+								{% csrf_token %}
+								filtrar por fechas:
+								<input id="daterange" type="text" name="daterange" size="35" value="01/01/2019 - 01/01/2019" />
+								<br>
+								<input type="submit" class="flex-c-m size4 bg7 bo-rad-15 hov1 s-text14 trans-0-4""
+								value="Submit">
+							</form>
 						</div>
 
 						<span class="s-text8 p-t-5 p-b-5">
@@ -248,6 +250,22 @@
 	</script>
 <!--===============================================================================================-->
 	<script src="{% static 'js/main.js' %}"></script>
+
+	<script>
+	$(function() {
+  		$('#daterange').daterangepicker({
+    		"dateLimit": {
+                "month": 2
+            },
+			"locale": {
+        		"format": "DD-MM-YYYY",
+				"separator": " Hasta "
+			}
+  		}, function(start, end, label) {
+    		console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+  		});
+	});
+	</script>
 
 </body>
 </html>

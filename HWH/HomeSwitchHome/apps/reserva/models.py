@@ -2,6 +2,10 @@ from django.db import models
 from apps.residencia.models import Residencia
 from apps.usuarios.models import CustomUser
 from django.core.validators import MinValueValidator, MaxValueValidator
+import dateutil.parser
+import datetime
+from datetime import timedelta
+
 # Create your models here.
 
 
@@ -23,8 +27,23 @@ class Subasta(models.Model):
     residencia= models.ForeignKey(Residencia, on_delete=models.CASCADE, null=True)
     is_deleted= models.BooleanField(default=False)
 
+    def comienzo(self):
+        return finalizacion - timedelta(days=3)
 
+    def estaEnElRangoDe(self, fechaInicio, fechaFin):
+        dateInicio= datetime.datetime.strptime(fechaInicio, "%d-%m-%Y").date()
+        dateFin= datetime.datetime.strptime(fechaFin, "%d-%m-%Y").date()
+        print (dateInicio)
+        print(dateFin)
+        print (self.finalizacion)
+
+        if dateInicio <= self.finalizacion:
+            if dateFin >= self.finalizacion - timedelta(days=3):
+                return True
+        return False    
+        
 class Puja(models.Model):
     monto= models.IntegerField()
     subasta= models.ForeignKey(Subasta, null=True, blank=True, on_delete=models.CASCADE)
     user= models.ForeignKey(CustomUser, null=True, blank=True, on_delete=models.CASCADE)
+

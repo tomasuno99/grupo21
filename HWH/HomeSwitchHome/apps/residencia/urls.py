@@ -15,4 +15,5 @@ urlpatterns = [
     path('index/', views.mostrar_index, name='index'),
     path('finalizar_subasta/', finalizar_subasta, name='finalizar_subasta' ),
     path('reservar_residencia/', views.reservar_residencia, name='reservar_residencia' ),
+    path('listado_residencias/filtrar/',views.listado_residencias_filtros, name= 'listado_residencias_filtros'),
 ]

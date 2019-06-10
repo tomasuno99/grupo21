@@ -176,4 +176,23 @@ def reservar_residencia(request):
    else:
       return JsonResponse({'ok':'semanas'})
    return JsonResponse({'ok':'notok'},safe=False)
-      
+
+def listado_residencias_filtros(request):
+   r = request.POST
+   fechaInicio = r['daterange'][:10]
+   fechaFin = r['daterange'][17:29]
+   residencias= Residencia.objects.filter(is_deleted=False)
+   reservas= Reserva.objects.all()
+   # for residencia in residencias:
+   #    if residencia tieneUnaSubastaEntreFechas(fechaInicio, fechaFin):
+   #       residencias_filtradas.append(residencia)
+   #       print ("cumple")
+   
+   residencias_filtradas= []
+   for reserva in reservas:
+      if subasta.residencia not in residencias_filtradas:
+         if subasta.estaEnElRangoDe(fechaInicio, fechaFin):
+            residencias_filtradas.append(subasta.residencia)
+
+   context={'residencias': residencias_filtradas, 'premium': Precio.objects.get(nombre="premium")}
+   return render(request,'product.html',context)
