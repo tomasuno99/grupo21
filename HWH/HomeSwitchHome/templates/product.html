@@ -117,7 +117,7 @@
 								filtrar por fechas:
 								<input id="daterange" type="text" name="daterange" size="35" value="01/01/2019 - 01/01/2019" />
 								<br>
-								<input type="submit" class="flex-c-m size4 bg7 bo-rad-15 hov1 s-text14 trans-0-4""
+								<input type="submit" class="flex-c-m size4 bg7 bo-rad-15 hov1 s-text14 trans-0-4"
 								value="Submit">
 							</form>
 						</div>
@@ -257,9 +257,40 @@
     		"dateLimit": {
                 "month": 2
             },
+			minDate: moment().add(6, 'M'),
 			"locale": {
         		"format": "DD-MM-YYYY",
-				"separator": " Hasta "
+				"separator": " Hasta ",
+				"applyLabel": "Aceptar",
+				"cancelLabel": "Cancelar",
+				"fromLabel": "From",
+				"toLabel": "To",
+				"customRangeLabel": "Custom",
+				"daysOfWeek": [
+					"Do",
+					"Lu",
+					"Ma",
+					"Mie",
+					"Ju",
+					"Vi",
+					"Sa"
+				],
+				"monthNames": [
+					"Enero",
+					"Febrero",
+					"Marzo",
+					"Abril",
+					"Mayo",
+					"Junio",
+					"Julio",
+					"Agosto",
+					"Septiembre",
+					"Octubre",
+					"Noviembre",
+					"Diciembre"
+				],
+				"firstDay": 1
+				
 			}
   		}, function(start, end, label) {
     		console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
