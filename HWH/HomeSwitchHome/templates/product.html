@@ -115,7 +115,7 @@
 							<form method='POST' action="{% url 'listado_residencias_filtros' %}">
 								{% csrf_token %}
 								filtrar por fechas:
-								<input id="daterange" type="text" name="daterange" size="35" value="01/01/2019 - 01/01/2019" />
+								<input id="daterange" type="text" name="daterange" size="35" placeholder="Ingrese Fechas"/>
 								<br>
 								<input type="submit" class="flex-c-m size4 bg7 bo-rad-15 hov1 s-text14 trans-0-4"
 								value="Submit">
@@ -253,6 +253,7 @@
 
 	<script>
 	$(function() {
+		
   		$('#daterange').daterangepicker({
     		"dateLimit": {
                 "month": 2
@@ -292,12 +293,13 @@
 				"firstDay": 1
 				
 			}
+			
   		}, function(start, end, label) {
     		console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
   		});
+		$('#daterange').val($('#daterange').attr("placeholder"));
 	});
 	</script>
-
 </body>
 </html>
 
