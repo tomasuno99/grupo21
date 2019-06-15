@@ -51,17 +51,21 @@ def logout(request):
 
 def user_register(request):
     user = CustomUser()
-    context = baseContext()
-    context['user']: { 'usuario': user }
+    context = {
+        'usuario': user    
+    }
     if request.method == 'POST':
         r = request.POST
         user.nombre = r['firstName'] 
         user.apellido = r['lastName']
         user.fecha_nacimiento = r['birthDay']
-        print(r['birthDay'])
         user.email = r['email']
         user.dni = r['dni']
-        # esto lo habia puesto para no perder los datos ante un error, pero no funciona
+        user.num_tarjeta_credito = r['numero_tarjeta']
+        user.nom_titular_tarjeta = r['nombre_tarjeta']
+        user.fecha_vencimiento_tarjeta = r['fecha_vencimiento']
+        user.codigo_seguridad_tarjeta = r['securityCode']
+        user.marca_tarjeta = r['cardBrand']
         try:
             if int(r['birthDay'][-4:]) <= 2001:
                 if r['password'] == r['confirmPassword']:
@@ -71,6 +75,7 @@ def user_register(request):
                     return render(request,'registrar.html', context)    
             else:
                 messages.error(request,'Debes ser mayor de edad para registrarte')
+                user.fecha_nacimiento = ""
                 return render(request,'registrar.html', context)
             if (len(r['numero_tarjeta']) == 16):
                 if r['fecha_vencimiento'][-2] > time.strftime("%d/%m/%y")[-2]:
@@ -78,13 +83,16 @@ def user_register(request):
                     return HttpResponseRedirect('/listado_residencias')    
                 else:    
                     messages.error(request,'La tarjeta ingresada se encuentra Vencida')
+                    user.fecha_vencimiento_tarjeta = ""
                     return render(request,'registrar.html', context)        
             else:    
                 messages.error(request,'El numero de tarjeta debe tener 16 digitos')
+                user.num_tarjeta_credito = ""
                 return render(request,'registrar.html', context)
             
         except IntegrityError:
             messages.error(request, 'Ese Email ya esta registrado')
+            user.email = ""
             # context['error'] = {'mensaje': 'Ese usuario ya esta registrado'}
             return render(request, 'registrar.html', context)
     else:

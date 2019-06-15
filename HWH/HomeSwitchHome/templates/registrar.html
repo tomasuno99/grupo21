@@ -140,25 +140,25 @@
 
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <input class="form-control" placeholder="Nombre" type="text" name="firstName" required value={{user.usuario.nombre}}
+                    <input class="form-control" placeholder="Nombre" type="text" name="firstName" required value={{usuario.nombre}}
                            >
                   </div>
                   <div class="form-group col-md-6">
-                    <input class="form-control" placeholder="Apellido" type="text" name="lastName" required value={{user.usuario.apellido}}
+                    <input class="form-control" placeholder="Apellido" type="text" name="lastName" required value={{usuario.apellido}}
                            >
                   </div>
                 </div>
                 <div class="form-group">
-                  <input class="form-control" placeholder="E-mail" name="email" type="email" required value={{user.usuario.email}}
+                  <input class="form-control" placeholder="E-mail" name="email" type="email" required value={{usuario.email}}
                          >
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <input class="form-control" placeholder="DNI" name="dni" type="Number" required value={{user.usuario.dni}} >
+                    <input class="form-control" placeholder="DNI" name="dni" type="Number" required value={{usuario.dni}} >
                   </div>
                   <div class="form-group col-md-6">
                     <input id="dob" class="form-control" placeholder="Fecha de nacimiento" type="text"
-                         name="birthDay" required value={{user.usuario.fecha_nacimiento}} > 
+                         name="birthDay" required value={{usuario.fecha_nacimiento}} > 
                 </div>
                 <div class="form-group col-md-6">
                   <input id="id_password" class="form-control" placeholder="Contrase&ntilde;a" name="password"
@@ -176,24 +176,24 @@
                 <br>
                 <div class="form-row">
                   <div class="form-group col-md-9">
-                    <input id="id_cardNumber" class="form-control" placeholder="Numero de Tarjeta" type="number" name="numero_tarjeta" required value=""
+                    <input id="id_cardNumber" class="form-control" placeholder="Numero de Tarjeta" type="number" name="numero_tarjeta" required value={{usuario.num_tarjeta_credito}}
                            >
                   </div>
                   <div class="form-group col-md-3">
-                    <input class="form-control" placeholder="Marca" type="text" name="cardBrand" required value=""
+                    <input class="form-control" placeholder="Marca" type="text" name="cardBrand" required value={{usuario.marca_tarjeta}}
                            >
                   </div>
                 
                   <div class="form-group col-md-6">
-                    <input class="form-control" placeholder="Fecha de vencimiento" type="" name="fecha_vencimiento" required value=""
+                    <input class="form-control" placeholder="Fecha de vencimiento" type="" name="fecha_vencimiento" required value={{usuario.fecha_vencimiento_tarjeta}}
                            >
                   </div>
                   <div class="form-group col-md-6">
-                    <input class="form-control" placeholder="Codigo de seguridad" type="" name="securityCode" required value=""
+                    <input id="id_securityCode" class="form-control" placeholder="Codigo de seguridad" type="number" name="securityCode" required value={{usuario.codigo_seguridad_tarjeta}}
                            >
                   </div> 
                   <div class="form-group col-md-12">
-                  <input class="form-control" placeholder="Nombre del titular" name="nombre_tarjeta" type="" required value=""
+                  <input class="form-control" placeholder="Nombre del titular" name="nombre_tarjeta" type="" required value={{usuario.nom_titular_tarjeta}}
                   >
                 </div>
                 </div>
@@ -201,7 +201,7 @@
                 </div>
 
 
-                <button type="submit" class="btn btn-lg btn-dark btn-block">Registrarse</button>
+                <button id="submit"type="submit" class="btn btn-lg btn-dark btn-block">Registrarse</button>
               </fieldset>
             </form>
             {% if error %}
@@ -267,7 +267,14 @@ $("#close_alert").click(function (e) {
         });   
     </script>
 
-
+    <script>
+    $('#id_securityCode').on('keyup', function(){
+        if($(this).val().length != 16) 
+            $('#pwdAlert').show().html('El codigo de seguridad debe tener 3 digitos');
+        else
+          $('#pwdAlert').hide();
+    });
+    </script>
 
 
        {% comment %} $(document).ready(function() {
