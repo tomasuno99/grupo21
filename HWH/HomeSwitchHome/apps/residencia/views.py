@@ -76,7 +76,11 @@ def crearReservas(residencia, creacion_r):
 def listado_residencias(request):
     residencias=Residencia.objects.filter(is_deleted=False)
     print(residencias)
-    context={'residencias': residencias, 'premium': Precio.objects.get(nombre="premium")}
+    localidades = []
+    for res in residencias:
+       if not res.localidad in localidades and res.localidad != "":
+          localidades.append(res.localidad)
+    context={'residencias': residencias, 'localidades': localidades, 'premium': Precio.objects.get(nombre="premium")}
     return render(request,'product.html',context)
 
 # def modificar_residencia(request, id):
@@ -195,8 +199,30 @@ def listado_residencias_filtros(request):
    return render(request,'product.html',context)
 
 def filtrar_residencias(request):
-   print ("ndvnsdvnsdn")
-   residencias=Residencia.objects.filter(is_deleted=False, localidad=request.GET.get("localidad"))
-   print(residencias)
-   data = serializers.serialize('json', residencias)
-   return HttpResponse(data)
+   r = request.POST
+   fechaInicio = r['daterange'][:10]
+   fechaFin = r['daterange'][17:29]
+   residencias= Residencia.objects.filter(is_deleted=False)
+   subastas= Subasta.objects.all()
+   print (fechaFin, fechaInicio)
+   residencias_filtradas= []
+   for subasta in subastas:
+      if subasta.residencia not in residencias_filtradas:
+         if subasta.estaEnElRangoDe(fechaInicio, fechaFin):
+            residencias_filtradas.append(subasta.residencia)
+
+   context={'residencias': residencias_filtradas, 'premium': Precio.objects.get(nombre="premium")}
+   return render(request,'product.html',context)
+   
+   print (request.GET.get("localidad"))
+   loc = request.GET.get("localidad")
+   if loc != "Seleccione una localidad":
+      residencias=Residencia.objects.filter(is_deleted=False, localidad=loc)
+   else:
+      residencias=Residencia.objects.filter(is_deleted=False)
+   context = {
+      "residencias": residencias,
+      'premium': Precio.objects.get(nombre="premium")
+   }
+
+   return render(request, 'product.html', context)
