@@ -14,4 +14,5 @@ urlpatterns = [
     path('modificar_perfil', views.modificar_perfil, name='modificar_perfil'),
     path('modificar_tarjeta', views.modificar_tarjeta, name='modificar_tarjeta'),
     path('modificar_contraseña', views.modificar_contraseña, name='modificar_contraseña'),
+    path('get_datos_cliente', views.get_datos_cliente, name='get_datos_cliente')
 ]

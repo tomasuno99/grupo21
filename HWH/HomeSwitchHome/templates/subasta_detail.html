@@ -59,7 +59,7 @@
 						<form method='POST' action="{% url 'subasta_puja' subasta.id %}">
 							{% csrf_token %}
 							Ingresar Monto:
-							<input type="number" name="monto" value="0">
+							<input type="number" min="0" name="monto" value="0">
 							<br>
 							<input type="submit" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4"
 								value="Submit">

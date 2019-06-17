@@ -78,7 +78,7 @@ def user_register(request):
                 user.fecha_nacimiento = ""
                 return render(request,'registrar.html', context)
             if (len(r['numero_tarjeta']) == 16):
-                if r['fecha_vencimiento'][-2] > time.strftime("%d/%m/%y")[-2]:
+                if r['fecha_vencimiento'][-2] >= time.strftime("%d/%m/%y")[-2]:
                     usuario = CustomUser.objects.create_user(email=r['email'], nombre=r['firstName'], apellido=r['lastName'], dni=r['dni'], fecha_nacimiento=r['birthDay'], password=r['password'], num_tarjeta_credito=r['numero_tarjeta'], nombre_titular_tarjeta=r['nombre_tarjeta'], fecha_vencimiento_tarjeta=r['fecha_vencimiento'], codigo_seguridad_tarjeta=r['securityCode'], marca_tajeta=r['cardBrand'])
                     return HttpResponseRedirect('/listado_residencias')    
                 else:    
@@ -177,9 +177,8 @@ def modificar_tarjeta(request):
         return JsonResponse({'ok': 'Debe rellenar todos los campos'},safe=False)
     if len(request.POST.get('tarjeta'))!= 16:
         return JsonResponse({'ok': 'El numero de la tarjeta debe ser de 16 digitos'},safe=False)
-    if request.POST.get('vencimiento')[-2] < time.strftime("%d/%m/%y")[-2]:
+    if request.POST.get('vencimiento')[-2:] <= time.strftime("%d/%m/%y")[-2:]:
         return JsonResponse({'ok': 'La Tarjeta esta vencida'})
-    
     if len(request.POST.get('vencimiento')) != 5:
         return JsonResponse({'ok':'Ingrese el vencimiento de forma correcta'}, safe=False)
 
@@ -206,3 +205,7 @@ def modificar_contraseña(request):
     usuario.save()
 
     return JsonResponse({'ok':'ok'},safe=False)
+
+def get_datos_cliente(request):
+    cliente= CustomUser.objects.get(id=request.POST.get('id_cliente'))
+    return JsonResponse({'nombre': cliente.nombre, 'apellido': cliente.apellido, 'dni':cliente.dni, 'email':cliente.email}, safe=False)
