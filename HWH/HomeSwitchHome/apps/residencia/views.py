@@ -9,6 +9,7 @@ from django.template import RequestContext, loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime, timedelta
 from django.contrib import messages
+from django.core import serializers
 from django.db.models import Q
 from apps.usuarios.models import CustomUser
 # Create your views here.
@@ -192,3 +193,10 @@ def listado_residencias_filtros(request):
 
    context={'residencias': residencias_filtradas, 'premium': Precio.objects.get(nombre="premium")}
    return render(request,'product.html',context)
+
+def filtrar_residencias(request):
+   print ("ndvnsdvnsdn")
+   residencias=Residencia.objects.filter(is_deleted=False, localidad=request.GET.get("localidad"))
+   print(residencias)
+   data = serializers.serialize('json', residencias)
+   return HttpResponse(data)

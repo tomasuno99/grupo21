@@ -16,4 +16,5 @@ urlpatterns = [
     path('finalizar_subasta/', finalizar_subasta, name='finalizar_subasta' ),
     path('reservar_residencia/', views.reservar_residencia, name='reservar_residencia' ),
     path('listado_residencias/filtrar/',views.listado_residencias_filtros, name= 'listado_residencias_filtros'),
+    path('listado_residencias/filtrar_residencias/',views.filtrar_residencias, name='filtrar_residencias')
 ]

@@ -11,7 +11,7 @@
 	</section>
 
 	<!-- CSS -->
-	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+	{% comment %} <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" /> {% endcomment %}
 	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
  
 	<!-- JS -->
@@ -27,7 +27,16 @@
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-50">
 					<div class="leftbar p-r-20 p-r-0-sm">
 						<h4 class="m-text14 p-b-32">
-							Filtros
+								<div class="filter-price p-t-22 p-b-50 bo3">
+									<div class="m-text15 p-b-17">
+										Filtrar Por Fechas: 
+										<input class="form-control form-control" id="daterange" type="text" name="daterange" size="35" placeholder="Ingrese Fechas Aqui"/>
+								<br>
+								<br>
+										Filtrar Por Localidad:
+										<input class="form-control form-control" id="localidad" type="text" name="localidad" size="35" placeholder="Ingrese Localidad Aqui"/>
+								<input type="submit" class="flex-c-m size4 bg7 bo-rad-15 hov1 s-text14 trans-0-4"
+								onclick="filtrar_residencias()" value="Buscar">
 						</h4>
 
 						<div class="filter-price p-t-22 p-b-50 bo3">
@@ -112,14 +121,7 @@
 						<div class="flex-w">
 							<br></br>
 							
-							<form method='POST' action="{% url 'listado_residencias_filtros' %}">
-								{% csrf_token %}
-								filtrar por fechas:
-								<input id="daterange" type="text" name="daterange" size="35" placeholder="Ingrese Fechas"/>
-								<br>
-								<input type="submit" class="flex-c-m size4 bg7 bo-rad-15 hov1 s-text14 trans-0-4"
-								value="Submit">
-							</form>
+							
 						</div>
 
 						<span class="s-text8 p-t-5 p-b-5">
@@ -128,14 +130,14 @@
 					</div>
 
 					<!-- Product -->
-					<div class="row">
-						{% for residencia in residencias %}
+					<div id="list" class="row">
+						{% for residencia in residencias %} 
 						<div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
 							<!-- Block2 -->
 							<div class="block2">
 								<div class="block2-img wrap-pic-w of-hidden pos-relative block2-label">
 									<img src="{{ residencia.imagen}}" alt="IMG-PRODUCT">
-
+									
 									<div class="block2-overlay trans-0-4">
 										<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
 											<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
@@ -300,6 +302,41 @@
 		$('#daterange').val($('#daterange').attr("placeholder"));
 	});
 	</script>
+
+<script>
+
+{% comment %} function imprimir_residencias(response){
+	("#list").html(" {% for res in response %} <h2>res.localidad</h2> {% endfor %}")
+} {% endcomment %}
+
+</script>
+
+<script>
+function filtrar_residencias(){
+			$.ajax({
+			type: "GET",
+			url: "{% url 'filtrar_residencias' %}",
+			headers: {
+				'X-CSRFToken': '{{ csrf_token }}'
+			},
+			data: {
+					'daterange': $("#daterange").val(), 
+					'localidad': $("#localidad").val()
+				},
+			dataType: "json",
+			success: function(response) {
+				console.log(response)
+				alert(response)
+				$("#residencias").replaceWith(response);
+         	},
+          	error: function(response) {
+            	alert("no se encontraron");
+          }
+		});
+}
+
+
+</script>
 </body>
 </html>
 
