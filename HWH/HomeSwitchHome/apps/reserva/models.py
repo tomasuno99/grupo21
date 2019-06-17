@@ -2,7 +2,6 @@ from django.db import models
 from apps.residencia.models import Residencia
 from apps.usuarios.models import CustomUser
 from django.core.validators import MinValueValidator, MaxValueValidator
-import dateutil.parser
 import datetime
 from datetime import timedelta
 

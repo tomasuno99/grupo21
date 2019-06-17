@@ -13,7 +13,7 @@
 					<div class="p-r-20 p-r-0-lg">
 						<div class="form-group">
 							<label for="formGroupExampleInput" style="margin-top: 150px;">Precio: </label>
-							<input id="input_premium" readonly class="form-control readonly-premium" type="number" class="form-control" name="nombre"
+							<input id="input_premium" readonly class="form-control readonly-premium" type="number" min="0" class="form-control" name="nombre"
 								value={{premium.precio}} value_ant={{premium.precio}}>
 						</div>
 						<div class="contact-map size2"> <button id="premium" onclick="modificar_premium()"
@@ -22,7 +22,7 @@
 								class="btn btn-lg btn-warning btn-block">Cancelar</button>
 						<div class="form-group">
 							<label for="formGroupExampleInput" style="margin-top: 150px;">Precio: </label>
-							<input id="input_basico" readonly class="form-control readonly-basico" type="number" class="form-control" name="nombre"
+							<input id="input_basico" readonly class="form-control readonly-basico" type="number" min="0" class="form-control" name="nombre"
 								value={{basico.precio}} value_ant={{basico.precio}}></input>
 						</div>
 						<div class="contact-map size2"> <button id="basico"  onclick="modificar_basico()"
@@ -40,25 +40,25 @@
                 <br>
                 <div class="form-row">
                   <div class="form-group col-md-9">
-                    <input id="tarjeta" class="form-control  readonly-tarjeta" placeholder="Numero de Tarjeta" type="number" name="numero_tarjeta" 
-                           value="{{user.num_tarjeta_credito}}"readonly>
+                    <input id="tarjeta" class="form-control  readonly-tarjeta" placeholder="Numero de Tarjeta" type="number" min="0" name="numero_tarjeta" 
+                           value="{{user.num_tarjeta_credito}}" ant="{{user.num_tarjeta_credito}}" readonly>
                   </div>
                   <div class="form-group col-md-3">
                     <input id="marca" class="form-control readonly-tarjeta" placeholder="Marca" type="text" name="cardBrand"
-                           value="{{user.marca_tajeta}}"readonly>
+                           value="{{user.marca_tajeta}}" ant="{{user.marca_tajeta}}" readonly>
                   </div>
                 
                   <div class="form-group col-md-6">
                     <input id="vencimiento" class="form-control readonly-tarjeta" placeholder="Fecha de vencimiento" type="" name="fecha_vencimiento"
-                         value="{{user.fecha_vencimiento_tarjeta}}"  readonly>
+                         value="{{user.fecha_vencimiento_tarjeta}}" ant="{{user.fecha_vencimiento_tarjeta}}"  readonly>
                   </div>
                   <div class="form-group col-md-6">
                     <input id="codigo-seguridad" class="form-control readonly-tarjeta" placeholder="Codigo de seguridad" type="" name="securityCode" 
-                        value="{{user.codigo_seguridad_tarjeta}}"   readonly>
+                        value="{{user.codigo_seguridad_tarjeta}}"  ant="{{user.codigo_seguridad_tarjeta}}" readonly>
                   </div> 
                   <div class="form-group col-md-12">
                   <input id="titular" class="form-control readonly-tarjeta" placeholder="Nombre del titular" name="nombre_tarjeta" 
-                  value="{{user.nombre_titular_tarjeta}}" readonly>
+                  value="{{user.nombre_titular_tarjeta}}" ant="{{user.nombre_titular_tarjeta}}" readonly>
                 </div>
                 </div>
 				<button id="confirmar_tarjeta" style="" type="" onclick="admitir_editar_tarjeta()"
@@ -87,6 +87,7 @@
 				{% endif %}
 
 
+
 				<div class="col-sm-6 col-lg-6">
 					<div class="login-panel panel panel-default">
 						<div class="panel-heading">
@@ -97,17 +98,17 @@
 							<div class="form-group">
 								<label for="formGroupExampleInput">Nombre: </label>
 								<input id="nombre" readonly class="form-control readonly" type="text" class="form-control"
-									name="nombre" value={{user.nombre}}>
+									name="nombre" value="{{user.nombre}}" ant="{{user.nombre}}">
 							</div>
 							<div class="form-group">
 								<label for="formGroupExampleInput2">Apellido: </label>
 								<input id="apellido" readonly class="form-control readonly" type="text" min="0" class="form-control"
-									name="apellido" value={{user.apellido}}>
+									name="apellido" value="{{user.apellido}}" ant="{{user.apellido}}">
 							</div>
 							<div class="form-group">
 								<label for="formGroupExampleInput">DNI: </label>
-								<input id="dni" readonly class="form-control readonly" type="number" class="form-control"
-									name="dni" value={{user.dni}}>
+								<input id="dni" readonly class="form-control readonly" type="number" min="1" class="form-control"
+									name="dni" value="{{user.dni}}" ant="{{user.dni}}">
 										<small id="passwordHelpBlock" class="form-text text-muted">
 									Solo se admiten valores numericos.
 								</small>
@@ -115,12 +116,12 @@
 							<div class="form-group">
 								<label for="formGroupExampleInput">Fecha de nacimiento: </label>
 								<input id="fn" readonly class="form-control readonly" type="date" class="form-control" name="fn"
-									value="{{año}}-{{mes}}-{{dia}}">
+									value="{{año}}-{{mes}}-{{dia}}" ant="{{año}}-{{mes}}-{{dia}}">
 							</div>
 							<div class="form-group">
 								<label for="formGroupExampleInput">E-Mail: </label>
 								<input id="email" readonly class="form-control readonly" type="email" class="form-control"
-									name="email" value="{{ user.email}}">
+									name="email" value="{{ user.email}}" ant="{{ user.email}}">
 							</div>
 						<button id="confirmar" style="" type="" onclick="admitir_editar()"
 								class="btn btn-lg btn-dark btn-block">Modificar Perfil</button>
@@ -162,12 +163,13 @@
 			<tr>
 				<th>Listado de Clientes</th>
 				<th><th>
+					<th></th>
 			</tr>
 		</thead>
 		<tbody>		
 			{% for cliente in clientes %}
 			<tr>
-				<td id="cliente{{cliente.id}}" value="">{{cliente.email}}  -  {% if not cliente.is_premium %}Plan Basico {% else %}<img style="display:block;" src="{% static 'images/coronita.png' %}" align="left" witdh=20px height=20px/> Plan Premium {% endif %}</td>
+				<td id="cliente{{cliente.id}}" value="">{{cliente.email}}  -  {% if not cliente.is_premium %}Plan Basico {% else %}<img style="display:block;" src="{% static 'images/coronita.png' %}" align="left" witdh=20px height=20px"/> Plan Premium {% endif %}</td>
 				<td>
 								{% if not cliente.is_premium %}
 				<button id="cambiar_premium{{cliente.id}}" onclick="cambiar_a_premium('{{cliente.id}}','{{cliente.email}}')" class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4">
@@ -183,6 +185,33 @@
 
 				{% endif %}
 				<td>
+				<td>
+				<button data-toggle="modal" data-target="#modal_cliente" class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4" onclick="mostrar_datos_cliente('{{cliente.id}}')">
+				Ver Datos</button>
+								<div class="modal fade" id="modal_cliente" tabindex="2" role="dialog" display: block;
+								aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Datos del cliente</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body" id="texto_cliente">
+										 Nombre: {{cliente.nombre}} <br>
+										 Apellido: {{cliente.apellido}} <br>
+										 E-Mail: {{cliente.email}} <br>
+										 DNI: {{cliente.dni}} <br>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-dark"
+												data-dismiss="modal">Cerrar</button>
+										</div>
+									</div>
+								</div>
+							</div>
+				</td>
 			</tr>
 			{% endfor %}
 		</tbody>
@@ -212,7 +241,12 @@
 		</tbody>
 	</table>
 </div>
+
 </body>
+
+
+
+
 {% endif %}
 
 {% endblock %}
@@ -271,32 +305,41 @@ function admitir_editar_tarjeta() {
 			$("#confirmar_tarjeta").text("Confirmar")
 			$("#cancelar_tarjeta").show();
 		} else {
-			console.log($("#dni").val());
-			$.ajax({
-				type: "POST",
-				headers: {
-					'X-CSRFToken': '{{ csrf_token }}'
-				},
-				url: "{% url 'modificar_tarjeta' %}",
-				data:  {
-					'tarjeta': $("#tarjeta").val(), 
-					'marca': $("#marca").val(), 
-					'vencimiento': $("#vencimiento").val(), 
-					'codigo-seguridad': $("#codigo-seguridad").val(), 
-					'titular': $("#titular").val() 
-					},
-				success: function (response) {
-					if (response['ok']=='ok'){
-						alert("Los datos de la Tarjeta se actualizaron correctamente")
-					}
-					else{
-						alert("Error: "+ response['ok'])
-					}
+			if(($("#tarjeta").val()).length > 15){
+				if (($("#codigo-seguridad").val() > 100) && ($("#codigo-seguridad").val() <1000)){
+					$.ajax({
+						type: "POST",
+						headers: {
+							'X-CSRFToken': '{{ csrf_token }}'
+						},
+						url: "{% url 'modificar_tarjeta' %}",
+						data:  {
+							'tarjeta': $("#tarjeta").val(), 
+							'marca': $("#marca").val(), 
+							'vencimiento': $("#vencimiento").val(), 
+							'codigo-seguridad': $("#codigo-seguridad").val(), 
+							'titular': $("#titular").val() 
+							},
+						success: function (response) {
+							$(".readonly-tarjeta").attr("readonly", true)
+							$("#confirmar_tarjeta").text("Modificar Datos de la Tarjeta");
+							$("#cancelar_tarjeta").hide();
+							if (response['ok']=='ok'){
+								alert("Los datos de la Tarjeta se actualizaron correctamente")
+							}
+							else{
+								alert("Error: "+ response['ok'])
+								admitir_editar_tarjeta();
+							}
+						}
+					});
 				}
-			});
-			$(".readonly-tarjeta").attr("readonly", true)
-			$("#confirmar_tarjeta").text("Modificar Datos de la Tarjeta");
-			$("#cancelar_tarjeta").hide()
+				else {
+					alert("Ingrese un codigo de seguridad valido")
+				}
+			} else{
+				alert("Ingrese una tarjeta valida")
+			}
 
 		}
 	}
@@ -308,6 +351,7 @@ function admitir_editar() {
 			$("#confirmar").text("Confirmar")
 			$("#cancelar").show();
 		} else {
+			if ($("#dni").val() > 0){
 			console.log($("#dni").val());
 			$.ajax({
 				type: "POST",
@@ -323,18 +367,19 @@ function admitir_editar() {
 					'email': $("#email").val() 
 					},
 				success: function (response) {
+					$(".readonly").attr("readonly", true)
+					$("#confirmar").text("Modificar Perfil");
+					$("#cancelar").hide();
 					if (response['ok']=='ok'){
 						alert("Los datos se actualizaron correctamente")
 					}
 					else{
-						alert("Error: "+ response['ok'])
+						alert("Error: "+ response['ok']);
+						admitir_editar();
 					}
 				}
 			});
-			$(".readonly").attr("readonly", true)
-			$("#confirmar").text("Modificar Perfil");
-			$("#cancelar").hide()
-
+		}
 		}
 	}
 	function cambiar_a_basico(id,email) {
@@ -374,7 +419,9 @@ function admitir_editar() {
 				$("#cliente"+id).text(email + " - Plan Premium");
 				$("#cambiar_premium"+id).hide();
 				$("#cambiar_basico"+id).show();
+				location.reload();
 			}
+
 		});
 		}
 
@@ -385,18 +432,52 @@ function admitir_editar() {
 	$(document).ready(function () {
 		$.noConflict();
 		var table = $('#tableid').DataTable({
-
-			"ordering": false
+			"language": {
+				"sProcessing":     "Procesando...",
+				"sLengthMenu":     "Mostrar _MENU_ registros",
+				"sZeroRecords":    "No se encontraron resultados",
+				"sEmptyTable":     "Ningún dato disponible en esta tabla",
+				"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+				"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+				"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+				"sInfoPostFix":    "",
+				"sSearch":         "Buscar:",
+				"sUrl":            "",
+				"sInfoThousands":  ",",
+				"sLoadingRecords": "Cargando...",
+				"oPaginate": {
+					"sFirst":    "Primero",
+					"sLast":     "Último",
+					"sNext":     "Siguiente",
+					"sPrevious": "Anterior"
+				},
+				"oAria": {
+					"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+					"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+				}
+			}
 		});
 		
 	});
 
 function cancelar_editar(){
-				$(".readonly").attr("readonly", true)
+			$("#nombre").val($("#nombre").attr('ant'));
+			$("#apellido").val($("#apellido").attr('ant'))
+			$("#dni").val( $("#dni").attr('ant'))
+			$("#fn").val( $("#fn").attr('ant'))
+			$("#email").val($("#email").attr('ant'))
+
+			$(".readonly").attr("readonly", true)
 			$("#confirmar").text("Modificar Perfil");
 			$("#cancelar").hide()
 }
 function cancelar_editar_tarjeta(){
+			$("#tarjeta").val($("#tarjeta").attr('ant'));
+			$("#marca").val($("#marca").attr('ant'))
+			$("#vencimiento").val( $("#vencimiento").attr('ant'))
+			$("#codigo-seguridad").val( $("#codigo-seguridad").attr('ant'))
+			$("#titular").val($("#titular").attr('ant'))
+
 			$(".readonly-tarjeta").attr("readonly", true)
 			$("#confirmar_tarjeta").text("Modificar Datos de la Tarjeta");
 			$("#cancelar_tarjeta").hide()
@@ -460,6 +541,26 @@ function modificar_premium() {
 			$("#cancelar_premium").hide();
 
 		}
+	}
+
+	function mostrar_datos_cliente(id) {
+		$.ajax({
+			type: "POST",
+			headers: {
+				'X-CSRFToken': '{{ csrf_token }}'
+			},
+			url: "{% url 'get_datos_cliente' %}",
+			data: {
+				'id_cliente': id
+			},
+			success: function (response) {
+				$("#texto_cliente").text(' ')
+				$("#texto_cliente").append('<strong>E-Mail</strong>:' + response.email);
+				$("#texto_cliente").append('<br> <strong>Nombre</strong>:'+response.nombre);
+				$("#texto_cliente").append('<br> <strong>Apellido</strong>:'+response.apellido);
+				$("#texto_cliente").append('<br> <strong>DNI</strong>:'+response.dni);
+			}
+		});
 	}
 
 </script>

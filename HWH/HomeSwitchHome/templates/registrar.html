@@ -154,7 +154,7 @@
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <input class="form-control" placeholder="DNI" name="dni" type="Number" required value={{usuario.dni}} >
+                    <input class="form-control" placeholder="DNI" min="1" name="dni" type="Number" required value={{usuario.dni}} >
                   </div>
                   <div class="form-group col-md-6">
                     <input id="dob" class="form-control" placeholder="Fecha de nacimiento" type="text"
@@ -176,7 +176,7 @@
                 <br>
                 <div class="form-row">
                   <div class="form-group col-md-9">
-                    <input id="id_cardNumber" class="form-control" placeholder="Numero de Tarjeta" type="number" name="numero_tarjeta" required value={{usuario.num_tarjeta_credito}}
+                    <input id="id_cardNumber" class="form-control" placeholder="Numero de Tarjeta" type="number" min="0" name="numero_tarjeta" required value={{usuario.num_tarjeta_credito}}
                            >
                   </div>
                   <div class="form-group col-md-3">
@@ -189,7 +189,7 @@
                            >
                   </div>
                   <div class="form-group col-md-6">
-                    <input id="id_securityCode" class="form-control" placeholder="Codigo de seguridad" type="number" name="securityCode" required value={{usuario.codigo_seguridad_tarjeta}}
+                    <input id="id_securityCode" class="form-control" placeholder="Codigo de seguridad" type="number" min="000" max="999" name="securityCode" required value={{usuario.codigo_seguridad_tarjeta}}
                            >
                   </div> 
                   <div class="form-group col-md-12">
