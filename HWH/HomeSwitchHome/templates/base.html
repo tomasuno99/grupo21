@@ -54,7 +54,7 @@
 			<a href="/listado_residencias" class="logo">
 				<img src="{% static 'images/HSH-Logo.svg'%}" alt="IMG-LOGO">
 			</a>
-			{% if not user.is_premium and not user.is_staff%}
+			{% if not user.is_premium and not user.is_staff and user.is_authenticated%}
 			<button class="flex-c-m w-size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4" data-toggle="modal" data-target="#modalPremium" href="location.reload();">
 				Premium
 			</button>
