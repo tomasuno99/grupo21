@@ -199,6 +199,7 @@
 					<a href="{% url 'agregar' %}">+Agregar Residencia</a>
 
 					<a href="{% url 'switchStaff'%}">Cambiar a user normal</a>
+					
 				</div>
 				{% else %}
 				<a href="{% url 'switchStaff' %}">Cambiar a user staff</a>
@@ -210,13 +211,17 @@
 				<div><a href="{% url 'registrar' %}" style="margin: 10px">Registrarse</a>
 				</div> {% endif %}
 			</div>
+			
 			<div>
 				{% if not user.is_authenticated %}
 				{% else %}
 				<a href="{% url 'logout' %}">Cerrar Sesion</a>
 				{% endif %}
 			</div>
+		
+			
 		</div>
+		
 		</div>
 		{% endblock%}
 

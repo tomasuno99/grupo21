@@ -159,7 +159,7 @@
 					{% if request.user.is_staff %}
 						{% if fecha.2 %}
 					<button id="subastar_semana{{ fecha.0 }}"
-						onclick="myFunction({{fecha.0}})"
+						onclick="myFunction({{fecha.0}})" value="{{fecha.1}}"
 						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Subastar esta semana</button>
 					{% endif %}
 					{% else %}
@@ -170,7 +170,7 @@
 					{% else %}
 					{% if fecha.2 and request.user.is_premium %}
 					<button id="boton_reserva{{fecha.0}}"
-						onclick="reservar_semana({{fecha.0}})"
+						onclick="reservar_semana({{fecha.0}})" value="{{ fecha.1}}"
 						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Reservar esta semana</button>
 
 					{% endif %}
@@ -265,7 +265,7 @@
 
 	<script>
 			function reservar_semana(id){
-					var vf = confirm("Seguro que quiere reservar esta semana?")
+					var vf = confirm("¿Seguro que quiere reservar la semana del "+ $("#"+id).attr('value')+"?")
 					if (vf){
 					$.ajax({
 						type: "POST",
@@ -295,7 +295,7 @@
 			}
   
 			function myFunction(id) {
-  			var monto = prompt("'Seguro que queres subastar la semana del {{ fecha.1 }}?'                           Ingresa el monto minimo", "0");	
+  			var monto = prompt("¿Seguro que queres subastar la semana del "+$("#"+id).attr('value')+"? Ingresa el monto minimo", "0");	
   			if (monto == null || monto == "") {
 				 	alert("Ingrese algun valor para el monto")
   				} else {
