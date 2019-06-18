@@ -18,7 +18,7 @@ from datetime import datetime, timedelta
 def product_detail(request,id):
    residencia=Residencia.objects.get(auto_id=id)
    if residencia.is_deleted==False:
-      related_products= Residencia.objects.filter(capacidad=residencia.capacidad).exclude(auto_id=id)
+      related_products= Residencia.objects.exclude(auto_id=id)
       fechas=[]
       for fecha in Reserva.objects.filter(residenciaQuePertence=residencia).values('semana_del_año','auto_id', 'is_active','user'):
          try:
