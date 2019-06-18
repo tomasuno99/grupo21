@@ -14,7 +14,7 @@
 						<div class="form-group">
 							<label for="formGroupExampleInput" style="margin-top: 150px;">Precio: </label>
 							<input id="input_premium" readonly class="form-control readonly-premium" type="number" min="0" class="form-control" name="nombre"
-								value={{premium.precio}} value_ant={{premium.precio}}>
+								value={{premium.precio}} ant="{{premium.precio}}"value_ant={{premium.precio}}>
 						</div>
 						<div class="contact-map size2"> <button id="premium" onclick="modificar_premium()"
 								class="btn btn-lg btn-dark btn-block"> Modificar Precio Premium</button></div>
@@ -23,7 +23,7 @@
 						<div class="form-group">
 							<label for="formGroupExampleInput" style="margin-top: 150px;">Precio: </label>
 							<input id="input_basico" readonly class="form-control readonly-basico" type="number" min="0" class="form-control" name="nombre"
-								value={{basico.precio}} value_ant={{basico.precio}}></input>
+								value={{basico.precio}} ant={{basico.precio}} value_ant={{basico.precio}}></input>
 						</div>
 						<div class="contact-map size2"> <button id="basico"  onclick="modificar_basico()"
 								class="btn btn-lg btn-dark btn-block"> Modificar Precio Basico</button></div>
@@ -49,7 +49,7 @@
                   </div>
                 
                   <div class="form-group col-md-6">
-                    <input id="vencimiento" class="form-control readonly-tarjeta" placeholder="Fecha de vencimiento" type="" name="fecha_vencimiento"
+                    <input id="vencimiento" class="form-control readonly-tarjeta" placeholder="MMAA" type="" name="fecha_vencimiento"
                          value="{{user.fecha_vencimiento_tarjeta}}" ant="{{user.fecha_vencimiento_tarjeta}}"  readonly>
                   </div>
                   <div class="form-group col-md-6">
@@ -94,6 +94,10 @@
 							<br>
 							<h3 class="panel-title" align="center">Mi Perfil</h3>
 							<br>
+							{% if not user.is_staff%}
+							<h5 class="panel-title" align="center">Semanas disponibles: {{user.semanas_disponibles}}</h5>
+							<br>
+							{% endif %}
 						</div>
 							<div class="form-group">
 								<label for="formGroupExampleInput">Nombre: </label>
@@ -199,10 +203,6 @@
 											</button>
 										</div>
 										<div class="modal-body" id="texto_cliente">
-										 Nombre: {{cliente.nombre}} <br>
-										 Apellido: {{cliente.apellido}} <br>
-										 E-Mail: {{cliente.email}} <br>
-										 DNI: {{cliente.dni}} <br>
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-dark"
@@ -375,10 +375,16 @@ function admitir_editar() {
 					}
 					else{
 						alert("Error: "+ response['ok']);
+						cancelar_editar();
 						admitir_editar();
 					}
 				}
 			});
+		}
+		else{
+			alert("Error: DNI invalido")
+			cancelar_editar();
+			admitir_editar();
 		}
 		}
 	}
@@ -492,14 +498,14 @@ function cancelar_editar_contraseña(){
 
 
 function modificar_basico() {
+		var data= { 'precio': $("#input_basico").val() };
 		if ($(".readonly-basico").attr("readonly") === "readonly") {
 			$(".readonly-basico").attr("readonly", false)
 			$("#basico").text("Confirmar");
 			$("#cancelar_basico").show()
 		} else {
+			if (data.precio > 0.0){
 			$(".readonly-basico").attr("readonly", true);
-			var data= { 'precio': $("#input_basico").val() };
-			console.log(data)
 			$.ajax({
 				type: "POST",
 				headers: {
@@ -508,24 +514,31 @@ function modificar_basico() {
 				url: "{% url 'modificar_basico' %}",
 				data: data,
 				success: function (response) {
+					alert("Se actualizo correctamente el precio para usuario Basico")
 				}
 			});
 			
 			$("#basico").text("Modificar Precio Basico");
 			$("#cancelar_basico").hide();
-
+			}
+			else{
+				alert("Ingrese un valor mayor a 0")
+				$("#input_basico").val($("#input_basico").attr('ant'))
+			}
 		}
 	}
 
 
 function modificar_premium() {
+		var data= { 'precio': $("#input_premium").val() }
 		if ($(".readonly-premium").attr("readonly") === "readonly") {
 			$(".readonly-premium").attr("readonly", false)
 			$("#premium").text("Confirmar");
 			$("#cancelar_premium").show()
 		} else {
+			if (data.precio > 0 ){
 			$(".readonly-premium").attr("readonly", true);
-			var data= { 'precio': $("#input_premium").val() }
+			
 			$.ajax({
 				type: "POST",
 				headers: {
@@ -534,6 +547,7 @@ function modificar_premium() {
 				url: "{% url 'modificar_premium' %}",
 				data: data,
 				success: function (response) {
+					alert("Se actualizo correctamente el precio para el usuario Premium")
 				}
 			});
 			
@@ -541,6 +555,11 @@ function modificar_premium() {
 			$("#cancelar_premium").hide();
 
 		}
+		else{
+			alert("Ingrese un valor mayor a 0")
+			$("#input_premium").val($("#input_premium").attr('ant'))
+		}
+	}
 	}
 
 	function mostrar_datos_cliente(id) {
