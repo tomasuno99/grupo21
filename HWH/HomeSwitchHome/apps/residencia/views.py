@@ -77,13 +77,17 @@ def crearReservas(residencia, creacion_r):
    reserva.residenciaQuePertence=residencia
    reserva.save()
 
+def obtener_localidades(residencias):
+   print(residencias)
+   localidades = []
+   for res in residencias:
+      if not res.localidad in localidades and res.localidad != "":
+         localidades.append(res.localidad)
+   return localidades
+
 def listado_residencias(request):
     residencias=Residencia.objects.filter(is_deleted=False)
-    print(residencias)
-    localidades = []
-    for res in residencias:
-       if not res.localidad in localidades and res.localidad != "":
-          localidades.append(res.localidad)
+    localidades = obtener_localidades(residencias)
     context={'residencias': residencias, 'localidades': localidades, 'premium': Precio.objects.get(nombre="premium")}
     return render(request,'product.html',context)
 
@@ -204,33 +208,42 @@ def listado_residencias_filtros(request):
 
 def filtrar_residencias(request):
    r = request.POST
-   try:
-      fechaInicio = r['daterange'][:10]
-      fechaFin = r['daterange'][17:29]
-   except KeyError:
-      fechaInicio = str(datetime.now().strftime('%d-%m-%Y'))
-      fechaFin = str((datetime.now() + timedelta(days=1095)).strftime('%d-%m-%Y'))
-   residencias= Residencia.objects.filter(is_deleted=False)
-   subastas= Subasta.objects.all()
-   print (fechaFin, fechaInicio)
-   residencias_filtradas= []
-   for subasta in subastas:
-      if subasta.residencia not in residencias_filtradas:
-         if subasta.estaEnElRangoDe(fechaInicio, fechaFin):
-            residencias_filtradas.append(subasta.residencia)
-
-   context={'residencias': residencias_filtradas, 'premium': Precio.objects.get(nombre="premium")}
-   return render(request,'product.html',context)
-   
+   # SE FILTRA POR LOCALIDAD
+   residencias_filtradas = []
    print (request.GET.get("localidad"))
    loc = request.GET.get("localidad")
    if loc != "Seleccione una localidad":
-      residencias=Residencia.objects.filter(is_deleted=False, localidad=loc)
+      residencias_filtradas=Residencia.objects.filter(is_deleted=False, localidad=loc)
    else:
-      residencias=Residencia.objects.filter(is_deleted=False)
+      residencias_filtradas=Residencia.objects.filter(is_deleted=False)
+
+   # guardo todas las localidades disponibles para poder seguir filtrando en el template
+   localidades = obtener_localidades(Residencia.objects.filter(is_deleted=False))
+
+   # EN BASE AL FILTRADO ANTERIOR, SE VUELVE A FILTRAR POR FECHAS.
+   
+   # try:
+   #    fechaInicio = r['daterange'][:10]
+   #    fechaFin = r['daterange'][17:29]
+   # except KeyError:
+   #    fechaInicio = str(datetime.now().strftime('%d-%m-%Y'))
+   #    fechaFin = str((datetime.now() + timedelta(days=1095)).strftime('%d-%m-%Y'))
+   # #residencias= Residencia.objects.filter(is_deleted=False)
+   # subastas= Subasta.objects.all()
+   # print (fechaFin, fechaInicio)
+   # print (residencias_filtradas)
+   # for subasta in subastas:
+   #    print (subastas)
+   #    print (subasta)
+   #    if subasta.residencia not in residencias_filtradas:
+   #       if subasta.estaEnElRangoDe(fechaInicio, fechaFin):
+   #          residencias_filtradas.aadd(subasta.residencia)
+
    context = {
-      "residencias": residencias,
-      'premium': Precio.objects.get(nombre="premium")
+      "residencias": residencias_filtradas,
+      'premium': Precio.objects.get(nombre="premium"),
+      "localidades": localidades
    }
+
 
    return render(request, 'product.html', context)

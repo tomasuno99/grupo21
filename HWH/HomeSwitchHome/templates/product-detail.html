@@ -190,7 +190,7 @@
 	<div class="container">
 		<div class="sec-title p-b-60">
 			<h3 class="m-text5 t-center">
-				Related Products
+				Otras Residencias
 			</h3>
 		</div>
 
@@ -203,7 +203,7 @@
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-							<img src="https://images.adsttc.com/media/images/5733/92ba/e58e/cee8/0800/004f/slideshow/02.jpg?1462997678"
+							<img src="{{prod.imagen}}"
 								alt="IMG-PRODUCT">
 
 							<div class="block2-overlay trans-0-4">
@@ -226,9 +226,11 @@
 						</div>
 
 						<div class="block2-txt p-t-20">
-							<a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
-								{{ prod.nombre }}
-							</a>
+							Residencia: {{ prod.nombre }}
+							<br>
+							<small>
+								Localidad: {{ prod.localidad }}
+								</small>
 
 						</div>
 					</div>
