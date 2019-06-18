@@ -185,11 +185,11 @@
                   </div>
                 
                   <div class="form-group col-md-6">
-                    <input class="form-control" placeholder="Fecha de vencimiento" type="" name="fecha_vencimiento" required value={{usuario.fecha_vencimiento_tarjeta}}
+                    <input id="id_vencimiento" class="form-control" placeholder="MMAA" type="number" min="0" name="fecha_vencimiento" required value={{usuario.fecha_vencimiento_tarjeta}}
                            >
                   </div>
                   <div class="form-group col-md-6">
-                    <input id="id_securityCode" class="form-control" placeholder="Codigo de seguridad" type="number" min="000" max="999" name="securityCode" required value={{usuario.codigo_seguridad_tarjeta}}
+                    <input id="id_securityCode" class="form-control" placeholder="Codigo de seguridad" type="number" maxlength="3" minlength="3" name="securityCode" required value={{usuario.codigo_seguridad_tarjeta}}
                            >
                   </div> 
                   <div class="form-group col-md-12">
@@ -232,20 +232,28 @@ $("#close_alert").click(function (e) {
 });
 </script>
     <script>
-    $('#id_confirmPassword').on('keyup', function(){
-        if($('#id_confirmPassword').val() === $('#id_password').val())
+    $('#id_confirmPassword').on('input', function(){
+        if($('#id_confirmPassword').val() === $('#id_password').val()){
             $('#pwdAlert').hide();
-        else
+            $('#submit').attr("disabled", false);
+        }
+        else{
             $('#pwdAlert').show().html('Las contraseñas no coinciden');
+            $('#submit').attr("disabled", true);
+        }
     });
     </script>
 
     <script>
-    $('#id_cardNumber').on('keyup', function(){
-        if($(this).val().length != 16) 
-            $('#pwdAlert').show().html('el numero de tarjeta debe tener 16 digitos');
-        else
+    $('#id_cardNumber').on('input', function(){
+        if($(this).val().length != 16) {
+            $('#pwdAlert').show().html('El numero de tarjeta debe tener 16 digitos');
+            $('#submit').attr("disabled", true);
+        }
+        else{
           $('#pwdAlert').hide();
+          $('#submit').attr("disabled", false);
+        }
     });
     </script>
 
@@ -268,11 +276,39 @@ $("#close_alert").click(function (e) {
     </script>
 
     <script>
-    $('#id_securityCode').on('keyup', function(){
-        if($(this).val().length != 16) 
+    $('#id_securityCode').on('input', function(){
+        if($(this).val().length != 3) {
             $('#pwdAlert').show().html('El codigo de seguridad debe tener 3 digitos');
-        else
+            $('#submit').attr("disabled", true);
+        }
+        else{
           $('#pwdAlert').hide();
+          $('#submit').attr("disabled", false);
+        }
+    });
+    </script>
+
+    <script>
+    $('#id_vencimiento').on('input', function(){
+        if($(this).val().length != 4) {
+            $('#pwdAlert').show().html('la fecha de vencimiento debe tener 4 digitos solo numericos');
+            $('#submit').attr("disabled", true);
+        }
+        else{
+            $('#pwdAlert').hide();
+            $('#submit').attr("disabled", false);
+            var tarj = ($(this).val() % 100); 
+            var act = (new Date().getFullYear().toString().substr(-2)); 
+            if (tarj < act){
+                $('#pwdAlert').show().html('la tarjeta esta vencida');
+                $('#submit').attr("disabled", true);
+            }
+            else{
+                $('#submit').attr("disabled", false);
+            }
+        }
+        
+
     });
     </script>
 
