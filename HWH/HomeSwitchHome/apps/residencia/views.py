@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.core import serializers
 from django.db.models import Q
 from apps.usuarios.models import CustomUser
+from datetime import datetime, timedelta
 # Create your views here.
 
 def product_detail(request,id):
@@ -200,8 +201,12 @@ def listado_residencias_filtros(request):
 
 def filtrar_residencias(request):
    r = request.POST
-   fechaInicio = r['daterange'][:10]
-   fechaFin = r['daterange'][17:29]
+   try:
+      fechaInicio = r['daterange'][:10]
+      fechaFin = r['daterange'][17:29]
+   except KeyError:
+      fechaInicio = str(datetime.now().strftime('%d-%m-%Y'))
+      fechaFin = str((datetime.now() + timedelta(days=1095)).strftime('%d-%m-%Y'))
    residencias= Residencia.objects.filter(is_deleted=False)
    subastas= Subasta.objects.all()
    print (fechaFin, fechaInicio)

@@ -5,6 +5,18 @@
 
 {% block content %}
 
+<head>
+  <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
+
+  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/additional-methods.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/additional-methods.min.js"></script>
+  
+
+</head>
 <header class="header1">
 		<div class="wrap_header">
 			<!-- Logo -->
@@ -117,13 +129,7 @@
 
 
 
-<head>
-  <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
 
-  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}">
-
-</head>
 <body class="agregar_residencia" style="background-color:LightGrey;">
   <div class="container">
     <div class="row">
@@ -135,38 +141,38 @@
           </div>
           <br></br>
           <div class="panel-body">
-            <form class="leave-comment" method="POST" action="{% url 'registrar' %}" onsubmit="return validate_passwords_match()">{% csrf_token %}
+            <form class="leave-comment" id="formulario" method="POST" action="{% url 'registrar' %}" >{% csrf_token %}
               <fieldset>
 
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <input class="form-control" placeholder="Nombre" type="text" name="firstName" required value={{usuario.nombre}}
+                    <input id="nombre" class="form-control" placeholder="Nombre" type="text" name="firstName" value={{usuario.nombre}}
                            >
                   </div>
                   <div class="form-group col-md-6">
-                    <input class="form-control" placeholder="Apellido" type="text" name="lastName" required value={{usuario.apellido}}
+                    <input id="apellido" class="form-control" placeholder="Apellido" type="text" name="lastName" value={{usuario.apellido}}
                            >
                   </div>
                 </div>
                 <div class="form-group">
-                  <input class="form-control" placeholder="E-mail" name="email" type="email" required value={{usuario.email}}
+                  <input id="email" class="form-control" placeholder="E-mail" name="email" type="email" value={{usuario.email}}
                          >
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <input class="form-control" placeholder="DNI" min="1" name="dni" type="Number" required value={{usuario.dni}} >
+                    <input id="dni" class="form-control" placeholder="DNI" min="1" name="dni" type="Number" value={{usuario.dni}} >
                   </div>
                   <div class="form-group col-md-6">
                     <input id="dob" class="form-control" placeholder="Fecha de nacimiento" type="text"
-                         name="birthDay" required value={{usuario.fecha_nacimiento}} > 
+                         name="birthDay" value={{usuario.fecha_nacimiento}} > 
                 </div>
                 <div class="form-group col-md-6">
                   <input id="id_password" class="form-control" placeholder="Contrase&ntilde;a" name="password"
-                         type="password" pattern=".{8,}" required title="Minimo 8 caracteres">
+                         type="password" pattern=".{8,}" title="Minimo 8 caracteres">
                 </div>
                 <div class="form-group col-md-6">
                   <input id="id_confirmPassword" class="form-control" placeholder="Confirmar contrase&ntilde;a"
-                         name="confirmPassword" type="password" required>
+                         name="confirmPassword" type="password" >
                 </div>
                 <br>
                 <div class="panel-heading">
@@ -176,24 +182,24 @@
                 <br>
                 <div class="form-row">
                   <div class="form-group col-md-9">
-                    <input id="id_cardNumber" class="form-control" placeholder="Numero de Tarjeta" type="number" min="0" name="numero_tarjeta" required value={{usuario.num_tarjeta_credito}}
+                    <input id="id_cardNumber" class="form-control" placeholder="Numero de Tarjeta" type="number" min="0" name="numero_tarjeta" value={{usuario.num_tarjeta_credito}}
                            >
                   </div>
                   <div class="form-group col-md-3">
-                    <input class="form-control" placeholder="Marca" type="text" name="cardBrand" required value={{usuario.marca_tarjeta}}
+                    <input id="marca_tarjeta" class="form-control" placeholder="Marca" type="text" name="cardBrand" value={{usuario.marca_tarjeta}}
                            >
                   </div>
                 
                   <div class="form-group col-md-6">
-                    <input class="form-control" placeholder="Fecha de vencimiento" type="" name="fecha_vencimiento" required value={{usuario.fecha_vencimiento_tarjeta}}
+                    <input id="id_vencimiento" class="form-control" placeholder="MMAA" type="number" min="0" name="fecha_vencimiento" value={{usuario.fecha_vencimiento_tarjeta}}
                            >
                   </div>
                   <div class="form-group col-md-6">
-                    <input id="id_securityCode" class="form-control" placeholder="Codigo de seguridad" type="number" min="000" max="999" name="securityCode" required value={{usuario.codigo_seguridad_tarjeta}}
+                    <input id="id_securityCode" class="form-control" placeholder="Codigo de seguridad" type="number" maxlength="3" minlength="3" name="securityCode" value={{usuario.codigo_seguridad_tarjeta}}
                            >
                   </div> 
                   <div class="form-group col-md-12">
-                  <input class="form-control" placeholder="Nombre del titular" name="nombre_tarjeta" type="" required value={{usuario.nom_titular_tarjeta}}
+                  <input id="nom_tit_tarjeta" class="form-control" placeholder="Nombre del titular" name="nombre_tarjeta" type="" value={{usuario.nom_titular_tarjeta}}
                   >
                 </div>
                 </div>
@@ -231,21 +237,155 @@ $("#close_alert").click(function (e) {
   
 });
 </script>
-    <script>
-    $('#id_confirmPassword').on('keyup', function(){
-        if($('#id_confirmPassword').val() === $('#id_password').val())
+
+
+<script type="text/javascript">
+  $(function () {
+    $.validator.addMethod('digitos', function(value, element) {
+      return value.length == 4 ;
+    }, "El vencimiento debe tener 4 caracteres");
+
+    $.validator.addMethod('vencida', function(value, element) {
+      
+      var tarj = (value % 100); 
+      var act = (new Date().getFullYear().toString().substr(-2)); 
+          if (tarj < act){
+              return false;
+          }
+          else{
+            return true;
+          }
+    }, "La tarjeta esta vencida");
+   
+    $('#formulario').validate({
+        rules: {
+            firstName: {
+                required: true
+            },
+            lastName: {
+                required: true
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            dni: {
+               required: true,
+               min: "0"
+            },
+            password: {
+               required: true
+            },
+            confirmPassword: {
+               required: true,
+               equalTo: "#id_password"
+            },
+            birthDay: {
+               required: true,
+               date: true
+            },
+            numero_tarjeta: {
+               required: true,
+               maxlength: 16,
+               minlength: 16
+            },
+            cardBrand: {
+               required: true
+            },
+            fecha_vencimiento: {
+               required: true,
+               digitos: true,
+               vencida: true
+            },
+            securityCode: {
+               required: true,
+               maxlength: 3,
+               minlength: 3
+            },
+            nombre_tarjeta: {
+               required: true
+            }
+        },
+        messages: {
+          email: {
+            required: "el campo es requerido",
+            email: "ingresa un email valido"
+          },
+          firstName: {
+            required: "el campo es requerido"
+          },
+          lastName: {
+            required: "el campo es requerido"
+          },
+          birthDay: {
+            required: "el campo es requerido",
+            date: "formato de fecha invalido"
+          },
+          dni: {
+            required: "el campo es requerido",
+            min: "no se admiten valores negativos"
+          },
+          fecha_vencimiento: {
+            required: "el campo es requerido"
+          },
+          cardBrand: {
+            required: "el campo es requerido"
+          },
+          securityCode: {
+            required: "el campo es requerido",
+            maxlength: "el codigo debe tener 3 digitos",
+            minlength: "el codigo debe tener 3 digitos"
+          },
+          nombre_tarjeta: {
+            required: "el campo es requerido"
+          },
+          numero_tarjeta: {
+            required: "el campo es requerido",
+            maxlength: "la tarjeta debe tener 16 digitos",
+            minlength: "la tarjeta debe tener 16 digitos"
+          },
+          password: {
+            required: "el campo es requerido"
+          },
+          confirmPassword: {
+            required: "el campo es requerido",
+            equalTo: "las contraseñas ingresadas no coinciden"
+          }
+        }
+    });
+    $('#formulario input').on('keyup blur', function () {
+        if ($('#formulario').valid()) {
+            $('button.btn').prop('disabled', false);
+        } else {
+            $('button.btn').prop('disabled', 'disabled');
+        }
+    });
+
+});    
+</script>
+    {% comment %} <script>
+    $('#id_confirmPassword').on('input', function(){
+        if($('#id_confirmPassword').val() === $('#id_password').val()){
             $('#pwdAlert').hide();
-        else
+            $('#submit').attr("disabled", false);
+        }
+        else{
             $('#pwdAlert').show().html('Las contraseñas no coinciden');
+            $('#submit').attr("disabled", true);
+        }
     });
     </script>
 
     <script>
-    $('#id_cardNumber').on('keyup', function(){
-        if($(this).val().length != 16) 
-            $('#pwdAlert').show().html('el numero de tarjeta debe tener 16 digitos');
-        else
+    $('#id_cardNumber').on('input', function(){
+        if($(this).val().length != 16) {
+            $('#pwdAlert').show().html('El numero de tarjeta debe tener 16 digitos');
+            $('#submit').attr("disabled", true);
+        }
+        else{
           $('#pwdAlert').hide();
+          $('#submit').attr("disabled", false);
+        }
     });
     </script>
 
@@ -268,15 +408,152 @@ $("#close_alert").click(function (e) {
     </script>
 
     <script>
-    $('#id_securityCode').on('keyup', function(){
-        if($(this).val().length != 16) 
+    $('#id_securityCode').on('input', function(){
+        if($(this).val().length != 3) {
             $('#pwdAlert').show().html('El codigo de seguridad debe tener 3 digitos');
-        else
+            $('#submit').attr("disabled", true);
+        }
+        else{
           $('#pwdAlert').hide();
+          $('#submit').attr("disabled", false);
+        }
+    });
+    </script>
+
+    <script>
+    $('#id_vencimiento').on('input', function(){
+        if($(this).val().length != 4) {
+            $('#pwdAlert').show().html('la fecha de vencimiento debe tener 4 digitos solo numericos');
+            $('#submit').attr("disabled", true);
+        }
+        else{
+            $('#pwdAlert').hide();
+            $('#submit').attr("disabled", false);
+            var tarj = ($(this).val() % 100); 
+            var act = (new Date().getFullYear().toString().substr(-2)); 
+            if (tarj < act){
+                $('#pwdAlert').show().html('la tarjeta esta vencida');
+                $('#submit').attr("disabled", true);
+            }
+            else{
+                $('#submit').attr("disabled", false);
+            }
+        }
+        
+
     });
     </script>
 
 
+
+
+    <script>
+        $('#apellido').on('input', function(){
+        if($(this).val().length == 0) {
+            $('#pwdAlert').show().html('debes ingresar un apellido');
+            $('#submit').attr("disabled", true);
+        }
+        else{
+          $('#pwdAlert').hide();
+          $('#submit').attr("disabled", false);
+        }
+    });
+    </script>
+
+
+
+    <script>
+        $('#email').on('input', function(){
+        if($(this).val().length == 0) {
+            $('#pwdAlert').show().html('debes ingresar un email');
+            $('#submit').attr("disabled", true);
+        }
+        else{
+          $('#pwdAlert').hide();
+          $('#submit').attr("disabled", false);
+        }
+    });
+    </script>
+
+    <script>
+        $('#dob').on('input', function(){
+        if($(this).val().length == 0) {
+            $('#pwdAlert').show().html('debes ingresar una fecha de nacimiento');
+            $('#submit').attr("disabled", true);
+        }
+        else{
+          $('#pwdAlert').hide();
+          $('#submit').attr("disabled", false);
+        }
+    });
+    </script>
+
+    <script>
+      $('#dni').on('input', function(){
+        if($(this).val().length == 0) {
+            $('#pwdAlert').show().html('debes ingresar un dni');
+            $('#submit').attr("disabled", true);
+        }
+        else{
+          $('#pwdAlert').hide();
+          $('#submit').attr("disabled", false);
+        }
+    });
+    </script>
+
+    <script>
+      $('#marca_tarjeta').on('input', function(){
+        if($(this).val().length == 0) {
+            $('#pwdAlert').show().html('debes ingresar la marca de la tarjeta');
+            $('#submit').attr("disabled", true);
+        }
+        else{
+          $('#pwdAlert').hide();
+          $('#submit').attr("disabled", false);
+        }
+    });
+    </script>
+
+    <script>
+      $('#nom_tit_tarjeta').on('input', function(){
+        if($(this).val().length == 0) {
+            $('#pwdAlert').show().html('debes ingresar el nombre del titular de la tarjeta');
+            $('#submit').attr("disabled", true);
+        }
+        else{
+          $('#pwdAlert').hide();
+          $('#submit').attr("disabled", false);
+        }
+    });
+    </script>
+
+
+    <script>
+      function nombre(){
+        console.log($("#nombre").val() != "")
+        return ($("#nombre").val() != "")
+      }
+      
+      function areAllValidationPassing(){
+        return nombre();
+      }
+
+
+      function estado_de_eventos(){
+        console.log("entre")
+        var cond = false;
+        while (true) {
+          if (areAllValidationPassing()){
+            $("#submit").attr("disabled", false);
+          }
+          else{
+            $("#submit").attr("disabled", true);
+          }
+        }
+      }
+
+      $(document).ready(estado_de_eventos());
+    </script> {% endcomment %}
        {% comment %} $(document).ready(function() {
             var age = "";
             $('#dob').datepicker({
@@ -289,4 +566,22 @@ $("#close_alert").click(function (e) {
                 changeYear: true
             })
         }) {% endcomment %}
+
+<script type="text/javascript">
+           $('#dob').datepicker({
+            onSelect: function(value, ui) {
+                var today = new Date(), 
+                    age = today.getFullYear() - ui.selectedYear;
+                if(age >= 18)
+                    $('#age').text("User is 18 years old");
+                else
+                    $('#age').text("User is 18 not years old");
+            },
+            maxDate: '+0d',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '-110:-0'
+        });   
+    </script>
+
 {% endblock %}
