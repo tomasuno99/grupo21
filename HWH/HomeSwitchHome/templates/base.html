@@ -54,6 +54,7 @@
 			<a href="/listado_residencias" class="logo">
 				<img src="{% static 'images/HSH-Logo.svg'%}" alt="IMG-LOGO">
 			</a>
+			{% if not user.is_premium and not user.is_staff%}
 			<button class="flex-c-m w-size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4" data-toggle="modal" data-target="#modalPremium" href="location.reload();">
 				Premium
 			</button>
@@ -68,7 +69,7 @@
 											</button>
 										</div>
 										<div class="modal-body">
-											El precio para volverse premium es de {{premium.precio}} pesos por mes, llamanos al <b>(+54) 221-455-0303</b>, envia una solicitud a <b>premium@homeswitchhome.com</b>, o acercate a una de <b>nuestras oficinas</b> y un encargado te guiara por el proceso. 
+											El precio para volverse premium es de <strong id="precio_premium">{{premium.precio}}</strong> pesos por mes, llamanos al <b>(+54) 221-455-0303</b>, envia una solicitud a <b>premium@homeswitchhome.com</b>, o acercate a una de <b>nuestras oficinas</b> y un encargado te guiara por el proceso. 
 										</div>
 										<div class="modal-footer">
 											{% comment %} <button type="button" class="btn btn-secondary"
@@ -79,6 +80,7 @@
 									</div>
 								</div>
 							</div>
+							{% endif %}
 			<!-- Menu -->
 			<div class="wrap_menu">
 				<nav class="menu">

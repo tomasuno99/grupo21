@@ -153,7 +153,7 @@
 		
 			{% for fecha in fechas %}
 			<tr>
-				<td id="{{fecha.0 }}" value="{{fecha.1}}">Semana de {{ fecha.1 }} {% if not fecha.2%} {% if fecha.4%} - Reservada {% else %} - En Subasta {% endif %} {% endif %}</td>
+				<td id="{{fecha.0 }}" value="{{fecha.1}}">Semana de {{ fecha.1 }} {% if not fecha.2%} {% if not fecha.2 %} - Reservada {% else %}{% if fecha.3%} - En Subasta {% endif %} {% endif %} {% endif %}</td>
 				{% if request.user.is_authenticated %}
 				<td>
 					{% if request.user.is_staff %}
@@ -163,7 +163,7 @@
 						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Subastar esta semana</button>
 					{% endif %}
 					{% else %}
-					{% if not fecha.2 and not fecha.4%}
+					{% if not fecha.2 and not fecha.4 and fecha.3%}
 					<a href="{% url 'subasta' fecha.3.id %}" {% comment %}
 						onclick="document.getElementById('answer').value=monto();" {% endcomment %}
 						class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4">Pujar en esta semana</a>

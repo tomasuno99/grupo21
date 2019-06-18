@@ -25,6 +25,9 @@ def product_detail(request,id):
             subasta= Subasta.objects.get(reserva=fecha['auto_id'])
          except:
             subasta= None
+         if subasta:
+            if (subasta.is_deleted):
+               subasta=None
          print(subasta)
          fechas.append([fecha['auto_id'],((fecha['semana_del_año']).strftime('%d/%m/%Y')), fecha['is_active'],subasta,fecha['user']])
       context= {
