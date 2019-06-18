@@ -47,7 +47,7 @@ def user_login(request):
 def logout(request):
     __logout(request)
     print('logout')
-    return redirect('index')
+    return redirect('listado_residencias')
 
 def user_register(request):
     user = CustomUser()
@@ -179,7 +179,7 @@ def modificar_tarjeta(request):
         return JsonResponse({'ok': 'El numero de la tarjeta debe ser de 16 digitos'},safe=False)
     if request.POST.get('vencimiento')[-2:] <= time.strftime("%d/%m/%y")[-2:]:
         return JsonResponse({'ok': 'La Tarjeta esta vencida'})
-    if len(request.POST.get('vencimiento')) != 5:
+    if len(request.POST.get('vencimiento')) != 4:
         return JsonResponse({'ok':'Ingrese el vencimiento de forma correcta'}, safe=False)
 
     usuario= CustomUser.objects.get(id=request.user.id)
