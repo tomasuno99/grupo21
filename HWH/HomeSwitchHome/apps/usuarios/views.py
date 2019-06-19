@@ -80,6 +80,7 @@ def user_register(request):
             if (len(r['numero_tarjeta']) == 16):
                 if r['fecha_vencimiento'][-2] >= time.strftime("%d/%m/%y")[-2]:
                     usuario = CustomUser.objects.create_user(email=r['email'], nombre=r['firstName'], apellido=r['lastName'], dni=r['dni'], fecha_nacimiento=r['birthDay'], password=r['password'], num_tarjeta_credito=r['numero_tarjeta'], nombre_titular_tarjeta=r['nombre_tarjeta'], fecha_vencimiento_tarjeta=r['fecha_vencimiento'], codigo_seguridad_tarjeta=r['securityCode'], marca_tajeta=r['cardBrand'])
+                    messages.error(request,'el usuario se registro con exito')
                     return HttpResponseRedirect('/listado_residencias')    
                 else:    
                     messages.error(request,'La tarjeta ingresada se encuentra Vencida')

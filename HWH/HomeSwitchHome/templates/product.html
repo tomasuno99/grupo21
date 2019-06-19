@@ -22,6 +22,15 @@
 	
 	
 	<!-- Content page -->
+	{% for message in messages %}
+	
+						<div class="alert alert-success">
+							<a class="close" href="#" data-dismiss="alert">×</a>
+	
+							{{ message }}
+	
+						</div>
+			{% endfor %}
 	<section class="bgwhite p-t-55 p-b-65">
 		<div class="container">
 			<div class="row">
