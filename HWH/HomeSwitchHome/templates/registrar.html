@@ -271,7 +271,9 @@ $("#close_alert").click(function (e) {
             },
             dni: {
                required: true,
-               min: "0"
+               min: "0",
+               minlength: "7",
+               maxlength: "8"
             },
             password: {
                required: true
@@ -323,7 +325,9 @@ $("#close_alert").click(function (e) {
           },
           dni: {
             required: "el campo es requerido",
-            min: "no se admiten valores negativos"
+            min: "no se admiten valores negativos",
+            minlength: "minimo se permiten 7 caracteres",
+            maxlength: "maximo se permiten 8 caracteres"
           },
           fecha_vencimiento: {
             required: "el campo es requerido"
