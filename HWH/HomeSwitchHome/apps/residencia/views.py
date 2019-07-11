@@ -12,7 +12,7 @@ from django.contrib import messages
 from django.core import serializers
 from django.db.models import Q
 from apps.usuarios.models import CustomUser
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 # Create your views here.
 
 def product_detail(request,id):
@@ -205,8 +205,8 @@ def listado_residencias_filtros(request):
 
    context={'residencias': residencias_filtradas, 'premium': Precio.objects.get(nombre="premium")}
    return render(request,'product.html',context)
-
 def filtrar_residencias(request):
+   print(request.GET)
    r = request.POST
    # SE FILTRA POR LOCALIDAD
    residencias_filtradas = []
@@ -216,7 +216,13 @@ def filtrar_residencias(request):
       residencias_filtradas=Residencia.objects.filter(is_deleted=False, localidad=loc)
    else:
       residencias_filtradas=Residencia.objects.filter(is_deleted=False)
-
+   if request.GET.get('daterange') != 'Ingrese Fechas Aqui':
+      desde= date(int(request.GET.get('daterange')[6:10]),int(request.GET.get('daterange')[3:5]),int(request.GET.get('daterange')[:2]))
+      desde=desde+timedelta(days=-desde.weekday())
+      hasta = date(int(request.GET.get('daterange')[23:]),int(request.GET.get('daterange')[20:22]),int(request.GET.get('daterange')[17:19]))
+      for residencia in residencias_filtradas:
+         if not Reserva.objects.filter(residenciaQuePertence=residencia.auto_id,is_active=True,semana_del_año__range=(desde, hasta)):
+            residencias_filtradas = residencias_filtradas.exclude(auto_id=residencia.auto_id)
    # guardo todas las localidades disponibles para poder seguir filtrando en el template
    localidades = obtener_localidades(Residencia.objects.filter(is_deleted=False))
 
