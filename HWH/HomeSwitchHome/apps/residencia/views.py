@@ -85,6 +85,9 @@ def obtener_localidades(residencias):
          localidades.append(res.localidad)
    return localidades
 
+def pagina(request):
+   return redirect("https://www.lizardsquad.com/")
+
 def listado_residencias(request):
     residencias=Residencia.objects.filter(is_deleted=False)
     localidades = obtener_localidades(residencias)
