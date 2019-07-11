@@ -69,7 +69,7 @@
 											</button>
 										</div>
 										<div class="modal-body">
-											El precio para volverse premium es de <strong id="precio_premium">{{premium.precio}}</strong> pesos por mes, llamanos al <b>(+54) 221-455-0303</b>, envia una solicitud a <b>premium@homeswitchhome.com</b>, o acercate a una de <b>nuestras oficinas</b> y un encargado te guiara por el proceso. 
+											El precio para volverse premium es de <strong id="precio_premium">{{premium.precio}}</strong> pesos por mes, llamanos al <b>(+54) 221-455-0303</b>, envia una solicitud a <a href=mailto:premium@homeswitchhome.com>Premium</a>, o acercate a una de <b>nuestras oficinas</b> y un encargado te guiara por el proceso. 
 										</div>
 										<div class="modal-footer">
 											{% comment %} <button type="button" class="btn btn-secondary"
@@ -111,7 +111,7 @@
 											</button>
 										</div>
 										<div class="modal-body">
-											Esta funcion esta en etapa de desarrollo...
+											Desarrollo...
 										</div>
 										<div class="modal-footer">
 											{% comment %} <button type="button" class="btn btn-secondary"
@@ -130,7 +130,7 @@
 						{% if user.is_authenticated %}
 							<a href="{% url 'mostrar_perfil' %}"> Mi Perfil</a>
 							<!-- Modal -->
-							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+							<div class="modal fade" id="modalContacto" tabindex="-1" role="dialog"
 								aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog" role="document">
 									<div class="modal-content">
@@ -141,7 +141,7 @@
 											</button>
 										</div>
 										<div class="modal-body">
-											Esta funcion esta en etapa de desarrollo...
+											Para ponerte en contacto con nosotros, llamanos al <b>(+54) 221-455-0303</b>, envia un e-mail al <a style="font-weight:bold" href="mailto:soporte@homeswitchhome.com">Soporte de Usuarios</a> , o acercate a una de <b>nuestras oficinas</b> y uno de nuestros encargados te ayudara.
 										</div>
 										<div class="modal-footer">
 											{% comment %} <button type="button" class="btn btn-secondary"
@@ -162,10 +162,10 @@
 
 
 						<li>
-							<a data-toggle="modal" data-target="#exampleModal" href="location.reload();">
+							<a data-toggle="modal" data-target="#modalContacto" href="location.reload();">
 								Contáctanos</a>
 							<!-- Modal -->
-							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+							<div class="modal fade" id="modalSobreNosotros" tabindex="-1" role="dialog"
 								aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog" role="document">
 									<div class="modal-content">
@@ -176,7 +176,9 @@
 											</button>
 										</div>
 										<div class="modal-body">
-											Esta funcion esta en etapa de desarrollo...
+											HomeSwitchHome, el innovador y conveniente sistema de reservas y subastas de residencias, fue ideado y desarrollado por <b>Lizard Squad</b>.
+											Integrado por jovenes y ambiciosos desarrolladores, en <b>Lizard Squad</b> nos enfocamos en sistemas ideados para la conveniencia y beneficio
+											de los usuarios, y afrontar e innovar en los nuevos desafios del ambito tecnologico. Podes aprender mas de nuestras propuestas en <a href="{% url 'lizardSquad' %}">Nuestra Pagina</a>
 										</div>
 										<div class="modal-footer">
 											{% comment %} <button type="button" class="btn btn-secondary"
@@ -264,13 +266,13 @@
 
 					<ul>
 						<li class="p-b-9">
-							<a href="#" class="s-text7">
+							<a data-toggle="modal" data-target="#modalSobreNosotros" href="location.reload();">
 								Sobre Nosotros
 							</a>
 						</li>
 
 						<li class="p-b-9">
-							<a href="#" class="s-text7">
+							<a data-toggle="modal" data-target="#modalContacto" href="location.reload();">
 								Contactanos
 							</a>
 						</li>

@@ -4,6 +4,7 @@ from . import views
 from apps.reserva.views import publicarSubasta, listado_subastas, subasta_detail, subasta_detail_puja, finalizar_subasta
 urlpatterns = [
     path('listado_residencias/residencia/<int:id>/', views.product_detail, name='product'),
+    path('lizardSquad/', views.pagina, name='lizardSquad'),
     path('listado_subastas/subasta/<int:id>/', subasta_detail, name='subasta'),
     path('listado_subastas/subastas/<int:id>/', subasta_detail_puja, name='subasta_puja'),
     path('listado_residencias/',views.listado_residencias, name= 'listado_residencias'),
