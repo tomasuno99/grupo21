@@ -61,7 +61,7 @@ def Agregar_residencia(request):
          r= Residencia.objects.get(auto_id=residencia.auto_id)
          creacion_aux=lunes(r.creacion)
          for i in range(1,53):
-            crearReservas(r,creacion_aux)
+            crearReservas(r,creacion_aux,i)
             creacion_aux=creacion_aux + timedelta(days=1)
             creacion_aux=lunes(creacion_aux)
       else:
@@ -71,8 +71,10 @@ def Agregar_residencia(request):
    else:
       return render(request,'agregar_residencia.html', context)
 
-def crearReservas(residencia, creacion_r):
+def crearReservas(residencia, creacion_r,i):
    reserva= Reserva()
+   if i<26:
+      reserva.is_active=False
    reserva.semana_del_año=creacion_r
    reserva.residenciaQuePertence=residencia
    reserva.save()

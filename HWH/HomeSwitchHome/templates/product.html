@@ -84,6 +84,7 @@
 
 					<!-- Product -->
 					<div id="list" class="row">
+						{% if not residencias %} No se encontraron Resultados de Residencias Disponibles{% endif %}
 						{% for residencia in residencias %} 
 						<div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
 							<!-- Block2 -->
@@ -123,7 +124,6 @@
 					<!-- Pagination -->
 					<div class="pagination flex-m flex-w p-t-26">
 						<a href="#" class="item-pagination flex-c-m trans-0-4 active-pagination">1</a>
-						<a href="#" class="item-pagination flex-c-m trans-0-4">2</a>
 					</div>
 				</div>
 			</div>
@@ -213,7 +213,7 @@
     		"dateLimit": {
                 "month": 2
             },
-			minDate: moment().add(6, 'M'),
+			minDate: moment().add(2, 'M'),
 			"locale": {
         		"format": "DD-MM-YYYY",
 				"separator": " Hasta ",

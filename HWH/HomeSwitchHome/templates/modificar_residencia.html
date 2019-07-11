@@ -16,30 +16,30 @@
     <form method="POST">{% csrf_token %}
 		<div class="form-group">
 			<label for="formGroupExampleInput">Nombre: </label>
-			<input class="form-control type="text" class="form-control" name="nombre"  value={{residencia.nombre}}>
+			<input class="form-control type="text" class="form-control" name="nombre"  value="{{residencia.nombre}}">
 		</div>
 		<div class="form-group">
 			<label for="formGroupExampleInput2">Capacidad: </label>
-			<input class="form-control" type="number" min="0" max="20" class="form-control" name="capacidad" value={{residencia.capacidad}}>
+			<input class="form-control" type="number" min="0" max="20" class="form-control" name="capacidad" value="{{residencia.capacidad}}">
 			<small id="passwordHelpBlock" class="form-text text-muted">
 					Solo se admiten valores numericos.
 			</small>
 		</div>
 		<div class="form-group">
 			<label for="formGroupExampleInput">Link: </label>
-			<input class="form-control" type="text" class="form-control" name="imagen" value={{residencia.imagen}}>
+			<input class="form-control" type="text" class="form-control" name="imagen" value="{{residencia.imagen}}">
 		</div>
 		<div class="form-group">
 			<label for="formGroupExampleInput">Direccion: </label>
-			<input class="form-control" type="text" class="form-control" name="direccion" value={{residencia.direccion}}>
+			<input class="form-control" type="text" class="form-control" name="direccion" value="{{residencia.direccion}}">
 		</div>
 		<div class="form-group">
 			<label for="formGroupExampleInput">Localidad: </label>
-			<input class="form-control" type="text" class="form-control" name="localidad" value={{residencia.localidad}}>
+			<input class="form-control" type="text" class="form-control" name="localidad" value="{{residencia.localidad}}">
 		</div>
 		<div class="form-group">
 			<label for="formGroupExampleInput">Descripcion: </label>
-			<input class="form-control" type="text" class="form-control" name="descripcion" value={{residencia.descripcion}}>
+			<input class="form-control" type="text" class="form-control" name="descripcion" value="{{residencia.descripcion}}">
 		</div>
 		{% for message in messages %}
 
