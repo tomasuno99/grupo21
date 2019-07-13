@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
-from apps.reserva.views import publicarSubasta, listado_subastas, subasta_detail, subasta_detail_puja, finalizar_subasta
+from apps.reserva.views import modificar_monto ,publicarSubasta, listado_subastas, subasta_detail, subasta_detail_puja, finalizar_subasta
 urlpatterns = [
     path('listado_residencias/residencia/<int:id>/', views.product_detail, name='product'),
     path('lizardSquad/', views.pagina, name='lizardSquad'),
@@ -12,6 +12,7 @@ urlpatterns = [
     path('modificar/<int:id>/', views.modificar_residencia, name='modificarResidencia'),
     path('eliminar/<int:id>/', views.eliminar_residencia, name='eliminarResidencia'),
     path('publicar_subasta/', publicarSubasta, name='publicarSubasta' ),
+    path('modificar_monto/', modificar_monto, name='modificar_monto' ),
     path('listado_subastas/', listado_subastas, name='listado_subastas'),
     path('index/', views.mostrar_index, name='index'),
     path('finalizar_subasta/', finalizar_subasta, name='finalizar_subasta' ),

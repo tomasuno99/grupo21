@@ -45,11 +45,26 @@ def subasta_detail(request,id):
       context= {
          "subasta": subasta,
          "related_products": related_products,
-         "puja": puja
+         "puja": puja,
+         "cantidad_pujas": len(Puja.objects.all())
       }
       return render(request,'subasta_detail.html', context)
    else:
       raise Http404
+
+def modificar_monto(request):
+   if request.POST.get('monto'):
+      if float(request.POST.get('monto')) < 1:
+         return JsonResponse({'ok':'error'},safe=False)
+      else:
+         puja= Puja.objects.get(id=request.POST.get('id'))
+         puja.monto= request.POST['monto']
+         puja.save()
+         return JsonResponse({'ok':'ok'},safe=False)
+   else:
+      return JsonResponse({'ok':'error'},safe=False)
+
+
 def subasta_detail_puja(request,id):
    print("hola")
    subasta= Subasta.objects.get(id=id)

@@ -30,10 +30,68 @@
 				Capacidad: {{subasta.residencia.capacidad}} Personas
 			</span>
 			<br>
-			<span id="monto_actual" class="m-text10">
-				Monto actual: {{puja.monto}}
+<script>
+function admitir_editar_monto() {
+		if ($("#monto_actual").attr("readonly") === "readonly") {
+			$("#monto_actual").attr("readonly", false)
+			$("#modificar_monto").text("Confirmar")
+			$("#cancelar_monto").show();
+		} else {
+			$.ajax({
+				type: "POST",
+				headers: {
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				url: "{% url 'modificar_monto' %}",
+				data:  {
+					'monto': $("#monto_actual").val(), 
+					'id': $("#monto_actual").attr('id_puja'), 
+					},
+				success: function (response) {
+					if (response['ok']=='ok'){
+						alert('El monto de modifico correctamente')
+					}
+
+					else{
+						$("#monto_actual").val($("#monto_actual").attr('ant'))
+						alert('No pudo modificarse el monto')
+
+					}
+				}
+			});
+			$("#monto_actual").attr("readonly", true)
+			$("#modificar_monto").text("Modificar");
+			$("#cancelar_monto").hide()
+
+		}
+	}
+	function cancelar_monto(){
+			$("#monto_actual").attr("readonly", true)
+			$("#monto_actual").val($("#monto_actual").attr('ant'))
+			$("#modificar_monto").text("Modificar");
+			$("#cancelar_monto").hide()
+}
+</script>
+<div id="modicar_monto_div">
+			{% if request.user.is_staff and cantidad_pujas == 1  %}
+					<span class="m-text10">
+							Monto actual:
+					<input id_puja="{{puja.id}}" ant="{{puja.monto}}" readonly id="monto_actual" class="form-control" style="width: 100px;" value="{{puja.monto}}"></input>
+					<br>
+					<button id="modificar_monto" class="btn btn-dark btn-sm" onclick="admitir_editar_monto()">Modificar</button>
+					<button id="cancelar_monto" class="btn btn-warning btn-sm" onclick="cancelar_monto()" style="display: none;">Cancelar</button>
 			</span>
 
+			{% else %}
+			<div class="form-group">
+			<span class="m-text10">
+				Monto actual:
+				<input readonly id="monto_actual" class="form-control" style="width: 100px;" value="{{puja.monto}}"></input>
+			</span>
+			
+			</div>
+			{% endif %}
+</div>
 
 			<p id="texto_finaliza"class="s-text8 p-t-10">
 				Esta subasta finaliza el {{subasta.finalizacion}}
@@ -253,15 +311,14 @@
 				success: function (response) {
 					if(response['usuario'] != 'usuario'){
 
-					
-					$("#monto_actual").text("Esta subasta la gano: "+response['usuario']);
+					$("#modicar_monto_div").hide()
 					$("#finalizar").hide();
-					$("#texto_finaliza").text("Subasta finalizada");
+					$("#texto_finaliza").text("Subasta finalizada - Esta subasta la gano: "+response['usuario']);
 					}
 					else{
-						$("#monto_actual").text("No hubo ganador. "+ response['msj']);
+						$("#modicar_monto_div").hide()
 						$("#finalizar").hide();
-						$("#texto_finaliza").text("Subasta finalizada");
+						$("#texto_finaliza").text("Subasta finalizada No hubo ganador. "+ response['msj']);
 					}
 				}
 			});
