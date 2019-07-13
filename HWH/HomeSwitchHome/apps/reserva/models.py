@@ -45,3 +45,8 @@ class Puja(models.Model):
     monto= models.IntegerField()
     subasta= models.ForeignKey(Subasta, null=True, blank=True, on_delete=models.CASCADE)
     user= models.ForeignKey(CustomUser, null=True, blank=True, on_delete=models.CASCADE)
+
+
+class Hotsale(models.Model):
+    precio = models.FloatField(null=False, default=0.0)
+    reserva = models.OneToOneField(Reserva, on_delete=models.CASCADE, null=True)
