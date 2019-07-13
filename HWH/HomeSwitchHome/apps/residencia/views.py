@@ -15,6 +15,19 @@ from apps.usuarios.models import CustomUser
 from datetime import datetime, timedelta, date
 # Create your views here.
 
+def mostrarHome(request):
+   residencias = Residencia.objects.filter(is_deleted=False)
+   localidades = obtener_localidades(residencias)
+   subastas = Subasta.objects.all()
+   context = {
+      'residencias': residencias,
+      'localidades': localidades,
+      'premium': Precio.objects.get(nombre="premium"),
+      'subastas': subastas,
+
+   }
+   return render(request,'home.html',context)
+
 def product_detail(request,id):
    residencia=Residencia.objects.get(auto_id=id)
    if residencia.is_deleted==False:
