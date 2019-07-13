@@ -45,4 +45,3 @@ class Puja(models.Model):
     monto= models.IntegerField()
     subasta= models.ForeignKey(Subasta, null=True, blank=True, on_delete=models.CASCADE)
     user= models.ForeignKey(CustomUser, null=True, blank=True, on_delete=models.CASCADE)
-

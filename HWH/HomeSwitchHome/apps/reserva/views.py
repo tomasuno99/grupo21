@@ -134,11 +134,11 @@ def finalizar_subasta(request):
    subasta= Subasta.objects.get(id=request.POST.get('subasta_id'))
    pujas= list(Puja.objects.filter(subasta=subasta))
    boolean=True
-   print("hola")
    while boolean:
       pujamax=devolver_puja_maxima(pujas)
       if not pujamax.user:
          subasta.is_deleted=True
+         subasta.reserva=None
          subasta.save()
          return JsonResponse({'usuario': 'usuario','msj': 'No pudo asignarse la reserva a ningun Usuario'}, safe=False)
       user= CustomUser.objects.get(id=pujamax.user.id)
