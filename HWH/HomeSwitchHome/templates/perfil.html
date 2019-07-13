@@ -169,7 +169,7 @@
 	{% if user.is_staff %}
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css" />
 	<div class="container bg6  p-t-35 p-b-80">
-	<table id="tableid" class="display">
+	<table id="tableid" class="display tableid">
 		<thead>
 			<tr>
 				<th>Listado de Clientes</th>
@@ -195,7 +195,9 @@
 				
 
 				{% endif %}
-				<td>
+				<td><button onclick="alta_admin({{cliente.id}},'{{cliente.email}}')" class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+						Alta Aministrador</button>
+				</td>
 				<td>
 				<button data-toggle="modal" data-target="#modal_cliente" class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4" onclick="mostrar_datos_cliente('{{cliente.id}}')">
 				Ver Datos</button>
@@ -224,13 +226,60 @@
 		</tbody>
 	</table>
 </div>
+<div class="container bg6  p-t-35 p-b-80">
+	<table id="tableid2" class="display tableid">
+		<thead>
+			<tr>
+				<th>Listado de Administradores</th>
+				<th><th>
+					<th></th>
+			</tr>
+		</thead>
+		<tbody>		
+			{% for administrador in administradores %}
+			<tr>
+				<td id="cliente{{administrador.id}}" value="">{{administrador.nombre}} {{administrador.apellido}} - {{administrador.email}}</td>
+				<td>
+				{% if administrador.is_staff %}
+				<button onclick="baja_admin({{administrador.id}},'{{administrador.email}}')" class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+				Dar de baja</button>
+				{% endif %}
+				<td>
+				<td>
+				<button data-toggle="modal" data-target="#modal_admin" class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4" onclick="mostrar_datos_admin('{{administrador.id}}')">
+				Ver Datos</button>
+								<div class="modal fade" id="modal_admin" tabindex="2" role="dialog" display: block;
+								aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Datos del Administrador</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body" id="texto_admin">
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-dark"
+												data-dismiss="modal">Cerrar</button>
+										</div>
+									</div>
+								</div>
+							</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
 </body>
 {% endif %}
 
 	{% if not user.is_staff %}
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css" />
 	<div class="container bg6  p-t-35 p-b-80">
-	<table id="tableid" class="display">
+	<table id="tableid" class="display tableid">
 		<thead>
 			<tr>
 				<th>Mis Reservas</th>
@@ -240,9 +289,31 @@
 		<tbody>		
 			{% for reserva in reservas %}
 			<tr>
-				<td id="reserva{{reserva.id}}" value="">Residencia: {{reserva.residenciaQuePertence}} -  Fecha: {{reserva.semana_del_año}}</td>
-				<td>
-				<td>
+				<td id="reserva{{reserva.auto_id}}" value="">Residencia: {{reserva.residenciaQuePertence}} -  Fecha: {{reserva.semana_del_año}}</td>
+				<td><button data-toggle="modal" data-target="#modal_cliente" class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4" onclick="mostrar_datos_reserva('{{reserva.auto_id}}')">
+				Ver Datos</button>
+								<div class="modal fade" id="modal_cliente" tabindex="2" role="dialog" display: block;
+								aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Datos de la Reserva</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body" id="texto_cliente">
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-dark"
+												data-dismiss="modal">Cerrar</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							</td>
+				<td><button class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4" onclick="cancelar_reserva({{reserva.auto_id}})">
+				Cancelar Reserva</button></td>
 			</tr>
 			{% endfor %}
 		</tbody>
@@ -259,7 +330,73 @@
 {% endblock %}
 {% block jsmas %}
 
+<script>
+	function baja_admin(id, email){
 
+var conf = confirm("¿Estas seguro que queres dar de baja a '"+email +"'?")
+if (conf){
+		$.ajax({
+			type: "POST",
+			headers: {
+				'X-CSRFToken': '{{ csrf_token }}'
+			},
+			url: "{% url 'baja_admin' %}",
+			data:  {
+				'id': id, 
+				},
+			success: function (response) {
+				alert("Se dió de baja correctamente a '"+email+"'")
+				location.reload()
+			}
+		});
+
+	}
+}
+function alta_admin(id, email){
+
+var conf = confirm("¿Estas seguro que queres dar de alta a '"+email +"' como administrador del sitio?")
+if (conf){
+		$.ajax({
+			type: "POST",
+			headers: {
+				'X-CSRFToken': '{{ csrf_token }}'
+			},
+			url: "{% url 'alta_admin' %}",
+			data:  {
+				'id': id, 
+				},
+			success: function (response) {
+				alert("Se dió de alta correctamente a '"+email+"' como administrador")
+				location.reload()
+			}
+		});
+
+	}
+}
+function cancelar_reserva(id){
+
+	var conf = confirm("¿Estas seguro de cancelar esta Reserva? Se te devolvera el crédito pero perderas tu estadia y el dinero ingresado.")
+	if (conf){
+			$.ajax({
+				type: "POST",
+				headers: {
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				url: "{% url 'cancelar_reserva' %}",
+				data:  {
+					'id': id, 
+					},
+				success: function (response) {
+					alert("Se canceló correctamente la reserva")
+					location.reload()
+				}
+			});
+
+		}
+	}
+
+
+</script>
 
 <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
 
@@ -444,7 +581,7 @@ function admitir_editar() {
 
 	$(document).ready(function () {
 		$.noConflict();
-		var table = $('#tableid').DataTable({
+		var table = $('.tableid').DataTable({
 			"language": {
 				"sProcessing":     "Procesando...",
 				"sLengthMenu":     "Mostrar _MENU_ registros",
@@ -469,7 +606,9 @@ function admitir_editar() {
 					"sSortDescending": ": Activar para ordenar la columna de manera descendente"
 				}
 			}
+			
 		});
+
 		
 	});
 
@@ -589,7 +728,45 @@ function modificar_premium() {
 			}
 		});
 	}
-
+	
+	function mostrar_datos_admin(id) {
+		$.ajax({
+			type: "POST",
+			headers: {
+				'X-CSRFToken': '{{ csrf_token }}'
+			},
+			url: "{% url 'get_datos_cliente' %}",
+			data: {
+				'id_cliente': id
+			},
+			success: function (response) {
+				$("#texto_admin").text(' ')
+				$("#texto_admin").append('<strong>E-Mail</strong>:' + response.email);
+				$("#texto_admin").append('<br> <strong>Nombre</strong>:'+response.nombre);
+				$("#texto_admin").append('<br> <strong>Apellido</strong>:'+response.apellido);
+				$("#texto_admin").append('<br> <strong>DNI</strong>:'+response.dni);
+			}
+		});
+	}
+	function mostrar_datos_reserva(id) {
+		$.ajax({
+			type: "POST",
+			headers: {
+				'X-CSRFToken': '{{ csrf_token }}'
+			},
+			url: "{% url 'get_datos_reserva' %}",
+			data: {
+				'id_reserva': id
+			},
+			success: function (response) {
+				$("#texto_cliente").text(' ')
+				$("#texto_cliente").append('<strong>Numero de reserva</strong>:' + response.id);
+				$("#texto_cliente").append('<br> <strong>Estado</strong>: Pagado');
+				$("#texto_cliente").append('<br> <strong>Residencia: </strong>'+response.nombre_residencia);
+				$("#texto_cliente").append('<br> <strong>Para la semana del</strong>: '+response.semana_del_año);
+			}
+		});
+	}
 </script>
 <!--===============================================================================================-->
 <script type="text/javascript" src="{% static 'css/vendor/jquery/jquery-3.2.1.min.js' %}"></script>

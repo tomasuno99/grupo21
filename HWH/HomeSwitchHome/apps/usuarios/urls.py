@@ -14,5 +14,9 @@ urlpatterns = [
     path('modificar_perfil', views.modificar_perfil, name='modificar_perfil'),
     path('modificar_tarjeta', views.modificar_tarjeta, name='modificar_tarjeta'),
     path('modificar_contraseña', views.modificar_contraseña, name='modificar_contraseña'),
-    path('get_datos_cliente', views.get_datos_cliente, name='get_datos_cliente')
+    path('get_datos_cliente', views.get_datos_cliente, name='get_datos_cliente'),
+    path('get_datos_reserva', views.get_datos_reserva, name='get_datos_reserva'),
+    path('cancelar_reserva', views.cancelar_reserva, name='cancelar_reserva'),
+    path('baja_admin', views.baja_admin, name='baja_admin'),
+    path('alta_admin', views.alta_admin, name='alta_admin')
 ]

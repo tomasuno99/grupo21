@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 import time
 from apps.residencia.models import Precio
-from apps.reserva.models import Reserva
+from apps.reserva.models import Reserva, Subasta
 from django.http import JsonResponse
 def baseContext():
     return {
@@ -101,9 +101,14 @@ def user_register(request):
     # return render(request, 'registrar.html')
 
 def mostrar_perfil(request):
+    administradores=CustomUser.objects.exclude(is_staff=False)
+    administradores= administradores.exclude(id=request.user.id)
+    administradores= administradores.exclude(is_active=False)
+    print(administradores)
     clientes= CustomUser.objects.exclude(is_staff=True)
+    clientes= clientes.exclude(is_active=False)
     context= {'user': request.user, 'premium': Precio.objects.get(nombre="premium"), 'basico': Precio.objects.get(nombre="basico"), 'clientes': clientes
-    , 'reservas': Reserva.objects.filter(user=request.user),
+    , 'reservas': Reserva.objects.filter(user=request.user), 'administradores':administradores,
     'dia': request.user.fecha_nacimiento[:2],
     'mes': request.user.fecha_nacimiento[3:5],
     'año': request.user.fecha_nacimiento[6:]}
@@ -210,3 +215,34 @@ def modificar_contraseña(request):
 def get_datos_cliente(request):
     cliente= CustomUser.objects.get(id=request.POST.get('id_cliente'))
     return JsonResponse({'nombre': cliente.nombre, 'apellido': cliente.apellido, 'dni':cliente.dni, 'email':cliente.email}, safe=False)
+
+def get_datos_reserva(request):
+    cliente= Reserva.objects.get(auto_id=request.POST.get('id_reserva'))
+    print(cliente.semana_del_año)
+    return JsonResponse({'nombre_residencia': cliente.residenciaQuePertence.nombre, 'id': cliente.auto_id, 'semana_del_año':cliente.semana_del_año}, safe=False)
+
+def cancelar_reserva(request):
+    reserva = Reserva.objects.get(auto_id=request.POST.get('id'))
+    user= CustomUser.objects.get(id=reserva.user.id)
+    user.semanas_disponibles= user.semanas_disponibles + 1
+    user.save()
+    subasta= Subasta()
+    subasta.reserva=reserva
+    subasta.residencia=reserva.residenciaQuePertence
+    subasta.is_deleted=True
+    subasta.save()
+    reserva.user= None
+    reserva.save()
+    return JsonResponse({},safe=False)
+
+def baja_admin(request):
+    usuario= CustomUser.objects.get(id=request.POST.get('id'))
+    usuario.is_active=False
+    usuario.save()
+    return JsonResponse({},safe=False)
+
+def alta_admin(request):
+    usuario= CustomUser.objects.get(id=request.POST.get('id'))
+    usuario.is_staff=True
+    usuario.save()
+    return JsonResponse({},safe=False)
