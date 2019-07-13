@@ -18,6 +18,7 @@ class Reserva(models.Model):
     residenciaQuePertence= models.ForeignKey(Residencia, on_delete=models.CASCADE, null=True, related_name='residencia_actual')
     is_active= models.BooleanField(default=True)
     is_deleted= models.BooleanField(default=False)
+    in_hotsale= models.BooleanField(default=False, null=True)
 
 
 class Subasta(models.Model):

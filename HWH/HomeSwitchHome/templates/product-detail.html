@@ -133,10 +133,10 @@
 </div>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css" />
 <div class="container bgwhite p-t-35 p-b-80">
-	<table id="tableid" class="display">
+	<table id="tableid" class="display tableid">
 		<thead>
 			<tr>
-				<th>Semanas Disponibles</th>
+				<th>Semanas Disponibles{% if request.user.is_staff %} para publicar Subasta{% endif %}</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -150,16 +150,17 @@
 					localStorage.setItem("monto", montoVar);
 				}
 			</script>
-		
+
 			{% for fecha in fechas %}
 			<tr>
-				<td id="{{fecha.0 }}" value="{{fecha.1}}">Semana de {{ fecha.1 }} {% if not fecha.2%} {% if not fecha.2 %} - Reservada {% else %}{% if fecha.3%} - En Subasta {% endif %} {% endif %} {% endif %}</td>
+				<td id="{{fecha.0 }}" value="{{fecha.1}}">Semana de {{ fecha.1 }} {% if not fecha.2%}
+					{% if not fecha.2 %} - Reservada {% else %}{% if fecha.3%} - En Subasta {% endif %} {% endif %}
+					{% endif %}</td>
 				{% if request.user.is_authenticated %}
 				<td>
 					{% if request.user.is_staff %}
-						{% if fecha.2 %}
-					<button id="subastar_semana{{ fecha.0 }}"
-						onclick="myFunction({{fecha.0}})" value="{{fecha.1}}"
+					{% if fecha.2 %}
+					<button id="subastar_semana{{ fecha.0 }}" onclick="myFunction({{fecha.0}})" value="{{fecha.1}}"
 						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Subastar esta semana</button>
 					{% endif %}
 					{% else %}
@@ -169,8 +170,7 @@
 						class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4">Pujar en esta semana</a>
 					{% else %}
 					{% if fecha.2 and request.user.is_premium %}
-					<button id="boton_reserva{{fecha.0}}"
-						onclick="reservar_semana({{fecha.0}})" value="{{ fecha.1}}"
+					<button id="boton_reserva{{fecha.0}}" onclick="reservar_semana({{fecha.0}})" value="{{ fecha.1}}"
 						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Reservar esta semana</button>
 
 					{% endif %}
@@ -183,6 +183,45 @@
 			<p id='monto'></p>
 		</tbody>
 	</table>
+	{% if request.user.is_staff %}
+<br>
+<br>
+<table id="tableid" class="display tableid">
+		<thead>
+			<tr>
+				<th>Semanas Disponibles {% if request.user.is_staff %}para publicar Hot-Sale{% endif %}</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<script>
+				var montoVar;
+
+				function monto() {
+					montoVar = prompt('ingresa monto a pujar para la semana del {{fecha.1 }}');
+					document.getElementById('monto').innerHTML = montoVar;
+					localStorage.setItem("monto", montoVar);
+				}
+			</script>
+
+			{% for fecha in fechas_hot_sale %}
+			<tr>
+				<td id="{{fecha.0 }}" value="{{fecha.1}}">Semana de {{ fecha.1 }} {% if not fecha.2%}
+					{% if not fecha.5 %} - Disponible {% else %} - En Hot-Sale {% endif %}
+					{% endif %}</td>
+					<td>
+				{% if not fecha.5 %}
+				<button id="boton_reserva{{fecha.0}}" onclick="publicar_hotsale({{fecha.0}})" value="{{ fecha.1}}"
+						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Publicar Hot-Sale</button>
+				
+				{% endif %}
+				</td>
+			</tr>
+			{% endfor %}
+			<p id='monto'></p>
+		</tbody>
+	</table>
+	{% endif %}
 </div>
 
 <!-- Relate Product -->
@@ -203,8 +242,7 @@
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-							<img src="{{prod.imagen}}"
-								alt="IMG-PRODUCT">
+							<img src="{{prod.imagen}}" alt="IMG-PRODUCT">
 
 							<div class="block2-overlay trans-0-4">
 								<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -230,7 +268,7 @@
 							<br>
 							<small>
 								Localidad: {{ prod.localidad }}
-								</small>
+							</small>
 
 						</div>
 					</div>
@@ -255,68 +293,73 @@
 <script>
 	$(document).ready(function () {
 		$.noConflict();
-		var table = $('#tableid').DataTable({
+		var table = $('.tableid').DataTable({
 
 			"ordering": false
 		});
 	});
-
-
-
 </script>
 
-	<script>
-			function reservar_semana(id){
-					var vf = confirm("¿Seguro que quiere reservar la semana del "+ $("#"+id).attr('value')+"?")
-					if (vf){
-					$.ajax({
-						type: "POST",
-						headers: {'X-CSRFToken': '{{ csrf_token }}'},
-						url: "{% url 'reservar_residencia' %}",
-						data: {'id_reserva': id},
-						success: function (response) {
-							console.log("hola")
-							if(response['ok'] =='ok'){
-								alert("La Semana fue reservada correctamente!")
-								$("#boton_reserva"+id).hide();
-								$("#"+id).text("Semana de "+ $("#"+id).attr('value') +" - Reservada")
-							}
-							else{
-								if(response['ok']=='semanas'){
-									alert("No tenés mas semanas disponibles!")
-								}
-								else{
-									alert("Tenes la semana seleccionada ocupada con otra reserva!")
-								}
-							}
+<script>
+	function reservar_semana(id) {
+		var vf = confirm("¿Seguro que quiere reservar la semana del " + $("#" + id).attr('value') + "?")
+		if (vf) {
+			$.ajax({
+				type: "POST",
+				headers: {
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				url: "{% url 'reservar_residencia' %}",
+				data: {
+					'id_reserva': id
+				},
+				success: function (response) {
+					console.log("hola")
+					if (response['ok'] == 'ok') {
+						alert("La Semana fue reservada correctamente!")
+						$("#boton_reserva" + id).hide();
+						$("#" + id).text("Semana de " + $("#" + id).attr('value') + " - Reservada")
+					} else {
+						if (response['ok'] == 'semanas') {
+							alert("No tenés mas semanas disponibles!")
+						} else {
+							alert("Tenes la semana seleccionada ocupada con otra reserva!")
 						}
-					});
-
+					}
 				}
+			});
 
+		}
+
+	}
+
+	function myFunction(id) {
+		var monto = prompt("¿Seguro que queres subastar la semana del " + $("#" + id).attr('value') +
+			"? Ingresa el monto minimo", "0");
+		if (monto == null || monto == "") {
+			alert("Ingrese algun valor para el monto")
+		} else {
+			var data = {
+				"monto": monto,
+				"auto_id": id
 			}
-  
-			function myFunction(id) {
-  			var monto = prompt("¿Seguro que queres subastar la semana del "+$("#"+id).attr('value')+"? Ingresa el monto minimo", "0");	
-  			if (monto == null || monto == "") {
-				 	alert("Ingrese algun valor para el monto")
-  				} else {
-						  var data={ "monto": monto,"auto_id": id  }
-						$.ajax({
-							type: "POST",
-							headers: {'X-CSRFToken': '{{ csrf_token }}'},
-							url: "{% url 'publicarSubasta' %}",
-							data: data,
-							success: function (response) {
-								
-								$("#"+id).text("Semana del "+ $("#"+id).attr('value') + " - En Subasta");
-								$("#subastar_semana"+id).hide();
-								alert("Subasta publicada con exito!")
-							}
-						});
-  				}
-			}
-			</script>
+			$.ajax({
+				type: "POST",
+				headers: {
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				url: "{% url 'publicarSubasta' %}",
+				data: data,
+				success: function (response) {
+
+					$("#" + id).text("Semana del " + $("#" + id).attr('value') + " - En Subasta");
+					$("#subastar_semana" + id).hide();
+					alert("Subasta publicada con exito!")
+				}
+			});
+		}
+	}
+</script>
 <!--===============================================================================================-->
 <script type="text/javascript" src="{% static 'css/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
 <!--===============================================================================================-->
