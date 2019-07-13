@@ -180,7 +180,7 @@
 		<tbody>		
 			{% for cliente in clientes %}
 			<tr>
-				<td id="cliente{{cliente.id}}" value="">{{cliente.email}}  -  {% if not cliente.is_premium %}Plan Basico {% else %}<img style="display:block;" src="{% static 'images/coronita.png' %}" align="left" witdh=20px height=20px"/> Plan Premium {% endif %}</td>
+				<td id="cliente{{cliente.id}}" value="">{{cliente.nombre}} {{cliente.apellido}} - {{cliente.email}}  -  {% if not cliente.is_premium %}Plan Basico {% else %}<img style="display:block;" src="{% static 'images/coronita.png' %}" align="left" witdh=20px height=20px"/> Plan Premium {% endif %}</td>
 				<td>
 								{% if not cliente.is_premium %}
 				<button id="cambiar_premium{{cliente.id}}" onclick="cambiar_a_premium('{{cliente.id}}','{{cliente.email}}')" class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4">
