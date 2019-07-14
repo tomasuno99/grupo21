@@ -2,8 +2,8 @@ from django.shortcuts import render, render_to_response, redirect, get_object_or
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from .models import Residencia, Precio
 from .forms import *
-from apps.reserva.models import Subasta, Reserva
-from apps.reserva.views import chequear_disponibilidad_semana
+from apps.reserva.models import Subasta, Reserva, Hotsale
+from apps.reserva.views import chequear_disponibilidad_semana, tiene_algun_hotsale_disponible
 from django.views.generic import TemplateView, ListView
 from django.template import RequestContext, loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -19,11 +19,17 @@ def mostrarHome(request):
    residencias = Residencia.objects.filter(is_deleted=False)
    localidades = obtener_localidades(residencias)
    subastas = Subasta.objects.all()
+   hotsales = Hotsale.objects.filter(is_active=True)
+   hotsales_filtradas = []
+   for res in residencias:
+      if tiene_algun_hotsale_disponible(res):
+         hotsales_filtradas.append(res)
    context = {
       'residencias': residencias,
       'localidades': localidades,
       'premium': Precio.objects.get(nombre="premium"),
       'subastas': subastas,
+      'hotsales': hotsales_filtradas,
 
    }
    return render(request,'home.html',context)
@@ -271,4 +277,4 @@ def filtrar_residencias(request):
    }
 
 
-   return render(request, 'product.html', context)
+   return render(request, url, context)
