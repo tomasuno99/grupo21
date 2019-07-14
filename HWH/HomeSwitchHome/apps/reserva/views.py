@@ -183,6 +183,7 @@ def finalizar_subasta(request):
 def publicarHotsale(request):
    r = request.POST
    reserva = Reserva.objects.get(auto_id=r["auto_id"])
+   print (reserva)
    reserva.in_hotsale = True
    Hotsale.objects.create(precio=r["monto"], reserva=reserva, is_active=True)
    reserva.save()
@@ -258,3 +259,13 @@ def filtrar_las_que_tienen_hotsale(residencias):
       if tiene_algun_hotsale_disponible(res):
          residencias_filtradas.append(res)
    return residencias_filtradas
+
+
+def cancelarHotsale(request):
+   r = request.POST
+   reserva = Reserva.objects.get(auto_id=r["auto_id"])
+   reserva.in_hotsale = False
+
+   Hotsale.objects.get(reserva=reserva).delete()  
+   reserva.save()
+   return JsonResponse({},safe=False)
