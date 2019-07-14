@@ -206,14 +206,22 @@
 
 			{% for fecha in fechas_hot_sale %}
 			<tr>
-				<td id="{{fecha.0 }}" value="{{fecha.1}}">Semana de {{ fecha.1 }} {% if not fecha.2%}
-					{% if not fecha.5 %} - Disponible {% else %} - En HotSale {% endif %}
-					{% endif %}</td>
+				<td id="{{fecha.0 }}" value="{{fecha.1}}">Semana de {{ fecha.1 }} 
+				{% if not fecha.2%}
+					{% if not fecha.5 %} 
+						- Disponible 
+					{% else %} 
+						- En HotSale
+ 
+					{% endif %}
+				{% endif %}</td>
 					<td>
 				{% if not fecha.5 %}
 				<button id="boton_reserva{{fecha.0}}" onclick="functionHotsale({{fecha.0}})" value="{{ fecha.1}}"
 						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Publicar HotSale</button>
-				
+				{% else %}
+					<button id="boton_cancelarHotsale{{fecha.0}}" onclick="functionCancelarHotsale({{fecha.0}})" value="{{ fecha.1}}"
+						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4 color0">Cancelar Hotsale</button>
 				{% endif %}
 				</td>
 			</tr>
@@ -334,9 +342,9 @@
 	}
 
 	function myFunction(id) {
-		var monto = prompt("¿Seguro que queres subastar la semana del " + $("#" + id).attr('value') +
-			"? Ingresa el monto minimo", "0");
-		if (monto == null || monto == "") {
+		var monto = Number(prompt("¿Seguro que queres subastar la semana del " + $("#" + id).attr('value') +
+			"? Ingresa el monto minimo", "0");)
+		if (isNaN(monto) || monto < 0) {
 			alert("Ingrese algun valor para el monto")
 		} else {
 			var data = {
@@ -361,10 +369,10 @@
 	}
 
 	function functionHotsale(id) {
-		var monto = prompt("¿Seguro que queres hacer hotsale de la reserva del " + $("#" + id).attr('value') +
-			"? Ingresa precio del hotsale ", "0");
-		if (monto == null || monto == "") {
-			alert("Ingrese algun valor para el precio")
+		var monto = Number(prompt("¿Seguro que queres hacer hotsale de la reserva del " + $("#" + id).attr('value') +
+			"? Ingresa precio del hotsale ", "0"));
+		if (isNaN(monto) || monto < 0) {
+			alert("El monto ingresado no es valido, ingrese un valor numerico")
 		} else {
 			var data = {
 				"monto": monto,
@@ -387,6 +395,31 @@
 			});
 		}
 	}
+
+	function functionCancelarHotsale(id) {
+		var monto = confirm("Seguro que querés cancelar este Hotsale?")
+		if (monto != null) {
+			var data = {
+				"auto_id": id
+			}
+			$.ajax({
+				type: "POST",
+				headers: {
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				url: "{% url 'cancelar_hotsale' %}",
+				data: data,
+				success: function (response) {
+					$("#" + id).text("Semana del " + $("#" + id).attr('value') + " - Disponible");
+					$("#boton_cancelarHotsale" + id).hide();
+					alert("Hotsale cancelado con exito!")
+					location.reload()
+				}
+			});
+		}
+	}
+		
+
 </script>
 <!--===============================================================================================-->
 <script type="text/javascript" src="{% static 'css/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
