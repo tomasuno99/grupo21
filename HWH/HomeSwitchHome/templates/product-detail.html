@@ -207,12 +207,12 @@
 			{% for fecha in fechas_hot_sale %}
 			<tr>
 				<td id="{{fecha.0 }}" value="{{fecha.1}}">Semana de {{ fecha.1 }} {% if not fecha.2%}
-					{% if not fecha.5 %} - Disponible {% else %} - En Hot-Sale {% endif %}
+					{% if not fecha.5 %} - Disponible {% else %} - En HotSale {% endif %}
 					{% endif %}</td>
 					<td>
 				{% if not fecha.5 %}
-				<button id="boton_reserva{{fecha.0}}" onclick="publicar_hotsale({{fecha.0}})" value="{{ fecha.1}}"
-						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Publicar Hot-Sale</button>
+				<button id="boton_reserva{{fecha.0}}" onclick="functionHotsale({{fecha.0}})" value="{{ fecha.1}}"
+						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Publicar HotSale</button>
 				
 				{% endif %}
 				</td>
@@ -355,6 +355,34 @@
 					$("#" + id).text("Semana del " + $("#" + id).attr('value') + " - En Subasta");
 					$("#subastar_semana" + id).hide();
 					alert("Subasta publicada con exito!")
+				}
+			});
+		}
+	}
+
+	function functionHotsale(id) {
+		var monto = prompt("¿Seguro que queres hacer hotsale de la reserva del " + $("#" + id).attr('value') +
+			"? Ingresa precio del hotsale ", "0");
+		if (monto == null || monto == "") {
+			alert("Ingrese algun valor para el precio")
+		} else {
+			var data = {
+				"monto": monto,
+				"auto_id": id
+			}
+			$.ajax({
+				type: "POST",
+				headers: {
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				url: "{% url 'publicarHotsale' %}",
+				data: data,
+				success: function (response) {
+
+					$("#" + id).text("Semana del " + $("#" + id).attr('value') + " - En Hotsale");
+					$("#boton_reserva" + id).hide();
+					alert("Hotsale publicado con exito!")
+					
 				}
 			});
 		}

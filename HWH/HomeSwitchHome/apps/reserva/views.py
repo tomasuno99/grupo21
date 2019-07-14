@@ -1,6 +1,6 @@
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404, Http404
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from apps.reserva.models import Reserva,Subasta,Puja
+from apps.reserva.models import Reserva, Subasta, Puja, Hotsale
 from datetime import datetime, timedelta
 from django.contrib import messages
 from django.db.models import Max
@@ -155,4 +155,13 @@ def finalizar_subasta(request):
             pujas.remove(pujamax)
       else:
          pujas.remove(pujamax)
+   return JsonResponse({},safe=False)
+
+
+def publicarHotsale(request):
+   r = request.POST
+   reserva = Reserva.objects.get(auto_id=r["auto_id"])
+   reserva.in_hotsale = True
+   Hotsale.objects.create(precio=r["monto"], reserva=reserva)
+   reserva.save()
    return JsonResponse({},safe=False)
