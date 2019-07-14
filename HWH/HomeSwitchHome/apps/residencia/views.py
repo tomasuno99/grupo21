@@ -277,4 +277,4 @@ def filtrar_residencias(request):
    }
 
 
-   return render(request, url, context)
+   return render(request, "product.html", context)

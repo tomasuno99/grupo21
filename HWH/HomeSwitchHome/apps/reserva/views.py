@@ -184,7 +184,7 @@ def listadoHotsales(request):
    localidades = obtener_localidades(residencias_filtradas)
    print (localidades)
    context={'residencias': residencias_filtradas, 'localidades': localidades, 'premium': Precio.objects.get(nombre="premium")}
-   return render(request,'product.html',context)
+   return render(request,'listado_hotsales.html',context)
 
 
 def obtener_localidades(residencias):
@@ -230,7 +230,7 @@ def filtrar_residencias(request):
    }
 
 
-   return render(request, 'product.html', context)
+   return render(request, 'listado_hotsales.html', context)
 
 def filtrar_las_que_tienen_hotsale(residencias):
    residencias_filtradas = []
