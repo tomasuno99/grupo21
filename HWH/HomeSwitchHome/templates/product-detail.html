@@ -343,8 +343,8 @@
 
 	function myFunction(id) {
 		var monto = Number(prompt("¿Seguro que queres subastar la semana del " + $("#" + id).attr('value') +
-			"? Ingresa el monto minimo", "0");)
-		if (isNaN(monto) || monto < 0) {
+			"? Ingresa el monto minimo", "0"));
+		if (isNaN(monto) || monto < 0 || monto == null || monto == 0) {
 			alert("Ingrese algun valor para el monto")
 		} else {
 			var data = {
@@ -371,7 +371,7 @@
 	function functionHotsale(id) {
 		var monto = Number(prompt("¿Seguro que queres hacer hotsale de la reserva del " + $("#" + id).attr('value') +
 			"? Ingresa precio del hotsale ", "0"));
-		if (isNaN(monto) || monto < 0) {
+		if (isNaN(monto) || monto < 0 || monto == null || monto == 0) {
 			alert("El monto ingresado no es valido, ingrese un valor numerico")
 		} else {
 			var data = {
@@ -390,6 +390,7 @@
 					$("#" + id).text("Semana del " + $("#" + id).attr('value') + " - En Hotsale");
 					$("#boton_reserva" + id).hide();
 					alert("Hotsale publicado con exito!")
+					location.reload()
 					
 				}
 			});
@@ -398,7 +399,7 @@
 
 	function functionCancelarHotsale(id) {
 		var monto = confirm("Seguro que querés cancelar este Hotsale?")
-		if (monto != null) {
+		if (monto) {
 			var data = {
 				"auto_id": id
 			}
