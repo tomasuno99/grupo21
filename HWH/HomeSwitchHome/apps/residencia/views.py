@@ -32,13 +32,14 @@ def mostrarHome(request):
       'hotsales': hotsales_filtradas,
 
    }
-   return render(request,'home.html',context)
+   return render(request,'home-02.html',context)
 
 def product_detail(request,id):
    residencia=Residencia.objects.get(auto_id=id)
    if residencia.is_deleted==False:
       related_products= Residencia.objects.exclude(auto_id=id)
       fechas=[]
+      fechas_hotsale=[]
       for fecha in Reserva.objects.filter(residenciaQuePertence=residencia).values('semana_del_año','auto_id', 'is_active','user','in_hotsale'):
          try:
             subasta= Subasta.objects.get(reserva=fecha['auto_id'])
@@ -47,13 +48,21 @@ def product_detail(request,id):
          if subasta:
             if (subasta.is_deleted):
                subasta=None
-         print(subasta)
-         fechas.append([fecha['auto_id'],((fecha['semana_del_año']).strftime('%d/%m/%Y')), fecha['is_active'],subasta,fecha['user'],fecha['in_hotsale']])
+         if str(fecha['semana_del_año']) < str((datetime.now() + timedelta(days=180)).strftime('%Y-%m-%d')):
+            semana= Reserva.objects.get(auto_id=fecha['auto_id'])
+            semana.is_active=False
+            semana.save()
+            if not semana.user and not Subasta.objects.filter(reserva=semana):
+               fechas_hotsale.append([fecha['auto_id'],((fecha['semana_del_año']).strftime('%d/%m/%Y')), fecha['is_active'],subasta,fecha['user'],fecha['in_hotsale']])  
+         else:
+            fechas.append([fecha['auto_id'],((fecha['semana_del_año']).strftime('%d/%m/%Y')), fecha['is_active'],subasta,fecha['user'],fecha['in_hotsale']])
+         
+      print(fechas_hotsale[-1][0])
       context= {
          "residencia": residencia,
          "related_products": related_products,
-         "fechas": fechas[25:],
-         "fechas_hot_sale": fechas[:25]
+         "fechas": fechas,
+         "fechas_hot_sale": fechas_hotsale
       }
       return render(request,'product-detail.html', context)
    else:
