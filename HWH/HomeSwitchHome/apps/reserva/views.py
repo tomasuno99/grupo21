@@ -36,6 +36,26 @@ def listado_subastas(request):
     context={'subastas': subastas, 'premium':Precio.objects.get(nombre='premium')}
     return render(request,'subastas.html',context)
 
+def hotsale_detail(request,id):
+   residencia= Residencia.objects.get(auto_id=id)
+   hotsales= Hotsale.objects.all()
+   return render(request,'hotsale_detail.html',{'residencia':residencia, 'hotsales':hotsales})
+
+def reservar_hotsale(request):
+   reserva=Reserva.objects.get(auto_id=request.POST.get('id_reserva'))
+   hotsale=Hotsale.objects.get(id=request.POST.get('id_hotsale'))
+   context={}
+   if chequear_disponibilidad_semana(request.user,reserva):
+      reserva.user=request.user
+      reserva.in_hotsale=False
+      hotsale.delete()
+      reserva.save()
+      context['ok']='ok'
+      return JsonResponse(context,safe=False)
+   else:
+      context['ok']='error'
+      return JsonResponse(context,safe=False)
+
 def subasta_detail(request,id):
    subasta=Subasta.objects.get(id=id)
    if subasta.is_deleted==False:
