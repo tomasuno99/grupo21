@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.db.models import Max
 from apps.usuarios.models import CustomUser
 from apps.residencia.models import Precio, Residencia
+# from apps.residencia.views import filtrar_residencias NO ME DEJA IMPORTARLO
 # from apps.residencia.views import obtener_localidades NO ME DEJA IMPORTARLO
 # Create your views here.
 
@@ -201,3 +202,39 @@ def tiene_algun_hotsale_disponible(residencia):
             return True
         else:
             return False
+
+def filtrar_residencias(request):
+   print(request.GET)
+   r = request.POST
+   # SE FILTRA POR LOCALIDAD
+   residencias_filtradas = []
+   print (request.GET.get("localidad"))
+   loc = request.GET.get("localidad")
+   if loc != "Seleccione una localidad":
+      residencias_filtradas=filtrar_las_que_tienen_hotsale(Residencia.objects.filter(is_deleted=False, localidad=loc))
+   else:
+      residencias_filtradas=filtrar_las_que_tienen_hotsale(Residencia.objects.filter(is_deleted=False))
+   # if request.GET.get('daterange') != 'Ingrese Fechas Aqui':
+   #    desde= date(int(request.GET.get('daterange')[6:10]),int(request.GET.get('daterange')[3:5]),int(request.GET.get('daterange')[:2]))
+   #    desde=desde+timedelta(days=-desde.weekday())
+   #    hasta = date(int(request.GET.get('daterange')[23:]),int(request.GET.get('daterange')[20:22]),int(request.GET.get('daterange')[17:19]))
+   #    for residencia in residencias_filtradas:
+   #       if not Reserva.objects.filter(residenciaQuePertence=residencia.auto_id,is_active=True,semana_del_año__range=(desde, hasta)):
+   #          residencias_filtradas = residencias_filtradas.exclude(auto_id=residencia.auto_id)
+   # # guardo todas las localidades disponibles para poder seguir filtrando en el template
+   localidades = obtener_localidades(filtrar_las_que_tienen_hotsale(Residencia.objects.filter(is_deleted=False)))
+   context = {
+      "residencias": residencias_filtradas,
+      'premium': Precio.objects.get(nombre="premium"),
+      "localidades": localidades
+   }
+
+
+   return render(request, 'product.html', context)
+
+def filtrar_las_que_tienen_hotsale(residencias):
+   residencias_filtradas = []
+   for res in residencias:
+      if tiene_algun_hotsale_disponible(res):
+         residencias_filtradas.append(res)
+   return residencias_filtradas
