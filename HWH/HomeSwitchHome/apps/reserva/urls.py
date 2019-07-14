@@ -5,4 +5,5 @@ from . import views
 urlpatterns = [
     path('pujar/',views.pujar, name='pujar'),
     path('publicar_hotsale/', views.publicarHotsale, name='publicarHotsale'),
+    path('listado_hotsales/', views.listadoHotsales, name='listado_hotsales'),
 ]

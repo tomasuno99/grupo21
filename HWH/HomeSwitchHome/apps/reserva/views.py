@@ -5,7 +5,8 @@ from datetime import datetime, timedelta
 from django.contrib import messages
 from django.db.models import Max
 from apps.usuarios.models import CustomUser
-from apps.residencia.models import Precio
+from apps.residencia.models import Precio, Residencia
+# from apps.residencia.views import obtener_localidades NO ME DEJA IMPORTARLO
 # Create your views here.
 
 
@@ -162,6 +163,41 @@ def publicarHotsale(request):
    r = request.POST
    reserva = Reserva.objects.get(auto_id=r["auto_id"])
    reserva.in_hotsale = True
-   Hotsale.objects.create(precio=r["monto"], reserva=reserva)
+   Hotsale.objects.create(precio=r["monto"], reserva=reserva, is_active=True)
    reserva.save()
    return JsonResponse({},safe=False)
+
+def listadoHotsales(request):
+   r = request.POST
+   hotsales = Hotsale.objects.filter(is_active=True)
+   print (hotsales)
+
+   residencias = Residencia.objects.filter(is_deleted=False)
+   residencias_filtradas = []
+   print (residencias)
+   for res in residencias:
+      if tiene_algun_hotsale_disponible(res):
+         residencias_filtradas.append(res)
+   print (residencias_filtradas)
+   
+   localidades = obtener_localidades(residencias_filtradas)
+   print (localidades)
+   context={'residencias': residencias_filtradas, 'localidades': localidades, 'premium': Precio.objects.get(nombre="premium")}
+   return render(request,'product.html',context)
+
+
+def obtener_localidades(residencias):
+   print(residencias)
+   localidades = []
+   for res in residencias:
+      if not res.localidad in localidades and res.localidad != "":
+         localidades.append(res.localidad)
+   return localidades
+
+def tiene_algun_hotsale_disponible(residencia):
+        reservasDeLaResidencia = Reserva.objects.filter(residenciaQuePertence=residencia, in_hotsale=True)
+        print (reservasDeLaResidencia)
+        if len(reservasDeLaResidencia) >= 1:
+            return True
+        else:
+            return False

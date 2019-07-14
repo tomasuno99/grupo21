@@ -19,7 +19,8 @@ class Reserva(models.Model):
     is_active= models.BooleanField(default=True)
     is_deleted= models.BooleanField(default=False)
     in_hotsale= models.BooleanField(default=False, null=False)
-
+    class Meta:
+        verbose_name = "Reserva"
 
 class Subasta(models.Model):
     finalizacion= models.DateField(null=True)
@@ -56,3 +57,4 @@ class Puja(models.Model):
 class Hotsale(models.Model):
     precio = models.FloatField(null=False, default=0.0)
     reserva = models.OneToOneField(Reserva, on_delete=models.CASCADE, null=True)
+    is_active = models.BooleanField(null=False, default=True)
