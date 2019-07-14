@@ -41,6 +41,11 @@ class Subasta(models.Model):
             if dateFin >= self.finalizacion - timedelta(days=3):
                 return True
         return False    
+
+    def cantidadDePujas(self):
+        pujas = Puja.objects.filter(subasta=self)
+        print (pujas)
+        return len(pujas)
         
 class Puja(models.Model):
     monto= models.IntegerField()

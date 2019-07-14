@@ -73,7 +73,7 @@ function admitir_editar_monto() {
 }
 </script>
 <div id="modicar_monto_div">
-			{% if request.user.is_staff and cantidad_pujas == 1  %}
+			{% if request.user.is_staff and subasta.cantidadDePujas == 1  %}
 					<span class="m-text10">
 							Monto actual:
 					<input id_puja="{{puja.id}}" ant="{{puja.monto}}" readonly id="monto_actual" class="form-control" style="width: 100px;" value="{{puja.monto}}"></input>
