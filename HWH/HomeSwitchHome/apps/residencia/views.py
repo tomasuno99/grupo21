@@ -32,7 +32,7 @@ def mostrarHome(request):
       'hotsales': hotsales_filtradas,
 
    }
-   return render(request,'home.html',context)
+   return render(request,'home-02.html',context)
 
 def product_detail(request,id):
    residencia=Residencia.objects.get(auto_id=id)
