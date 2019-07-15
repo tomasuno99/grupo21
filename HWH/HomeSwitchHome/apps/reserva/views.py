@@ -77,13 +77,16 @@ def subasta_detail(request,id):
 
 def modificar_monto(request):
    if request.POST.get('monto'):
-      if float(request.POST.get('monto')) < 1:
+      try: 
+         if float(request.POST.get('monto')) < 1:
+            return JsonResponse({'ok':'error'},safe=False)
+         else:
+            puja= Puja.objects.get(id=request.POST.get('id'))
+            puja.monto= request.POST['monto']
+            puja.save()
+            return JsonResponse({'ok':'ok'},safe=False)
+      except:
          return JsonResponse({'ok':'error'},safe=False)
-      else:
-         puja= Puja.objects.get(id=request.POST.get('id'))
-         puja.monto= request.POST['monto']
-         puja.save()
-         return JsonResponse({'ok':'ok'},safe=False)
    else:
       return JsonResponse({'ok':'error'},safe=False)
 
