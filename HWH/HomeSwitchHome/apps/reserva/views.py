@@ -45,7 +45,7 @@ def reservar_hotsale(request):
    reserva=Reserva.objects.get(auto_id=request.POST.get('id_reserva'))
    hotsale=Hotsale.objects.get(id=request.POST.get('id_hotsale'))
    context={}
-   if chequear_disponibilidad_semana(request.user,reserva):
+   if chequear_disponibilidad_semana(request.user, reserva.semana_del_año):
       reserva.user=request.user
       reserva.in_hotsale=False
       reserva.reservo_con_hotsale=True

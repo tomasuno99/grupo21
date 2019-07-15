@@ -19,7 +19,7 @@ class Reserva(models.Model):
     is_active= models.BooleanField(default=True)
     is_deleted= models.BooleanField(default=False)
     in_hotsale= models.BooleanField(default=False, null=False)
-    reservo_con_hotsale= models.BooleanField(default=False, null=True)
+    reservo_con_hotsale= models.BooleanField(default=False, null=False)
     class Meta:
         verbose_name = "Reserva"
 
