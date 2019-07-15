@@ -48,6 +48,7 @@ def reservar_hotsale(request):
    if chequear_disponibilidad_semana(request.user,reserva):
       reserva.user=request.user
       reserva.in_hotsale=False
+      reserva.reservo_con_hotsale=True
       hotsale.delete()
       reserva.save()
       context['ok']='ok'

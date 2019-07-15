@@ -223,9 +223,12 @@ def get_datos_reserva(request):
 
 def cancelar_reserva(request):
     reserva = Reserva.objects.get(auto_id=request.POST.get('id'))
-    user= CustomUser.objects.get(id=reserva.user.id)
-    user.semanas_disponibles= user.semanas_disponibles + 1
-    user.save()
+    if reserva.reservo_con_hotsale:
+        reserva.reservo_con_hotsale=False
+    else:
+        user= CustomUser.objects.get(id=reserva.user.id)
+        user.semanas_disponibles= user.semanas_disponibles + 1
+        user.save()
     reserva.user= None
     reserva.save()
     return JsonResponse({},safe=False)

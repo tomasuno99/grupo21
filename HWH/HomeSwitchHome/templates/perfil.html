@@ -289,7 +289,7 @@
 		<tbody>		
 			{% for reserva in reservas %}
 			<tr>
-				<td id="reserva{{reserva.auto_id}}" value="">Residencia: {{reserva.residenciaQuePertence}} -  Fecha: {{reserva.semana_del_año}}</td>
+				<td id="reserva{{reserva.auto_id}}" value="">Residencia: {{reserva.residenciaQuePertence}} -  Fecha: {{reserva.semana_del_año}} {% if reserva.reservo_con_hotsale %} - Reservada en Hot-Sale{% endif %}</td>
 				<td><button data-toggle="modal" data-target="#modal_cliente" class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4" onclick="mostrar_datos_reserva('{{reserva.auto_id}}')">
 				Ver Datos</button>
 								<div class="modal fade" id="modal_cliente" tabindex="2" role="dialog" display: block;
@@ -312,7 +312,7 @@
 								</div>
 							</div>
 							</td>
-				<td><button class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4" onclick="cancelar_reserva({{reserva.auto_id}})">
+				<td><button class="flex-c-m size1 bg1 bo-rad-23 hov1 s-text1 trans-0-4" onclick="cancelar_reserva({{reserva.auto_id}},'{{reserva.reservo_con_hotsale}}')">
 				Cancelar Reserva</button></td>
 			</tr>
 			{% endfor %}
@@ -373,9 +373,13 @@ if (conf){
 
 	}
 }
-function cancelar_reserva(id){
-
-	var conf = confirm("¿Estas seguro de cancelar esta Reserva? Se te devolvera el crédito pero perderas tu estadia y el dinero ingresado.")
+function cancelar_reserva(id,era_hotsale){
+	if (era_hotsale == 'True'){
+		var conf = confirm("¿Estas seguro de cancelar esta Reserva? Perderás tu estadia y el dinero Ingresado.")
+	}else{
+		var conf = confirm("¿Estas seguro de cancelar esta Reserva? Se te devolvera el crédito pero perderas tu estadia y el dinero ingresado.")
+	}
+	
 	if (conf){
 			$.ajax({
 				type: "POST",
