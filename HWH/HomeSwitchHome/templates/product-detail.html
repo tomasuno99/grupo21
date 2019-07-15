@@ -5,7 +5,6 @@
 {% endblock %}
 {% block body %}
 
-
 <!-- Header cart noti -->
 <!-- Product Detail -->
 <div class="container bgwhite p-t-35 p-b-80">
@@ -186,7 +185,9 @@
 	{% if request.user.is_staff %}
 <br>
 <br>
-<table id="tableid" class="display tableid">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css" />
+<div class="container bgwhite p-t-35 p-b-80">
+	<table id="tableid" class="display tableid">
 		<thead>
 			<tr>
 				<th>Semanas Disponibles {% if request.user.is_staff %}para publicar Hot-Sale{% endif %}</th>
@@ -296,17 +297,6 @@
 
 <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
 
-
-
-<script>
-	$(document).ready(function () {
-		$.noConflict();
-		var table = $('.tableid').DataTable({
-
-			"ordering": false
-		});
-	});
-</script>
 
 <script>
 	function reservar_semana(id) {
@@ -422,6 +412,55 @@
 		
 
 </script>
+
+<script>
+	jQuery(document).ready(function ( $ ) {
+		$.noConflict();
+		var table = $('.tableid').DataTable({
+			"ordering": false,
+			"language": {
+				"sProcessing":     "Procesando...",
+				"sLengthMenu":     "Mostrar _MENU_ registros",
+				"sZeroRecords":    "No se encontraron resultados",
+				"sEmptyTable":     "Ningún dato disponible en esta tabla",
+				"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+				"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+				"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+				"sInfoPostFix":    "",
+				"sSearch":         "Buscar:",
+				"sUrl":            "",
+				"sInfoThousands":  ",",
+				"sLoadingRecords": "Cargando...",
+				"oPaginate": {
+					"sFirst":    "Primero",
+					"sLast":     "Último",
+					"sNext":     "Siguiente",
+					"sPrevious": "Anterior"
+				},
+				"oAria": {
+					"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+					"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+				}
+				
+			}
+			
+		});
+
+		
+	});
+
+</script>
+
+{% comment %} <script>
+	$(document).ready(function () {
+		$.noConflict();
+		var table = $('.tableid').DataTable({
+
+			"ordering": false
+		});
+	});
+	</script> {% endcomment %}
+
 <!--===============================================================================================-->
 <script type="text/javascript" src="{% static 'css/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
 <!--===============================================================================================-->
