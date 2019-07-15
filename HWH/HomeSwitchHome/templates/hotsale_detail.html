@@ -99,7 +99,7 @@ function reservar_hotsale(id_hotsale, id_reserva){
 			<tr>
 				<td id="{{hotsale.reserva.auto_id }}" precio={{hotsale.precio}} value="{{hotsale.reserva.semana_del_año}}">Semana de {{ hotsale.reserva.semana_del_año }} - Precio: {{hotsale.precio}}</td>
 				<td>
-            {% if not request.user.is_staff %}
+            {% if not request.user.is_staff and request.user.is_authenticated %}
 				<button onclick="reservar_hotsale({{hotsale.id}}, {{hotsale.reserva.auto_id}})" value="{{ hotsale.reserva.semana_del_año}}"
 						class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">Comprar HotSale</button>
             {% endif %}

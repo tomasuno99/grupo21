@@ -89,9 +89,9 @@
 							<a href="{% url 'listado_residencias' %}"> Residencias</a>
 							<ul class="sub_menu">
 								<li><a href="{% url 'listado_residencias' %}">Residencias disponibles</a></li>
-								{% if user.is_authenticated %}
+								
 								<li><a href="{% url 'listado_subastas' %}">Subastas</a></li>
-								{% endif %}
+								
 								<li><a href="{% url 'listado_hotsales' %}">HotSales disponibles</a></li>
 							</ul>
 						</li>
