@@ -18,18 +18,18 @@ from datetime import datetime, timedelta, date
 def mostrarHome(request):
    residencias = Residencia.objects.filter(is_deleted=False)
    localidades = obtener_localidades(residencias)
-   subastas = Subasta.objects.all()
+   subastas = Subasta.objects.filter(is_deleted=False)
    hotsales = Hotsale.objects.filter(is_active=True)
    hotsales_filtradas = []
    for res in residencias:
       if tiene_algun_hotsale_disponible(res):
          hotsales_filtradas.append(res)
    context = {
-      'residencias': residencias,
+      'residencias': residencias[:3],
       'localidades': localidades,
       'premium': Precio.objects.get(nombre="premium"),
-      'subastas': subastas,
-      'hotsales': hotsales_filtradas,
+      'subastas': subastas[:3],
+      'hotsales': hotsales_filtradas[:3],
 
    }
    return render(request,'home-02.html',context)

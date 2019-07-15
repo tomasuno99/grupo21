@@ -184,7 +184,6 @@ def finalizar_subasta(request):
 def publicarHotsale(request):
    r = request.POST
    reserva = Reserva.objects.get(auto_id=r["auto_id"])
-   print (reserva)
    reserva.in_hotsale = True
    Hotsale.objects.create(precio=r["monto"], reserva=reserva, is_active=True)
    reserva.save()
@@ -193,24 +192,19 @@ def publicarHotsale(request):
 def listadoHotsales(request):
    r = request.POST
    hotsales = Hotsale.objects.filter(is_active=True)
-   print (hotsales)
 
    residencias = Residencia.objects.filter(is_deleted=False)
    residencias_filtradas = []
-   print (residencias)
    for res in residencias:
       if tiene_algun_hotsale_disponible(res):
          residencias_filtradas.append(res)
-   print (residencias_filtradas)
    
    localidades = obtener_localidades(residencias_filtradas)
-   print (localidades)
    context={'residencias': residencias_filtradas, 'localidades': localidades, 'premium': Precio.objects.get(nombre="premium")}
    return render(request,'listado_hotsales.html',context)
 
 
 def obtener_localidades(residencias):
-   print(residencias)
    localidades = []
    for res in residencias:
       if not res.localidad in localidades and res.localidad != "":
@@ -219,7 +213,6 @@ def obtener_localidades(residencias):
 
 def tiene_algun_hotsale_disponible(residencia):
         reservasDeLaResidencia = Reserva.objects.filter(residenciaQuePertence=residencia, in_hotsale=True)
-        print (reservasDeLaResidencia)
         if len(reservasDeLaResidencia) >= 1:
             return True
         else:
