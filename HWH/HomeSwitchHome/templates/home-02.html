@@ -1,0 +1,352 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{%block body %}
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+ 
+	<!-- JS -->
+	<script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+	<!-- header fixed -->
+	<div class="wrap_header fixed-header2 trans-0-4">
+		<!-- Logo -->
+		<a href="index.html" class="logo">
+			<img src="images/icons/logo.png" alt="IMG-LOGO">
+		</a>
+	</div>
+	<!-- Our product -->
+	<section class="bgwhite p-t-45 p-b-58">
+		<div class="container">
+			<div class="sec-title p-b-22">
+				<h3 class="m-text5 t-center">
+					Nuestras Ofertas
+				</h3>
+			</div>
+
+			<!-- Tab01 -->
+			<div class="tab01">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" data-toggle="tab" href="#best-seller" role="tab">Residencias</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#featured" role="tab">Subastas</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#sale" role="tab">Hot-Sale</a>
+					</li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content p-t-35">
+					<!-- - -->
+					<div class="tab-pane fade show active" id="best-seller" role="tabpanel">
+						<div class="row">
+								<div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
+										<!-- Product -->
+										<div id="list" class="row">
+											{% if not residencias %} No se encontraron Resultados de Residencias Disponibles{% endif %}
+											{% for residencia in residencias %} 
+											<div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
+												<!-- Block2 -->
+												<div class="block2">
+													<div class="block2-img wrap-pic-w of-hidden pos-relative block2-label">
+														<img src="{{ residencia.imagen}}" alt="IMG-PRODUCT">
+					
+														<div class="block2-overlay trans-0-4">
+															<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+																<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+																<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+															</a>
+					
+															<div class="block2-btn-addcart w-size1 trans-0-4">
+																<!-- Button -->
+															<a href="{% url 'product' residencia.auto_id %}" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">Ver Mas</a>
+															</div>
+														</div>
+													</div>
+													<div class="block2-txt p-t-20">
+														<h5>
+															{{residencia.nombre}}
+														</h5>
+														<span class= "block2 m-text6 p-r-5">
+															Capacidad: {{residencia.capacidad}} personas
+														</span>
+					
+														<span class= "block2 m-text6 p-r-5">
+															Direccion: {{residencia.direccion}}, {{residencia.localidad}}
+														</span>
+													</div>
+												</div>
+											</div>
+											{% endfor %}
+										</div>
+									</div>
+						</div>
+					</div>
+
+					<!-- - -->
+					<div class="tab-pane fade" id="featured" role="tabpanel">
+						<div class="row">
+								<div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
+					
+										<!-- Product -->
+										<div class="row">
+											{% for subasta in subastas %}
+												{% if not subasta.is_deleted %}
+											<div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
+												<!-- Block2 -->
+												<div class="block2">
+													<div class="block2-img wrap-pic-w of-hidden pos-relative block2-label">
+														<img src="{{subasta.residencia.imagen}}" alt="IMG-PRODUCT">
+					
+														<div class="block2-overlay trans-0-4">
+															<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+																<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+																<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+															</a>
+					
+															<div class="block2-btn-addcart w-size1 trans-0-4"
+															>
+																<!-- Button -->
+															<a href="{% url 'subasta' subasta.id%}" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">Ver Mas</a>
+															</div>
+														</div>
+													</div>
+													<div class="block2-txt p-t-20">
+														<h5>
+															{{subasta.residencia.nombre}}
+															
+														</h5>
+														<div style="margin: 10px">
+														<h6>
+															Semana del: {{ subasta.reserva.semana_del_año }}
+															
+														</h6>
+														</div>
+														<span class= "block2 m-text6 p-r-5">
+															Finaliza el: {{subasta.finalizacion}}
+														</span>
+													</div>
+												</div>
+											</div>
+											{% endif %}
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+								</div>
+					<!--  -->
+					<div class="tab-pane fade" id="sale" role="tabpanel">
+						<div class="row">
+								<div class="col-sm-6 col-md-8 col-lg-9 p-b-50">
+										<!-- Product -->
+										<div id="list" class="row">
+											{% if not hotsales %} No se encontraron Resultados de Residencias Disponibles{% endif %}
+											{% for hotsale in hotsales %} 
+											<div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
+												<!-- Block2 -->
+												<div class="block2">
+													<div class="block2-img wrap-pic-w of-hidden pos-relative block2-label">
+														<img src="{{ hotsale.imagen}}" alt="IMG-PRODUCT">
+					
+														<div class="block2-overlay trans-0-4">
+															<a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+																<i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+																<i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+															</a>
+					
+															<div class="block2-btn-addcart w-size1 trans-0-4">
+																<!-- Button -->
+															<a href="{% url 'product' hotsale.auto_id %}" class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">Ver Mas</a>
+															</div>
+														</div>
+													</div>
+													<div class="block2-txt p-t-20">
+														<h5>
+															{{hotsale.nombre}}
+														</h5>
+														<span class= "block2 m-text6 p-r-5">
+															Capacidad: {{hotsale.capacidad}} personas
+														</span>
+					
+														<span class= "block2 m-text6 p-r-5">
+															Direccion: {{hotsale.direccion}}, {{hotsale.localidad}}
+														</span>
+													</div>
+												</div>
+											</div>
+											{% endfor %}
+										</div>
+									</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+{% block jsmas %}
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static 'css/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static 'css/vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static 'css/vendor/bootstrap/js/popper.js' %}"></script>
+	<script type="text/javascript" src="{% static 'css/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static 'css/vendor/select2/select2.min.js' %}"></script>
+	<script type="text/javascript">
+		$(".selection-1").select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $('#dropDownSelect1')
+		});
+
+		$(".selection-2").select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $('#dropDownSelect2')
+		});
+	</script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static 'css/vendor/daterangepicker/moment.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'css/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static 'css/vendor/slick/slick.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/slick-custom.js' %}"></script>
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static 'css/vendor/sweetalert/sweetalert.min.js' %}"></script>
+	<script type="text/javascript">
+		$('.block2-btn-addcart').each(function(){
+			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+			$(this).on('click', function(){
+				swal(nameProduct, "is added to cart !", "success");
+			});
+		});
+
+		$('.block2-btn-addwishlist').each(function(){
+			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+			$(this).on('click', function(){
+				swal(nameProduct, "is added to wishlist !", "success");
+			});
+		});
+	</script>
+
+<!--===============================================================================================-->
+	<script type="text/javascript" src="{% static 'css/vendor/noui/nouislider.min.js' %}"></script>
+	<script type="text/javascript">
+		/*[ No ui ]
+	    ===========================================================*/
+	    var filterBar = document.getElementById('filter-bar');
+
+	    noUiSlider.create(filterBar, {
+	        start: [ 50, 200 ],
+	        connect: true,
+	        range: {
+	            'min': 50,
+	            'max': 200
+	        }
+	    });
+
+	    var skipValues = [
+	    document.getElementById('value-lower'),
+	    document.getElementById('value-upper')
+	    ];
+
+	    filterBar.noUiSlider.on('update', function( values, handle ) {
+	        skipValues[handle].innerHTML = Math.round(values[handle]) ;
+	    });
+	</script>
+<!--===============================================================================================-->
+	<script src="{% static 'js/main.js' %}"></script>
+
+	<script>
+	$(function() {
+		
+  		$('#daterange').daterangepicker({
+    		"dateLimit": {
+                "month": 2
+            },
+			minDate: moment().add(6, 'M'),
+			"locale": {
+        		"format": "DD-MM-YYYY",
+				"separator": " Hasta ",
+				"applyLabel": "Aceptar",
+				"cancelLabel": "Cancelar",
+				"fromLabel": "From",
+				"toLabel": "To",
+				"customRangeLabel": "Custom",
+				"daysOfWeek": [
+					"Do",
+					"Lu",
+					"Ma",
+					"Mie",
+					"Ju",
+					"Vi",
+					"Sa"
+				],
+				"monthNames": [
+					"Enero",
+					"Febrero",
+					"Marzo",
+					"Abril",
+					"Mayo",
+					"Junio",
+					"Julio",
+					"Agosto",
+					"Septiembre",
+					"Octubre",
+					"Noviembre",
+					"Diciembre"
+				],
+				"firstDay": 1
+				
+			}
+			
+  		}, function(start, end, label) {
+    		console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+  		});
+		$('#daterange').val($('#daterange').attr("placeholder"));
+	});
+	</script>
+
+<script>
+
+{% comment %} function imprimir_residencias(response){
+	("#list").html(" {% for res in response %} <h2>res.localidad</h2> {% endfor %}")
+} {% endcomment %}
+
+</script>
+
+{% comment %} <script>
+function filtrar_residencias(){
+			$.ajax({
+			type: "GET",
+			url: "{% url 'filtrar_residencias' %}",
+			headers: {
+				'X-CSRFToken': '{{ csrf_token }}'
+			},
+			data: {
+					'daterange': $("#daterange").val(), 
+					'localidad': $("#localidad").val()
+				},
+			dataType: "json",
+			success: function(response) {
+				console.log(response)
+				alert(response)
+				$("#residencias").replaceWith(response);
+         	},
+          	error: function(response) {
+            	alert("no se encontraron");
+          }
+		});
+}
+
+
+</script> {% endcomment %}
+</body>
+</html>
+
+{% endblock %}
